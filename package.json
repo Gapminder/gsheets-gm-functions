@@ -4,7 +4,8 @@
   "description": "Gapminder-specific custom functions for Google Spreadsheets",
   "main": "Code.ts",
   "dependencies": {
-    "@types/google-apps-script": "0.0.35"
+    "@types/google-apps-script": "0.0.35",
+    "@types/node": "^10.12.18"
   },
   "devDependencies": {},
   "scripts": {
