@@ -1,0 +1,21 @@
+{
+  "name": "gsheets-gm-functions",
+  "version": "0.1.0",
+  "description": "Gapminder-specific custom functions for Google Spreadsheets",
+  "main": "Code.ts",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gapminder/gsheets-gm-functions.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gapminder/gsheets-gm-functions/issues"
+  },
+  "homepage": "https://github.com/Gapminder/gsheets-gm-functions#readme"
+}
