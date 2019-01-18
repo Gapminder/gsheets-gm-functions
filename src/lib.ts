@@ -1,9 +1,15 @@
+/**
+ * @hidden
+ */
 interface WorksheetData {
   rows: {
     [k: string]: string;
   }[];
 }
 
+/**
+ * @hidden
+ */
 interface CountriesEtcWorksheetData extends WorksheetData {
   rows: {
     alias: string;
@@ -12,6 +18,9 @@ interface CountriesEtcWorksheetData extends WorksheetData {
   }[];
 }
 
+/**
+ * @hidden
+ */
 interface GeoLookupTable {
   [alias: string]: {
     geo: string;
@@ -19,6 +28,9 @@ interface GeoLookupTable {
   };
 }
 
+/**
+ * @hidden
+ */
 function getCountriesEtcLookupTable() {
   // TODO: Be able to reference the name of the worksheet (geoDocWorksheetName)
   /*
@@ -40,6 +52,9 @@ function getCountriesEtcLookupTable() {
   return countriesEtcWorksheetDataToGeoLookupTable(data);
 }
 
+/**
+ * @hidden
+ */
 function gsheetsDataApiFeedsListCountriesEtcResponseToWorksheetData(
   r: GsheetsDataApiFeedsListCountriesEtc.Response
 ) {
@@ -56,6 +71,9 @@ function gsheetsDataApiFeedsListCountriesEtcResponseToWorksheetData(
   };
 }
 
+/**
+ * @hidden
+ */
 function countriesEtcWorksheetDataToGeoLookupTable(
   data: CountriesEtcWorksheetData
 ): GeoLookupTable {
