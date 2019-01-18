@@ -40,6 +40,7 @@ The range must be four columns wide.
 | geo_set_name | `any` |  \- |
 
 **Returns:** `string`
+A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
 <a id="gm_id"></a>
@@ -61,6 +62,7 @@ Inserts a matching column, including a header row, with Gapminder’s geo ids ma
 | concept_id | `any` |  Should be one of the sets listed in the gapminder geo ontology such as “countries\_etc” (see the tab “geo-sets” in the "geo aliases and synonyms" workbook with one sheet for each set of geographies, and for each of them a look up table with aliases). Our plan is to add more known sets of geographies to this workbook (such as indian\_states, us\_states ) TODO: Make optional |
 
 **Returns:** `string`
+A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
 <a id="gm_interpolate"></a>
@@ -89,6 +91,7 @@ The range must be four columns wide.
 | method | `any` |  Optional. linear, growth, flat\_forward, flat\_backward |
 
 **Returns:** `string`
+A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
 <a id="gm_name"></a>
@@ -110,6 +113,7 @@ Inserts a column, including a header row, with Gapminder’s common name for the
 | concept_id | `any` |  Should be one of the sets listed in the gapminder geo ontology such as “countries\_etc” (see the tab “geo-sets” in this workbook with one sheet for each set of geographies, and for each of them a look up table with aliases). Our plan is to add more known sets of geographies to this workbook (such as indian\_states, us\_states ) TODO: Make optional |
 
 **Returns:** `string`
+A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
 <a id="gm_prop"></a>
@@ -131,6 +135,7 @@ Inserts a property column, including a header row, with a common Gapminder prope
 | prop | `any` |  \- |
 
 **Returns:** `string`
+A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
 

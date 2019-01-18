@@ -3,6 +3,7 @@
  *
  * @param {A1:A1000} column_range_with_headers
  * @param {string} concept_id Should be one of the sets listed in the gapminder geo ontology such as “countries_etc” (see the tab “geo-sets” in the "geo aliases and synonyms" workbook with one sheet for each set of geographies, and for each of them a look up table with aliases). Our plan is to add more known sets of geographies to this workbook (such as indian_states, us_states ) TODO: Make optional
+ * @return A two-dimensional array containing the cell/column contents described above in the summary.
  * @customfunction
  */
 function GM_ID(column_range_with_headers, concept_id) {
@@ -14,6 +15,7 @@ function GM_ID(column_range_with_headers, concept_id) {
  *
  * @param {A1:A1000} column_range_with_headers
  * @param {string} concept_id Should be one of the sets listed in the gapminder geo ontology such as “countries_etc” (see the tab “geo-sets” in this workbook with one sheet for each set of geographies, and for each of them a look up table with aliases). Our plan is to add more known sets of geographies to this workbook (such as indian_states, us_states ) TODO: Make optional
+ * @return A two-dimensional array containing the cell/column contents described above in the summary.
  * @customfunction
  */
 function GM_NAME(column_range_with_headers, concept_id) {
@@ -31,6 +33,7 @@ function GM_NAME(column_range_with_headers, concept_id) {
  *
  * @param {A1:A1000} table_range_with_headers
  * @param {string} method Optional. linear, growth, flat_forward, flat_backward
+ * @return A two-dimensional array containing the cell/column contents described above in the summary.
  * @customfunction
  */
 function GM_INTERPOLATE(table_range_with_headers, method) {
@@ -42,6 +45,7 @@ function GM_INTERPOLATE(table_range_with_headers, method) {
  * 
  * @param {A1:A1000} column_range_with_headers
  * @param {string} prop
+ * @return A two-dimensional array containing the cell/column contents described above in the summary.
  * @customfunction
  */
 function GM_PROP(column_range_with_headers, prop) {
@@ -59,6 +63,7 @@ function GM_PROP(column_range_with_headers, prop) {
  *
  * @param {A1:A1000} table_range_with_headers
  * @param {string} geo_set_name
+ * @return A two-dimensional array containing the cell/column contents described above in the summary.
  * @customfunction
  */
 function GM_AGGREGATE(table_range_with_headers, geo_set_name) {
