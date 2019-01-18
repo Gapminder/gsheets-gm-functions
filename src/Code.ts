@@ -25,7 +25,7 @@ function GM_AGGREGATE(table_range_with_headers, geo_set_name) {
  * @customfunction
  */
 function GM_ID(column_range_with_headers: any[][], concept_id: string) {
-  const countriesEtcLookupTable = getCountriesEtcLookupTable();
+  const countriesEtcLookupTable = getGeoAliasesAndSynonymsCountriesEtcLookupTable();
 
   // Drop the input range header row
   column_range_with_headers.shift();
@@ -66,7 +66,7 @@ function GM_INTERPOLATE(table_range_with_headers, method) {
  * @customfunction
  */
 function GM_NAME(column_range_with_headers, concept_id) {
-  const countriesEtcLookupTable = getCountriesEtcLookupTable();
+  const countriesEtcLookupTable = getGeoAliasesAndSynonymsCountriesEtcLookupTable();
 
   // Drop the input range header row
   column_range_with_headers.shift();

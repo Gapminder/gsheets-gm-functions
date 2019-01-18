@@ -1,4 +1,4 @@
-declare module GsheetsDataApiFeedsListCountriesEtc {
+declare module GsheetsDataApiFeedsListGeoAliasesAndSynonymsCountriesEtc {
   export interface Id {
     $t: string;
   }
