@@ -7,8 +7,12 @@
     "@types/google-apps-script": "0.0.35",
     "@types/node": "^10.12.18"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "typedoc": "^0.14.2",
+    "typedoc-plugin-markdown": "^1.1.21"
+  },
   "scripts": {
+    "docs": "typedoc --theme markdown --excludeExternals --externalPattern \"**/node_modules/**\" --mode file --ignoreCompilerErrors --out docs .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
