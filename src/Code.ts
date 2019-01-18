@@ -12,7 +12,10 @@
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  * @customfunction
  */
-function GM_AGGREGATE(table_range_with_headers, geo_set_name) {
+function GM_AGGREGATE(
+  table_range_with_headers: string[][],
+  geo_set_name: string
+) {
   return "foo";
 }
 
@@ -24,7 +27,7 @@ function GM_AGGREGATE(table_range_with_headers, geo_set_name) {
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  * @customfunction
  */
-function GM_ID(column_range_with_headers: any[][], concept_id: string) {
+function GM_ID(column_range_with_headers: string[][], concept_id: string) {
   const lookupTable = getGeoAliasesAndSynonymsCountriesEtcLookupTable();
 
   // Drop the input range header row
@@ -53,7 +56,7 @@ function GM_ID(column_range_with_headers: any[][], concept_id: string) {
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  * @customfunction
  */
-function GM_INTERPOLATE(table_range_with_headers, method) {
+function GM_INTERPOLATE(table_range_with_headers: string[][], method: string) {
   return "foo";
 }
 
@@ -65,7 +68,7 @@ function GM_INTERPOLATE(table_range_with_headers, method) {
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  * @customfunction
  */
-function GM_NAME(column_range_with_headers, concept_id) {
+function GM_NAME(column_range_with_headers: string[][], concept_id: string) {
   const lookupTable = getGeoAliasesAndSynonymsCountriesEtcLookupTable();
 
   // Drop the input range header row
