@@ -13,22 +13,24 @@ const geoAliasesAndSynonymsDocWorksheetReference = "6";
 /**
  * @hidden
  */
-interface GeoAliasesAndSynonymsCountriesEtcWorksheetData extends WorksheetData {
-  rows: {
-    alias: string;
-    geo: string;
-    name: string;
-  }[];
+interface GeoAliasesAndSynonymsCountriesDataRow {
+  alias: string;
+  geo: string;
+  name: string;
+}
+
+/**
+ * @hidden
+ */
+interface GeoAliasesAndSynonymsCountriesEtcWorksheetData {
+  rows: GeoAliasesAndSynonymsCountriesDataRow[];
 }
 
 /**
  * @hidden
  */
 interface GeoAliasesAndSynonymsCountriesEtcLookupTable {
-  [alias: string]: {
-    geo: string;
-    name: string;
-  };
+  [alias: string]: GeoAliasesAndSynonymsCountriesDataRow;
 }
 
 /**

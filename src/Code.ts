@@ -25,14 +25,14 @@ function GM_AGGREGATE(table_range_with_headers, geo_set_name) {
  * @customfunction
  */
 function GM_ID(column_range_with_headers: any[][], concept_id: string) {
-  const countriesEtcLookupTable = getGeoAliasesAndSynonymsCountriesEtcLookupTable();
+  const lookupTable = getGeoAliasesAndSynonymsCountriesEtcLookupTable();
 
   // Drop the input range header row
   column_range_with_headers.shift();
 
   const matchedData = column_range_with_headers.map(inputRow => {
     const alias = inputRow[0];
-    const result = countriesEtcLookupTable[alias];
+    const result = lookupTable[alias];
     return [result ? result.geo : `Unknown alias: ${alias}`];
   });
 
@@ -66,14 +66,14 @@ function GM_INTERPOLATE(table_range_with_headers, method) {
  * @customfunction
  */
 function GM_NAME(column_range_with_headers, concept_id) {
-  const countriesEtcLookupTable = getGeoAliasesAndSynonymsCountriesEtcLookupTable();
+  const lookupTable = getGeoAliasesAndSynonymsCountriesEtcLookupTable();
 
   // Drop the input range header row
   column_range_with_headers.shift();
 
   const matchedData = column_range_with_headers.map(inputRow => {
     const alias = inputRow[0];
-    const result = countriesEtcLookupTable[alias];
+    const result = lookupTable[alias];
     return [result ? result.name : `Unknown alias: ${alias}`];
   });
 
