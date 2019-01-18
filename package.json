@@ -6,7 +6,8 @@
   "dependencies": {
     "@types/google-apps-script": "0.0.35",
     "@types/node": "^10.12.18",
-    "clasp": "^1.0.0"
+    "clasp": "^1.0.0",
+    "prettier": "^1.15.3"
   },
   "devDependencies": {
     "typedoc": "^0.14.2",
@@ -14,6 +15,7 @@
   },
   "scripts": {
     "docs": "typedoc --theme markdown --excludeExternals --externalPattern \"**/node_modules/**\" --mode file --ignoreCompilerErrors --out docs src",
+    "format": "prettier \"src/**/*.ts\" --write",
     "push": "cd src && clasp push",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

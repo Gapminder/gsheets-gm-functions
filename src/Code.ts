@@ -24,7 +24,7 @@ function GM_NAME(column_range_with_headers, concept_id) {
 
 /**
  * Interpolates an input table, inserting a sorted table with additional rows, where the gaps (missing rows or empty values) in the input table have been filled in. This function works on data with two primary key columns: usually geo and time. (If we want to use this on data that has more keys: geo, time, age, gender, etc - we need a different formula)
- * 
+ *
  * The range must be four columns wide.
  *  - Column 1: geo_ids
  *  - Column 2: geo_names (isn’t part of the calculation)
@@ -42,7 +42,7 @@ function GM_INTERPOLATE(table_range_with_headers, method) {
 
 /**
  * Inserts a property column, including a header row, with a common Gapminder property matched against the input column range.
- * 
+ *
  * @param {A1:A1000} column_range_with_headers
  * @param {string} prop
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
@@ -54,7 +54,7 @@ function GM_PROP(column_range_with_headers, prop) {
 
 /**
  * Aggregates an input table, returning a table with the aggregated values of the input table.
- * 
+ *
  * The range must be four columns wide.
  *  - Column 1: geo_ids
  *  - Column 2: geo_names (isn’t part of the calculation)
