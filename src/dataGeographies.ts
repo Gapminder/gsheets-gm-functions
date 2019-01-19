@@ -16,6 +16,7 @@ const dataGeographiesDocWorksheetReference = "2";
  * @hidden
  */
 interface DataGeographiesListOfCountriesEtcDataRow {
+  /* tslint:disable:object-literal-sort-keys */
   geo: string;
   name: string;
   fourregions: string;
@@ -27,6 +28,7 @@ interface DataGeographiesListOfCountriesEtcDataRow {
   unmembersince: string;
   worldbankregion: string;
   worldbankincomegroup2017: string;
+  /* tslint:enable:object-literal-sort-keys */
 }
 
 /**
@@ -46,7 +48,7 @@ interface DataGeographiesListOfCountriesEtcLookupTable {
 /**
  * @hidden
  */
-function getDataGeographiesListOfCountriesEtcLookupTable() {
+export function getDataGeographiesListOfCountriesEtcLookupTable() {
   // TODO: Be able to reference the name of the worksheet (geoAliasesAndSynonymsDocWorksheetName)
   /*
   const jsonWorksheetsUrl = `https://spreadsheets.google.com/feeds/worksheets/${geoAliasesAndSynonymsDocSpreadsheetId}/public/values?alt=json`;
@@ -73,6 +75,7 @@ function gsheetsDataApiFeedsListDataGeographiesListOfCountriesEtcResponseToWorks
 ): DataGeographiesListOfCountriesEtcWorksheetData {
   const rows = r.feed.entry.map(currentValue => {
     return {
+      /* tslint:disable:object-literal-sort-keys */
       geo: currentValue.gsx$geo.$t,
       name: currentValue.gsx$name.$t,
       fourregions: currentValue.gsx$fourregions.$t,
@@ -84,6 +87,7 @@ function gsheetsDataApiFeedsListDataGeographiesListOfCountriesEtcResponseToWorks
       unmembersince: currentValue.gsx$unmembersince.$t,
       worldbankregion: currentValue.gsx$worldbankregion.$t,
       worldbankincomegroup2017: currentValue.gsx$worldbankincomegroup2017.$t
+      /* tslint:enable:object-literal-sort-keys */
     };
   });
   return {

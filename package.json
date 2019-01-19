@@ -2,28 +2,43 @@
   "name": "gsheets-gm-functions",
   "version": "0.1.0",
   "description": "Gapminder-specific custom functions for Google Spreadsheets",
-  "main": "Code.ts",
-  "dependencies": {
+  "main": "src/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@google/clasp": "^2.0.0",
     "@types/google-apps-script": "0.0.35",
     "@types/node": "^10.12.18",
-    "clasp": "^1.0.0",
-    "prettier": "^1.15.3"
-  },
-  "devDependencies": {
+    "clean-webpack-plugin": "^1.0.0",
+    "copy-webpack-plugin": "^4.6.0",
+    "es3ify-webpack-plugin": "^0.0.1",
+    "gas-lib": "^2.0.2",
+    "gas-webpack-plugin": "^0.3.0",
+    "prettier": "^1.15.3",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.17.0",
+    "ts-loader": "^5.2.1",
+    "typescript": "^3.2.4",
     "typedoc": "^0.14.2",
-    "typedoc-plugin-markdown": "^1.1.21"
+    "typedoc-plugin-markdown": "^1.1.21",
+    "watch": "^1.0.2",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
   },
   "scripts": {
+    "build": "webpack --mode development",
+    "deploy": "npm run format && npm run build && npm run push && npm run docs",
     "docs": "typedoc --theme markdown --excludeExternals --externalPattern \"**/node_modules/**\" --mode file --ignoreCompilerErrors --out docs src",
     "format": "prettier \"src/**/*.ts\" --write",
-    "push": "cd src && clasp push",
+    "lint": "tslint -t verbose --fix --project .",
+    "push": "clasp push",
+    "watch": "watch 'npm run build && npm run push' src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Gapminder/gsheets-gm-functions.git"
   },
-  "author": "",
+  "author": "Gapminder Foundation",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Gapminder/gsheets-gm-functions/issues"

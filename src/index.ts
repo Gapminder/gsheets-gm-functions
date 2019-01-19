@@ -1,4 +1,11 @@
 /**
+ * This file is built and pushed to Google Scripts using the source code and tools at https://github.com/Gapminder/gsheets-gm-functions
+ */
+
+import { getDataGeographiesListOfCountriesEtcLookupTable } from "./dataGeographies";
+import { getGeoAliasesAndSynonymsCountriesEtcLookupTable } from "./geoAliasesAndSynonyms";
+
+/**
  * Aggregates an input table, returning a table with the aggregated values of the input table.
  *
  * The range must be four columns wide.
@@ -114,3 +121,10 @@ function GM_PROP(column_range_with_headers: string[][], prop: string) {
 
   return [[prop]].concat(matchedData);
 }
+
+// Expose as custom functions
+(global as any).GM_AGGREGATE = GM_AGGREGATE;
+(global as any).GM_ID = GM_ID;
+(global as any).GM_INTERPOLATE = GM_INTERPOLATE;
+(global as any).GM_NAME = GM_NAME;
+(global as any).GM_PROP = GM_PROP;

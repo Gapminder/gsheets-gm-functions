@@ -1,0 +1,32 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-prettier"
+  ],
+  "jsRules": {},
+  "rules": {
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
+    "no-console": {
+      "severity": "warning"
+    },
+    "no-unused-variable": false,
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore",
+      "allow-snake-case"
+    ],
+    "no-implicit-dependencies": [
+      true,
+      "dev"
+    ]
+  },
+  "rulesDirectory": []
+}
+
+

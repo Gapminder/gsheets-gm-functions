@@ -14,9 +14,11 @@ const geoAliasesAndSynonymsDocWorksheetReference = "6";
  * @hidden
  */
 interface GeoAliasesAndSynonymsCountriesDataRow {
+  /* tslint:disable:object-literal-sort-keys */
   alias: string;
   geo: string;
   name: string;
+  /* tslint:enable:object-literal-sort-keys */
 }
 
 /**
@@ -36,7 +38,7 @@ interface GeoAliasesAndSynonymsCountriesEtcLookupTable {
 /**
  * @hidden
  */
-function getGeoAliasesAndSynonymsCountriesEtcLookupTable() {
+export function getGeoAliasesAndSynonymsCountriesEtcLookupTable() {
   // TODO: Be able to reference the name of the worksheet (geoAliasesAndSynonymsDocWorksheetName)
   /*
   const jsonWorksheetsUrl = `https://spreadsheets.google.com/feeds/worksheets/${geoAliasesAndSynonymsDocSpreadsheetId}/public/values?alt=json`;
@@ -63,9 +65,11 @@ function gsheetsDataApiFeedsListGeoAliasesAndSynonymsCountriesEtcResponseToWorks
 ): GeoAliasesAndSynonymsCountriesEtcWorksheetData {
   const rows = r.feed.entry.map(currentValue => {
     return {
+      /* tslint:disable:object-literal-sort-keys */
       alias: currentValue.gsx$alias.$t,
       geo: currentValue.gsx$geo.$t,
       name: currentValue.gsx$name.$t
+      /* tslint:enable:object-literal-sort-keys */
     };
   });
   return {
