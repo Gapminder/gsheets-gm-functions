@@ -3,23 +3,28 @@
   "version": "0.1.0",
   "description": "Gapminder-specific custom functions for Google Spreadsheets",
   "main": "src/index.js",
-  "dependencies": {},
+  "dependencies": {
+    "everpolate": "0.0.3",
+    "lodash": "^4.17.11"
+  },
   "devDependencies": {
     "@google/clasp": "^2.0.0",
     "@types/google-apps-script": "0.0.35",
     "@types/node": "^10.12.18",
+    "ava": "^1.1.0",
     "clean-webpack-plugin": "^1.0.0",
     "copy-webpack-plugin": "^4.6.0",
     "es3ify-webpack-plugin": "^0.0.1",
     "gas-lib": "^2.0.2",
     "gas-webpack-plugin": "^0.3.0",
     "prettier": "^1.15.3",
+    "ts-loader": "^5.2.1",
+    "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.17.0",
-    "ts-loader": "^5.2.1",
-    "typescript": "^3.2.4",
     "typedoc": "^0.14.2",
     "typedoc-plugin-markdown": "^1.1.21",
+    "typescript": "^3.2.4",
     "watch": "^1.0.2",
     "webpack": "^4.28.4",
     "webpack-cli": "^3.2.1"
@@ -32,7 +37,20 @@
     "lint": "tslint -t verbose --fix --project .",
     "push": "clasp push",
     "watch": "watch 'npm run build && npm run push' src/",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava --verbose"
+  },
+  "ava": {
+    "failFast": true,
+    "files": [
+      "src/**/*.spec.ts"
+    ],
+    "compileEnhancements": false,
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
   },
   "repository": {
     "type": "git",
