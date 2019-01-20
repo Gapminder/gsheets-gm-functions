@@ -115,9 +115,20 @@ const testExponentialInterpolation: Macro<any> = (
  */
 const testStepInterpolation: Macro<any> = (
   t: ExecutionContext,
-  { pointsToEvaluate, functionValuesX, functionValuesY, expectedResults }
+  {
+    pointsToEvaluate,
+    functionValuesX,
+    functionValuesY,
+    useRightBorder,
+    expectedResults
+  }
 ) => {
-  const results = step(pointsToEvaluate, functionValuesX, functionValuesY);
+  const results = step(
+    pointsToEvaluate,
+    functionValuesX,
+    functionValuesY,
+    useRightBorder
+  );
   // Avoid floating point rounding errors such as 59.10000000000002
   const roundedResults = results.map(result => round(result, 8));
   t.deepEqual(roundedResults, expectedResults);
@@ -129,30 +140,42 @@ const testStepInterpolation: Macro<any> = (
     pointsToEvaluate: [2, 0, 8],
     functionValuesX: [-2, 0, 6, 8],
     functionValuesY: [4, 0, 3, -3],
+    useRightBorder: false,
     expectedResults: [0, 0, 3]
   },
   {
     pointsToEvaluate: [1900, 1901, 1902, 1903, 1904, 1905, 1906],
     functionValuesX: [1900, 1905],
     functionValuesY: [0, 5],
+    useRightBorder: false,
     expectedResults: [0, 0, 0, 0, 0, 0, 5]
+  },
+  {
+    pointsToEvaluate: [1899, 1900, 1901, 1902, 1903, 1904, 1905, 1906],
+    functionValuesX: [1900, 1905],
+    functionValuesY: [0, 5],
+    useRightBorder: true,
+    expectedResults: [0, 5, 5, 5, 5, 5, 5, 5]
   },
   {
     pointsToEvaluate: [2006, 2008, 2010, 2011],
     functionValuesX: [2006, 2008, 2010, 2011],
     functionValuesY: [59.1, 59.1, 58.6, 58.1],
+    useRightBorder: false,
     expectedResults: [59.1, 59.1, 58.6, 58.6]
   },
   {
     pointsToEvaluate: [2006, 2007, 2008, 2009, 2010, 2011],
     functionValuesX: [2006, 2008, 2010, 2011],
     functionValuesY: [59.1, 59.1, 58.6, 58.1],
+    useRightBorder: false,
     expectedResults: [59.1, 59.1, 59.1, 59.1, 58.6, 58.6]
   },
   {
     pointsToEvaluate: [1993, 1994, 1995, 1996, 1997, 1998],
     functionValuesX: [1993, 1997],
     functionValuesY: [1000, 10000],
+    useRightBorder: false,
     expectedResults: [1000, 1000, 1000, 1000, 1000, 10000]
   }
   /* tslint:enable:object-literal-sort-keys */

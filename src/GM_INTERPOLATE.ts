@@ -39,7 +39,16 @@ export function GM_INTERPOLATE(
       interpolation = step;
       break;
     case "flat_backward":
-      throw new Error("Interpolation method flat_backward not yet implemented");
+      interpolation = (pointsToEvaluate, functionValuesX, functionValuesY) => {
+        const useRightBorder = true;
+        return step(
+          pointsToEvaluate,
+          functionValuesX,
+          functionValuesY,
+          useRightBorder
+        );
+      };
+      break;
     default:
       throw new Error(`Interpolation method "${method}" is not supported`);
   }
