@@ -1,4 +1,4 @@
-import { getGeoAliasesAndSynonymsCountriesEtcLookupTable } from "./geoAliasesAndSynonyms";
+import { getGeoAliasesAndSynonymsLookupTable } from "./geoAliasesAndSynonyms";
 
 /**
  * Inserts a column, including a header row, with Gapminder’s common name for the geo matched against the input column range, based on all spellings we have seen before. (Like GM_ID but inserts Gapminder’s common name for the geo instead of its id.)
@@ -11,7 +11,7 @@ export function GM_NAME(
   column_range_with_headers: string[][],
   concept_id: string
 ) {
-  const lookupTable = getGeoAliasesAndSynonymsCountriesEtcLookupTable();
+  const lookupTable = getGeoAliasesAndSynonymsLookupTable(concept_id);
 
   // Drop the input range header row
   column_range_with_headers.shift();

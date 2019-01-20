@@ -6,14 +6,24 @@ const geoAliasesAndSynonymsDocSpreadsheetId =
 /**
  * @hidden
  */
-const geoAliasesAndSynonymsDocWorksheetReference = "6";
+const geoAliasesAndSynonymsDocWorksheetReferences = {
+  world: 4,
+  world_4regions: 5,
+  countries_etc: 6
+};
 // Note: Custom functions can not reference named ranges in foreign spreadsheets, but we can reference the name of the worksheet (TODO)
-// const geoAliasesAndSynonymsDocWorksheetName = "a-countries-etc";
+/*
+const geoAliasesAndSynonymsDocWorksheetReferences = {
+  "world": "a-global",
+  "world_4regions": "a-world_4regions",
+  "countries_etc": "a-countries_etc",
+};
+*/
 
 /**
  * @hidden
  */
-interface GeoAliasesAndSynonymsCountriesDataRow {
+interface GeoAliasesAndSynonymsDataRow {
   /* tslint:disable:object-literal-sort-keys */
   alias: string;
   geo: string;
@@ -24,21 +34,24 @@ interface GeoAliasesAndSynonymsCountriesDataRow {
 /**
  * @hidden
  */
-interface GeoAliasesAndSynonymsCountriesEtcWorksheetData {
-  rows: GeoAliasesAndSynonymsCountriesDataRow[];
+interface GeoAliasesAndSynonymsWorksheetData {
+  rows: GeoAliasesAndSynonymsDataRow[];
 }
 
 /**
  * @hidden
  */
-interface GeoAliasesAndSynonymsCountriesEtcLookupTable {
-  [alias: string]: GeoAliasesAndSynonymsCountriesDataRow;
+interface GeoAliasesAndSynonymsLookupTable {
+  [alias: string]: GeoAliasesAndSynonymsDataRow;
 }
 
 /**
  * @hidden
  */
-export function getGeoAliasesAndSynonymsCountriesEtcLookupTable() {
+export function getGeoAliasesAndSynonymsLookupTable(concept_id) {
+  if (!geoAliasesAndSynonymsDocWorksheetReferences[concept_id]) {
+    throw new Error(`Unknown Gapminder concept id: "${concept_id}"`);
+  }
   // TODO: Be able to reference the name of the worksheet (geoAliasesAndSynonymsDocWorksheetName)
   /*
   const jsonWorksheetsUrl = `https://spreadsheets.google.com/feeds/worksheets/${geoAliasesAndSynonymsDocSpreadsheetId}/public/values?alt=json`;
@@ -46,23 +59,25 @@ export function getGeoAliasesAndSynonymsCountriesEtcLookupTable() {
   const obj = JSON.parse(response.getContentText());
   console.log(obj);
   */
-  const jsonWorksheetDataUrl = `https://spreadsheets.google.com/feeds/list/${geoAliasesAndSynonymsDocSpreadsheetId}/${geoAliasesAndSynonymsDocWorksheetReference}/public/values?alt=json`;
+  const jsonWorksheetDataUrl = `https://spreadsheets.google.com/feeds/list/${geoAliasesAndSynonymsDocSpreadsheetId}/${
+    geoAliasesAndSynonymsDocWorksheetReferences[concept_id]
+  }/public/values?alt=json`;
   const worksheetDataHTTPResponse = UrlFetchApp.fetch(jsonWorksheetDataUrl);
-  const worksheetDataResponse: GsheetsDataApiFeedsListGeoAliasesAndSynonymsCountriesEtc.Response = JSON.parse(
+  const worksheetDataResponse: GsheetsDataApiFeedsListGeoAliasesAndSynonyms.Response = JSON.parse(
     worksheetDataHTTPResponse.getContentText()
   );
-  const data = gsheetsDataApiFeedsListGeoAliasesAndSynonymsCountriesEtcResponseToWorksheetData(
+  const data = gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
     worksheetDataResponse
   );
-  return geoAliasesAndSynonymsCountriesEtcWorksheetDataToGeoLookupTable(data);
+  return geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(data);
 }
 
 /**
  * @hidden
  */
-function gsheetsDataApiFeedsListGeoAliasesAndSynonymsCountriesEtcResponseToWorksheetData(
-  r: GsheetsDataApiFeedsListGeoAliasesAndSynonymsCountriesEtc.Response
-): GeoAliasesAndSynonymsCountriesEtcWorksheetData {
+function gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
+  r: GsheetsDataApiFeedsListGeoAliasesAndSynonyms.Response
+): GeoAliasesAndSynonymsWorksheetData {
   const rows = r.feed.entry.map(currentValue => {
     return {
       /* tslint:disable:object-literal-sort-keys */
@@ -80,9 +95,9 @@ function gsheetsDataApiFeedsListGeoAliasesAndSynonymsCountriesEtcResponseToWorks
 /**
  * @hidden
  */
-function geoAliasesAndSynonymsCountriesEtcWorksheetDataToGeoLookupTable(
-  data: GeoAliasesAndSynonymsCountriesEtcWorksheetData
-): GeoAliasesAndSynonymsCountriesEtcLookupTable {
+function geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(
+  data: GeoAliasesAndSynonymsWorksheetData
+): GeoAliasesAndSynonymsLookupTable {
   return data.rows.reduce((lookupTableAccumulator, currentValue) => {
     lookupTableAccumulator[currentValue.alias] = currentValue;
     return lookupTableAccumulator;
