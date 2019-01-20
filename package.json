@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "dependencies": {
     "everpolate": "github:gapminder/everpolate#additional-interpolation-implementations",
+    "gas-entry-generator": "github:motin/gas-entry-generator#include-params",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
