@@ -10,7 +10,7 @@ const destination = 'dist';
 const mode = 'none';
 
 module.exports = {
-  devtool: 'inline-source-map',
+  devtool: false,
   entry: './src/index.ts',
   mode,
   output: {
