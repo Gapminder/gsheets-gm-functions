@@ -7,10 +7,9 @@
  *  - Column 3: time
  *  - Column 4+: values to be aggregated
  *
- * @param {A1:A1000} table_range_with_headers
- * @param {string} geo_set_name
+ * @param table_range_with_headers
+ * @param geo_set_name
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
- * @customfunction
  */
 export function GM_AGGREGATE(
   table_range_with_headers: string[][],

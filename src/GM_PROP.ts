@@ -3,10 +3,9 @@ import { getDataGeographiesListOfCountriesEtcLookupTable } from "./dataGeographi
 /**
  * Inserts a property column, including a header row, with a common Gapminder property matched against the input column range.
  *
- * @param {A1:A1000} column_range_with_headers
- * @param {string} prop
+ * @param column_range_with_headers
+ * @param prop
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
- * @customfunction
  */
 export function GM_PROP(column_range_with_headers: string[][], prop: string) {
   const lookupTable = getDataGeographiesListOfCountriesEtcLookupTable();

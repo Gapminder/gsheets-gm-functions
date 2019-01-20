@@ -15,10 +15,9 @@ import { range, round } from "lodash";
  *  - Column 3: time
  *  - Column 4+: values to be interpolated
  *
- * @param {A1:A1000} table_range_with_headers
- * @param {string} method Optional. linear, growth, flat_forward, flat_backward
+ * @param table_range_with_headers
+ * @param method Optional. linear (default), growth, flat_forward, flat_backward
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
- * @customfunction
  */
 export function GM_INTERPOLATE(
   table_range_with_headers: string[][],
