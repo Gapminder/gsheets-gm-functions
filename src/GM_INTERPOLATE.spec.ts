@@ -66,6 +66,58 @@ const testLinearInterpolation: Macro<any> = (
       ["foo", "Foo", 1904, 0, 104],
       ["foo", "Foo", 1905, 0, 105]
     ]
+  },
+  {
+    table_range_with_headers: [
+      [
+        "geo_id",
+        "geo_name",
+        "year",
+        "Overall score",
+        "Electoral process and pluralism"
+      ],
+      ["foo", "Foo", "1900", "0", "100"]
+    ],
+    method: "growth",
+    expectedOutput: [
+      [
+        "geo_id",
+        "geo_name",
+        "year",
+        "Overall score",
+        "Electoral process and pluralism"
+      ],
+      ["foo", "Foo", 1900, 0, 100]
+    ]
+  },
+  {
+    table_range_with_headers: [
+      [
+        "geo_id",
+        "geo_name",
+        "year",
+        "Overall score",
+        "Electoral process and pluralism"
+      ],
+      ["foo", "Foo", "1900", "0", "100"],
+      ["foo", "Foo", "1905", "0", "105"]
+    ],
+    method: "growth",
+    expectedOutput: [
+      [
+        "geo_id",
+        "geo_name",
+        "year",
+        "Overall score",
+        "Electoral process and pluralism"
+      ],
+      ["foo", "Foo", 1900, 0, 100],
+      ["foo", "Foo", 1901, NaN, 100.98057977],
+      ["foo", "Foo", 1902, NaN, 101.9707749],
+      ["foo", "Foo", 1903, NaN, 102.97067969],
+      ["foo", "Foo", 1904, NaN, 103.98038934],
+      ["foo", "Foo", 1905, 0, 105]
+    ]
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {

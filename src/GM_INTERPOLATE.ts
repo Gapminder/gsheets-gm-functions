@@ -3,7 +3,7 @@ import {
   GmTableRow,
   GmTableRowsByGeoAndTime
 } from "./gmTableStructure";
-import { linear } from "everpolate";
+import { linear, exponential } from "everpolate";
 import { range, round } from "lodash";
 
 /**
@@ -24,6 +24,24 @@ export function GM_INTERPOLATE(
   table_range_with_headers: string[][],
   method: string
 ) {
+  let interpolation;
+  if (!method) {
+    method = "linear";
+  }
+  switch (method) {
+    case "linear":
+      interpolation = linear;
+      break;
+    case "growth":
+      interpolation = exponential;
+      break;
+    case "flat_forward":
+      throw new Error("Interpolation method flat_forward not yet implemented");
+    case "flat_backward":
+      throw new Error("Interpolation method flat_backward not yet implemented");
+    default:
+      throw new Error(`Interpolation method "${method}" is not supported`);
+  }
   const outputTableRows: GmTableRow[] = [];
   const inputTableHeaderRow = GmTable.structureRow(
     table_range_with_headers.shift()
@@ -83,7 +101,11 @@ export function GM_INTERPOLATE(
       const maxTime = Math.max(...times);
       const timesToEvaluate = range(minTime, maxTime + 1);
       if (timesToEvaluate.length > 1) {
-        const interpolationResults = linear(timesToEvaluate, times, values);
+        const interpolationResults = interpolation(
+          timesToEvaluate,
+          times,
+          values
+        );
         // Avoid floating point rounding errors such as 59.10000000000002
         const roundedInterpolationResults = interpolationResults.map(result =>
           round(result, 8)

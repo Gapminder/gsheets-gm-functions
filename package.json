@@ -4,7 +4,7 @@
   "description": "Gapminder-specific custom functions for Google Spreadsheets",
   "main": "src/index.js",
   "dependencies": {
-    "everpolate": "0.0.3",
+    "everpolate": "github:gapminder/everpolate#additional-interpolation-implementations",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
