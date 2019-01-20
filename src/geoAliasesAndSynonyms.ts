@@ -99,6 +99,7 @@ function geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(
   data: GeoAliasesAndSynonymsWorksheetData
 ): GeoAliasesAndSynonymsLookupTable {
   return data.rows.reduce((lookupTableAccumulator, currentValue) => {
+    lookupTableAccumulator[currentValue.geo] = currentValue;
     lookupTableAccumulator[currentValue.alias] = currentValue;
     return lookupTableAccumulator;
   }, {});
