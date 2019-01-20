@@ -3,7 +3,7 @@ import {
   GmTableRow,
   GmTableRowsByGeoAndTime
 } from "./gmTableStructure";
-import { linear, exponential } from "everpolate";
+import { linear, exponential, step } from "everpolate";
 import { range, round } from "lodash";
 
 /**
@@ -35,7 +35,8 @@ export function GM_INTERPOLATE(
       interpolation = exponential;
       break;
     case "flat_forward":
-      throw new Error("Interpolation method flat_forward not yet implemented");
+      interpolation = step;
+      break;
     case "flat_backward":
       throw new Error("Interpolation method flat_backward not yet implemented");
     default:
