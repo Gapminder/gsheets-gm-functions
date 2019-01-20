@@ -4,7 +4,8 @@ import {
   GmTableRowsByGeoAndTime
 } from "./gmTableStructure";
 import { linear, exponential, step } from "everpolate";
-import { range, round } from "lodash";
+import range from "lodash/range";
+import round from "lodash/round";
 
 /**
  * Interpolates an input table, inserting a sorted table with additional rows, where the gaps (missing rows or empty values) in the input table have been filled in. This function works on data with two primary key columns: usually geo and time. (If we want to use this on data that has more keys: geo, time, age, gender, etc - we need a different formula)
