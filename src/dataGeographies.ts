@@ -4,9 +4,7 @@ import { GsheetsDataApiFeedsListDataGeographiesListOfCountriesEtc } from "./Gshe
  * @hidden
  */
 const dataGeographiesDocSpreadsheetId =
-  "1AljtXKMAxzTmxH2ukZrpuuTEGoiKu75LIjFMRj4lxN8";
-// TODO: Update to below once the data has been published (above is a published copy of the official document)
-// const dataGeographiesDocSpreadsheetId = "1qHalit8sXC0R8oVXibc2wa2gY7bkwGzOybEMTWp-08o";
+  "1qHalit8sXC0R8oVXibc2wa2gY7bkwGzOybEMTWp-08o";
 /**
  * @hidden
  */
