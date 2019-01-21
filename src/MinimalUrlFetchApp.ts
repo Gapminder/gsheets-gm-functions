@@ -1,3 +1,4 @@
+/* tslint:disable:max-classes-per-file */
 import request from "sync-request";
 
 // Implement a minimal UrlFetchApp to be able to test outside of the google apps script environment

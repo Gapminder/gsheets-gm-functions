@@ -8,6 +8,8 @@ import { GM_INTERPOLATE } from "./GM_INTERPOLATE";
 import { GM_NAME } from "./GM_NAME";
 import { GM_PROP } from "./GM_PROP";
 
+/* tslint:disable:only-arrow-functions */
+
 // Expose as custom functions (picked up by gas-webpack-plugin).
 //
 // Note: The jsdoc below is manually curated based on the master

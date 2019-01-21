@@ -9,9 +9,11 @@ const geoAliasesAndSynonymsDocSpreadsheetId =
  * @hidden
  */
 const geoAliasesAndSynonymsDocWorksheetReferences = {
+  /* tslint:disable:object-literal-sort-keys */
   global: 4,
   world_4region: 5,
   countries_etc: 6
+  /* tslint:enable:object-literal-sort-keys */
 };
 // Note: Custom functions can not reference named ranges in foreign spreadsheets, but we can reference the name of the worksheet (TODO)
 /*

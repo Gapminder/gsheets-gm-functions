@@ -1,5 +1,5 @@
 import test, { ExecutionContext, Macro } from "ava";
-import { linear, exponential, polynomial, step } from "everpolate";
+import { exponential, linear, polynomial, step } from "everpolate";
 import round from "lodash/round";
 
 /**

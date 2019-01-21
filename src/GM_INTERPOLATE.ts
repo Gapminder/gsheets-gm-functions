@@ -1,11 +1,11 @@
+import { exponential, linear, step } from "everpolate";
+import range from "lodash/range";
+import round from "lodash/round";
 import {
   GmTable,
   GmTableRow,
   GmTableRowsByGeoAndTime
 } from "./gmTableStructure";
-import { linear, exponential, step } from "everpolate";
-import range from "lodash/range";
-import round from "lodash/round";
 
 /**
  * Interpolates an input table, inserting a sorted table with additional rows, where the gaps (missing rows or empty values) in the input table have been filled in. This function works on data with two primary key columns: usually geo and time. (If we want to use this on data that has more keys: geo, time, age, gender, etc - we need a different formula)
@@ -80,12 +80,16 @@ export function GM_INTERPOLATE(
   for (const geo of geos) {
     const inputTableRowsByTime = inputTableRowsByGeoAndTime[geo];
     // Gather all existing values in this geo, separately for each value column to be interpolated
-    let valuesByColumnIndexAndTime: ValuesByColumnIndexAndTime = {};
+    const valuesByColumnIndexAndTime: ValuesByColumnIndexAndTime = {};
     const geoTimes = Object.keys(inputTableRowsByTime);
     for (const time of geoTimes.sort()) {
       const inputTableRow: GmTableRow = inputTableRowsByTime[time];
       // foreach value column
-      for (const columnIndex in inputTableRow.data) {
+      for (
+        let columnIndex = 0;
+        columnIndex < inputTableRow.data.length;
+        columnIndex++
+      ) {
         if (!valuesByColumnIndexAndTime[columnIndex]) {
           valuesByColumnIndexAndTime[columnIndex] = {};
         }
@@ -97,8 +101,8 @@ export function GM_INTERPOLATE(
       }
     }
     // Interpolate
-    let interpolatedValuesByColumnIndexAndTime: ValuesByColumnIndexAndTime = {};
-    for (const columnIndexString in Object.keys(valuesByColumnIndexAndTime)) {
+    const interpolatedValuesByColumnIndexAndTime: ValuesByColumnIndexAndTime = {};
+    for (const columnIndexString of Object.keys(valuesByColumnIndexAndTime)) {
       const columnIndex = Number(columnIndexString);
       const valuesByTime = valuesByColumnIndexAndTime[columnIndex];
       const times = Object.keys(valuesByTime).map(timeString =>
@@ -120,7 +124,7 @@ export function GM_INTERPOLATE(
         const roundedInterpolationResults = interpolationResults.map(result =>
           round(result, 8)
         );
-        for (const i in timesToEvaluate) {
+        for (let i = 0; i < timesToEvaluate.length; i++) {
           const time = timesToEvaluate[i];
           if (!interpolatedValuesByColumnIndexAndTime[columnIndex]) {
             interpolatedValuesByColumnIndexAndTime[columnIndex] = {};
@@ -142,7 +146,11 @@ export function GM_INTERPOLATE(
 
     for (const time of geoTimesToIncludeInOutput) {
       const data = [];
-      for (const columnIndex in inputTableHeaderRow.data) {
+      for (
+        let columnIndex = 0;
+        columnIndex < inputTableHeaderRow.data.length;
+        columnIndex++
+      ) {
         let value;
         // If the value existed in the input data, use it
         if (
