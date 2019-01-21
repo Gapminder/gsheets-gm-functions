@@ -28,14 +28,14 @@ import { GM_PROP } from "./GM_PROP";
  *  - Column 4+: values to be aggregated
  *
  * @param {A1:A1000} table_range_with_headers
- * @param {"foo"} geo_set_name
+ * @param {"four_regions"} prop
  * @customfunction
  */
 (global as any).GM_AGGREGATE = function(
   table_range_with_headers: string[][],
-  geo_set_name: string
+  prop: string
 ) {
-  return GM_AGGREGATE(table_range_with_headers, geo_set_name);
+  return GM_AGGREGATE(table_range_with_headers, prop);
 };
 
 /**

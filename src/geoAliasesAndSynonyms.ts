@@ -9,15 +9,15 @@ const geoAliasesAndSynonymsDocSpreadsheetId =
  * @hidden
  */
 const geoAliasesAndSynonymsDocWorksheetReferences = {
-  world: 4,
-  world_4regions: 5,
+  global: 4,
+  world_4region: 5,
   countries_etc: 6
 };
 // Note: Custom functions can not reference named ranges in foreign spreadsheets, but we can reference the name of the worksheet (TODO)
 /*
 const geoAliasesAndSynonymsDocWorksheetReferences = {
-  "world": "a-global",
-  "world_4regions": "a-world_4regions",
+  "global": "a-global",
+  "world_4region": "a-world_4regions",
   "countries_etc": "a-countries_etc",
 };
 */

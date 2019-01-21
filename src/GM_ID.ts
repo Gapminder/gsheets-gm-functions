@@ -13,10 +13,13 @@ export function GM_ID(
 ) {
   const lookupTable = getGeoAliasesAndSynonymsLookupTable(concept_id);
 
-  // Drop the input range header row
-  column_range_with_headers.shift();
+  // Clone the input param to prevent side effects
+  const inputColumn = column_range_with_headers.concat([]);
 
-  const matchedData = column_range_with_headers.map(inputRow => {
+  // Drop the input range header row
+  inputColumn.shift();
+
+  const matchedData = inputColumn.map(inputRow => {
     const alias = inputRow[0];
     const result = lookupTable[alias];
     return [result ? result.geo : `Unknown alias: ${alias}`];

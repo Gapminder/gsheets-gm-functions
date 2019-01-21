@@ -1,1 +1,3 @@
-export const gapminderConceptIds = ["countries_etc", "world_4region", "world"];
+export const gapminderPropertyToConceptIdMap = {
+  four_regions: "world_4region"
+};

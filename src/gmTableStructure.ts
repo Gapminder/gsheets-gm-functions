@@ -19,7 +19,7 @@ export interface GmTableRowsByGeoAndTime {
  * @hidden
  */
 export class GmTable {
-  public static structureRow(row): GmTableRow {
+  public static structureRow(row: any[]): GmTableRow {
     return {
       /* tslint:disable:object-literal-sort-keys */
       geo: row[0],
@@ -30,7 +30,7 @@ export class GmTable {
     };
   }
 
-  public static unstructureRow(structuredRow: GmTableRow) {
+  public static unstructureRow(structuredRow: GmTableRow): any[] {
     return [
       structuredRow.geo,
       structuredRow.name,
@@ -39,7 +39,7 @@ export class GmTable {
     ];
   }
 
-  public static byGeoAndTime(tableRows) {
+  public static byGeoAndTime(tableRows): GmTableRowsByGeoAndTime {
     return tableRows.reduce((_, inputTableRow) => {
       if (!_[inputTableRow.geo]) {
         _[inputTableRow.geo] = {};
