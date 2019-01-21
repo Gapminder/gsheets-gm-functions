@@ -1,4 +1,6 @@
-declare module GsheetsDataApiFeedsListDataGeographiesListOfCountriesEtc {
+/* tslint:disable:interface-name */
+/* tslint:disable:no-namespace */
+export namespace GsheetsDataApiFeedsListDataGeographiesListOfCountriesEtc {
   export interface Id {
     $t: string;
   }

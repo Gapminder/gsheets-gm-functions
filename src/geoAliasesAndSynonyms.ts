@@ -1,3 +1,5 @@
+import { GsheetsDataApiFeedsListGeoAliasesAndSynonyms } from "./GsheetsDataApiFeedsListGeoAliasesAndSynonyms";
+
 /**
  * @hidden
  */

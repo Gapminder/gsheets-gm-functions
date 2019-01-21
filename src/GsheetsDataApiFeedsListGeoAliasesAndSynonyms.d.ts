@@ -1,4 +1,6 @@
-declare module GsheetsDataApiFeedsListGeoAliasesAndSynonyms {
+/* tslint:disable:interface-name */
+/* tslint:disable:no-namespace */
+export namespace GsheetsDataApiFeedsListGeoAliasesAndSynonyms {
   export interface Id {
     $t: string;
   }
