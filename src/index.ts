@@ -5,6 +5,7 @@
 import { GM_AGGR } from "./GM_AGGR";
 import { GM_DATA } from "./GM_DATA";
 import { GM_ID } from "./GM_ID";
+import { GM_IMPORT } from "./GM_IMPORT";
 import { GM_INTERPOLATE } from "./GM_INTERPOLATE";
 import { GM_NAME } from "./GM_NAME";
 
@@ -54,6 +55,16 @@ import { GM_NAME } from "./GM_NAME";
   concept_id: string
 ) {
   return GM_ID(column_range_with_headers, concept_id);
+};
+
+/**
+ * Imports a standard Gapminder concept table.
+ *
+ * @param concept_id Concept id (eg. "pop") of which concept to import
+ * @return A two-dimensional array containing the cell/column contents described above in the summary.
+ */
+(global as any).GM_IMPORT = function(concept_id: string) {
+  return GM_IMPORT(concept_id);
 };
 
 /**
