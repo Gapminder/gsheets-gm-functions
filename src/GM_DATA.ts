@@ -1,3 +1,4 @@
+import { preProcessInputRangeWithHeaders } from "./cleanInputRange";
 import { getDataGeographiesListOfCountriesEtcLookupTable } from "./dataGeographies";
 
 /**
@@ -11,8 +12,10 @@ export function GM_DATA(
   column_or_table_range_with_headers: string[][],
   prop_or_concept_id: string
 ) {
-  // Clone the input param to prevent side effects
-  const inputColumnOrTable = column_or_table_range_with_headers.concat([]);
+  // Ensure expected input range contents
+  const inputColumnOrTable = preProcessInputRangeWithHeaders(
+    column_or_table_range_with_headers
+  );
 
   // Separate the input range header row
   const inputColumnOrTableHeaderRow = inputColumnOrTable.shift();

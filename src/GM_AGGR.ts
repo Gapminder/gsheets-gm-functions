@@ -1,6 +1,7 @@
 import { exponential, linear } from "everpolate";
 import groupBy from "lodash/fp/groupBy";
 import mapValues from "lodash/fp/mapValues";
+import { preProcessInputRangeWithHeaders } from "./cleanInputRange";
 import { GM_DATA } from "./GM_DATA";
 import { GM_NAME } from "./GM_NAME";
 import {
@@ -25,8 +26,8 @@ import { pipe } from "./pipe";
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_AGGR(table_range_with_headers: string[][], prop: string) {
-  // Clone the input param to prevent side effects
-  const inputTable = table_range_with_headers.concat([]);
+  // Ensure expected input range contents
+  const inputTable = preProcessInputRangeWithHeaders(table_range_with_headers);
 
   // Add aggregation property value and name columns to input table
   const geoColumnWithHeaderRow = inputTable.map(row => [row[0]]);

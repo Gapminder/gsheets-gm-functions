@@ -1,6 +1,7 @@
 import { exponential, linear, step } from "everpolate";
 import range from "lodash/range";
 import round from "lodash/round";
+import { preProcessInputRangeWithHeaders } from "./cleanInputRange";
 import {
   GmTable,
   GmTableRow,
@@ -24,6 +25,8 @@ export function GM_INTERPOLATE(
   table_range_with_headers: string[][],
   method: string
 ) {
+  // Ensure expected input range contents
+  const inputTable = preProcessInputRangeWithHeaders(table_range_with_headers);
   let interpolation;
   if (!method) {
     method = "linear";
@@ -53,10 +56,8 @@ export function GM_INTERPOLATE(
       throw new Error(`Interpolation method "${method}" is not supported`);
   }
   const outputTableRows: GmTableRow[] = [];
-  const inputTableHeaderRow = GmTable.structureRow(
-    table_range_with_headers.shift()
-  );
-  const inputTableRows = table_range_with_headers.map(GmTable.structureRow);
+  const inputTableHeaderRow = GmTable.structureRow(inputTable.shift());
+  const inputTableRows = inputTable.map(GmTable.structureRow);
   const inputTableGeoIdToGeoNameLookup = inputTableRows.reduce(
     (acc, inputTableRow) => {
       acc[inputTableRow.geo] = inputTableRow.name;

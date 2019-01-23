@@ -1,3 +1,4 @@
+import { preProcessInputRangeWithHeaders } from "./cleanInputRange";
 import { getGeoAliasesAndSynonymsLookupTable } from "./geoAliasesAndSynonyms";
 
 /**
@@ -11,10 +12,12 @@ export function GM_ID(
   column_range_with_headers: string[][],
   concept_id: string
 ) {
-  const lookupTable = getGeoAliasesAndSynonymsLookupTable(concept_id);
+  // Ensure expected input range contents
+  const inputColumn = preProcessInputRangeWithHeaders(
+    column_range_with_headers
+  );
 
-  // Clone the input param to prevent side effects
-  const inputColumn = column_range_with_headers.concat([]);
+  const lookupTable = getGeoAliasesAndSynonymsLookupTable(concept_id);
 
   // Drop the input range header row
   inputColumn.shift();

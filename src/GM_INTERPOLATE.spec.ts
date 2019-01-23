@@ -4,7 +4,7 @@ import { GM_INTERPOLATE } from "./GM_INTERPOLATE";
 /**
  * @hidden
  */
-const testLinearInterpolation: Macro<any> = (
+const testInterpolation: Macro<any> = (
   t: ExecutionContext,
   { table_range_with_headers, method, expectedOutput }
 ) => {
@@ -121,5 +121,5 @@ const testLinearInterpolation: Macro<any> = (
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {
-  test("testLinearInterpolation - " + index, testLinearInterpolation, testData);
+  test("testInterpolation - " + index, testInterpolation, testData);
 });
