@@ -1,4 +1,4 @@
-import { GsheetsDataApiFeedsListGeoAliasesAndSynonyms } from "./GsheetsDataApiFeedsListGeoAliasesAndSynonyms";
+import { ListGeoAliasesAndSynonyms } from "./gsheetsDataApiFeeds/listGeoAliasesAndSynonyms";
 
 /**
  * @hidden
@@ -67,7 +67,7 @@ export function getGeoAliasesAndSynonymsLookupTable(concept_id) {
     geoAliasesAndSynonymsDocWorksheetReferences[concept_id]
   }/public/values?alt=json`;
   const worksheetDataHTTPResponse = UrlFetchApp.fetch(jsonWorksheetDataUrl);
-  const worksheetDataResponse: GsheetsDataApiFeedsListGeoAliasesAndSynonyms.Response = JSON.parse(
+  const worksheetDataResponse: ListGeoAliasesAndSynonyms.Response = JSON.parse(
     worksheetDataHTTPResponse.getContentText()
   );
   const data = gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
@@ -80,7 +80,7 @@ export function getGeoAliasesAndSynonymsLookupTable(concept_id) {
  * @hidden
  */
 function gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
-  r: GsheetsDataApiFeedsListGeoAliasesAndSynonyms.Response
+  r: ListGeoAliasesAndSynonyms.Response
 ): GeoAliasesAndSynonymsWorksheetData {
   const rows = r.feed.entry.map(currentValue => {
     return {

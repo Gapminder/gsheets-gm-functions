@@ -1,6 +1,6 @@
 /* tslint:disable:interface-name */
 /* tslint:disable:no-namespace */
-export namespace GsheetsDataApiFeedsListGeoAliasesAndSynonyms {
+export namespace ListDataGeographiesListOfCountriesEtc {
   export interface Id {
     $t: string;
   }
@@ -75,10 +75,6 @@ export namespace GsheetsDataApiFeedsListGeoAliasesAndSynonyms {
     href: string;
   }
 
-  export interface GsxAlias {
-    $t: string;
-  }
-
   export interface GsxGeo {
     $t: string;
   }
@@ -87,7 +83,39 @@ export namespace GsheetsDataApiFeedsListGeoAliasesAndSynonyms {
     $t: string;
   }
 
-  export interface GsxCareful {
+  export interface GsxFourregions {
+    $t: string;
+  }
+
+  export interface GsxEightregions {
+    $t: string;
+  }
+
+  export interface GsxSixregions {
+    $t: string;
+  }
+
+  export interface GsxMembersoecdg77 {
+    $t: string;
+  }
+
+  export interface GsxLatitude {
+    $t: string;
+  }
+
+  export interface GsxLongitude {
+    $t: string;
+  }
+
+  export interface GsxUnmembersince {
+    $t: string;
+  }
+
+  export interface GsxWorldbankregion {
+    $t: string;
+  }
+
+  export interface GsxWorldbankincomegroup2017 {
     $t: string;
   }
 
@@ -98,10 +126,17 @@ export namespace GsheetsDataApiFeedsListGeoAliasesAndSynonyms {
     title: Title2;
     content: Content;
     link: Link2[];
-    gsx$alias: GsxAlias;
     gsx$geo: GsxGeo;
     gsx$name: GsxName;
-    gsx$careful: GsxCareful;
+    gsx$fourregions: GsxFourregions;
+    gsx$eightregions: GsxEightregions;
+    gsx$sixregions: GsxSixregions;
+    gsx$membersoecdg77: GsxMembersoecdg77;
+    gsx$latitude: GsxLatitude;
+    gsx$longitude: GsxLongitude;
+    gsx$unmembersince: GsxUnmembersince;
+    gsx$worldbankregion: GsxWorldbankregion;
+    gsx$worldbankincomegroup2017: GsxWorldbankincomegroup2017;
   }
 
   export interface Feed {

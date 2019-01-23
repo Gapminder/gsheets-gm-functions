@@ -1,4 +1,4 @@
-import { GsheetsDataApiFeedsListDataGeographiesListOfCountriesEtc } from "./GsheetsDataApiFeedsListDataGeographiesListOfCountriesEtc";
+import { ListDataGeographiesListOfCountriesEtc } from "./gsheetsDataApiFeeds/listDataGeographiesListOfCountriesEtc";
 
 /**
  * @hidden
@@ -58,7 +58,7 @@ export function getDataGeographiesListOfCountriesEtcLookupTable() {
   */
   const jsonWorksheetDataUrl = `https://spreadsheets.google.com/feeds/list/${dataGeographiesDocSpreadsheetId}/${dataGeographiesDocWorksheetReference}/public/values?alt=json`;
   const worksheetDataHTTPResponse = UrlFetchApp.fetch(jsonWorksheetDataUrl);
-  const worksheetDataResponse: GsheetsDataApiFeedsListDataGeographiesListOfCountriesEtc.Response = JSON.parse(
+  const worksheetDataResponse: ListDataGeographiesListOfCountriesEtc.Response = JSON.parse(
     worksheetDataHTTPResponse.getContentText()
   );
   const data = gsheetsDataApiFeedsListDataGeographiesListOfCountriesEtcResponseToWorksheetData(
@@ -71,7 +71,7 @@ export function getDataGeographiesListOfCountriesEtcLookupTable() {
  * @hidden
  */
 function gsheetsDataApiFeedsListDataGeographiesListOfCountriesEtcResponseToWorksheetData(
-  r: GsheetsDataApiFeedsListDataGeographiesListOfCountriesEtc.Response
+  r: ListDataGeographiesListOfCountriesEtc.Response
 ): DataGeographiesListOfCountriesEtcWorksheetData {
   const rows = r.feed.entry.map(currentValue => {
     return {
