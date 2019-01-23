@@ -1,3 +1,11 @@
+/**
+ * This file contains hard coded sheet ids, worksheet ids and other
+ * mappings that must be reflected by the underlying source data
+ */
+
+/**
+ * @hidden
+ */
 export const gapminderPropertyToConceptIdMap = {
   four_regions: "world_4region"
 };
