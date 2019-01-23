@@ -32,9 +32,9 @@ interface GeoAliasesAndSynonymsLookupTable {
 /**
  * @hidden
  */
-export function getGeoAliasesAndSynonymsLookupTable(concept_id) {
-  if (!geoAliasesAndSynonymsDocWorksheetReferences[concept_id]) {
-    throw new Error(`Unknown Gapminder concept id: "${concept_id}"`);
+export function getGeoAliasesAndSynonymsLookupTable(geography) {
+  if (!geoAliasesAndSynonymsDocWorksheetReferences[geography]) {
+    throw new Error(`Unknown Gapminder geography: "${geography}"`);
   }
   // TODO: Be able to reference the name of the worksheet (geoAliasesAndSynonymsDocWorksheetName)
   /*
@@ -44,7 +44,7 @@ export function getGeoAliasesAndSynonymsLookupTable(concept_id) {
   console.log(obj);
   */
   const jsonWorksheetDataUrl = `https://spreadsheets.google.com/feeds/list/${geoAliasesAndSynonymsDocSpreadsheetId}/${
-    geoAliasesAndSynonymsDocWorksheetReferences[concept_id]
+    geoAliasesAndSynonymsDocWorksheetReferences[geography]
   }/public/values?alt=json`;
   const worksheetDataHTTPResponse = UrlFetchApp.fetch(jsonWorksheetDataUrl);
   const worksheetDataResponse: ListGeoAliasesAndSynonyms.Response = JSON.parse(

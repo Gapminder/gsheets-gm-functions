@@ -8,13 +8,9 @@ import { MinimalUrlFetchApp } from "./MinimalUrlFetchApp";
  */
 const testGmDataPropertyLookup: Macro<any> = (
   t: ExecutionContext,
-  { column_range_with_headers, value_property, key_concept_id, expectedOutput }
+  { column_range_with_headers, value_property, geography, expectedOutput }
 ) => {
-  const output = GM_DATA(
-    column_range_with_headers,
-    value_property,
-    key_concept_id
-  );
+  const output = GM_DATA(column_range_with_headers, value_property, geography);
   // t.log({output, expectedOutput});
   t.deepEqual(output, expectedOutput);
 };
@@ -24,7 +20,7 @@ const testGmDataPropertyLookup: Macro<any> = (
   {
     column_range_with_headers: [["geo"], ["foo"], ["swe"]],
     value_property: "UN member since",
-    key_concept_id: "countries_etc",
+    geography: "countries_etc",
     expectedOutput: [["UN member since"], ["Unknown geo: foo"], ["19/11/1946"]]
   }
   /* tslint:enable:object-literal-sort-keys */
@@ -41,13 +37,9 @@ const testGmDataPropertyLookup: Macro<any> = (
  */
 const testGmDataConceptLookup: Macro<any> = (
   t: ExecutionContext,
-  { table_range_with_headers, value_concept_id, key_concept_id, expectedOutput }
+  { table_range_with_headers, concept_id, geography, expectedOutput }
 ) => {
-  const output = GM_DATA(
-    table_range_with_headers,
-    value_concept_id,
-    key_concept_id
-  );
+  const output = GM_DATA(table_range_with_headers, concept_id, geography);
   // t.log({output, expectedOutput});
   t.deepEqual(output, expectedOutput);
 };
@@ -59,8 +51,8 @@ const testGmDataConceptLookup: Macro<any> = (
       ["geo_id", "geo_name", "year"],
       ["foo", "Foo", "1900"]
     ],
-    value_concept_id: "pop",
-    key_concept_id: "countries_etc",
+    concept_id: "pop",
+    geography: "countries_etc",
     expectedOutput: [["foo"]]
     /*[
       ["geo_id", "geo_name", "year", "Overall score"],

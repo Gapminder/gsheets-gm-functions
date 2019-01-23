@@ -5,14 +5,14 @@ import { getDataGeographiesListOfCountriesEtcLookupTable } from "./dataGeographi
  * Inserts a property or concept column, including a header row, with a common Gapminder property or concept matched against the input column/table range.
  *
  * @param column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
- * @param value_property_or_concept_id Either the property ("UN member since") or concept id ("pop") of which value to look up
- * @param key_concept_id Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
+ * @param property_or_concept_id Either the property (eg. "UN member since") or concept id (eg. "pop") of which value to look up
+ * @param geography Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_DATA(
   column_or_table_range_with_headers: string[][],
-  value_property_or_concept_id: string,
-  key_concept_id: string
+  property_or_concept_id: string,
+  geography: string
 ) {
   // Ensure expected input range contents
   const inputColumnOrTable = preProcessInputRangeWithHeaders(
@@ -25,14 +25,14 @@ export function GM_DATA(
   if (inputColumnOrTableHeaderRow.length === 1) {
     return dataGeographiesListOfCountriesEtcPropertyLookup(
       inputColumnOrTable,
-      value_property_or_concept_id,
-      key_concept_id
+      property_or_concept_id,
+      geography
     );
   } else {
     return conceptValueLookup(
       inputColumnOrTable,
-      value_property_or_concept_id,
-      key_concept_id
+      property_or_concept_id,
+      geography
     );
   }
 }
@@ -43,12 +43,12 @@ export function GM_DATA(
 function dataGeographiesListOfCountriesEtcPropertyLookup(
   inputColumn,
   value_property,
-  key_concept_id
+  geography
 ) {
-  if (!key_concept_id) {
-    key_concept_id = "countries_etc";
+  if (!geography) {
+    geography = "countries_etc";
   }
-  if (key_concept_id !== "countries_etc") {
+  if (geography !== "countries_etc") {
     throw new Error(
       "Lookups of properties using other key concepts than countries_etc is currently not supported"
     );
@@ -56,7 +56,7 @@ function dataGeographiesListOfCountriesEtcPropertyLookup(
 
   const lookupTable = getDataGeographiesListOfCountriesEtcLookupTable();
 
-  // Convert the value_concept_id to the Gsheet-generated equivalent property (eg "UN member since" becomes "unmembersince")
+  // Convert the concept_id to the Gsheet-generated equivalent property (eg "UN member since" becomes "unmembersince")
   const gsxProperty = value_property
     .toLowerCase()
     .replace(/[^A-Za-z0-9]*/g, "");
@@ -79,6 +79,6 @@ function dataGeographiesListOfCountriesEtcPropertyLookup(
 /**
  * @hidden
  */
-function conceptValueLookup(inputTable, value_concept_id, key_concept_id) {
+function conceptValueLookup(inputTable, concept_id, geography) {
   return [["foo"]];
 }
