@@ -3,10 +3,10 @@
  */
 
 import { GM_AGGR } from "./GM_AGGR";
+import { GM_DATA } from "./GM_DATA";
 import { GM_ID } from "./GM_ID";
 import { GM_INTERPOLATE } from "./GM_INTERPOLATE";
 import { GM_NAME } from "./GM_NAME";
-import { GM_PROP } from "./GM_PROP";
 
 /* tslint:disable:only-arrow-functions */
 
@@ -95,9 +95,9 @@ import { GM_PROP } from "./GM_PROP";
  * @param {"UN members since"} prop
  * @customfunction
  */
-(global as any).GM_PROP = function(
+(global as any).GM_DATA = function(
   column_range_with_headers: string[][],
   prop: string
 ) {
-  return GM_PROP(column_range_with_headers, prop);
+  return GM_DATA(column_range_with_headers, prop);
 };

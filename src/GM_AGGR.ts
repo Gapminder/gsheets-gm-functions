@@ -1,8 +1,8 @@
 import { exponential, linear } from "everpolate";
 import groupBy from "lodash/fp/groupBy";
 import mapValues from "lodash/fp/mapValues";
+import { GM_DATA } from "./GM_DATA";
 import { GM_NAME } from "./GM_NAME";
-import { GM_PROP } from "./GM_PROP";
 import {
   GmTable,
   GmTableRow,
@@ -30,7 +30,7 @@ export function GM_AGGR(table_range_with_headers: string[][], prop: string) {
 
   // Add aggregation property value and name columns to input table
   const geoColumnWithHeaderRow = inputTable.map(row => [row[0]]);
-  const aggregationPropertyColumnWithHeaderRow = GM_PROP(
+  const aggregationPropertyColumnWithHeaderRow = GM_DATA(
     geoColumnWithHeaderRow,
     prop
   );
