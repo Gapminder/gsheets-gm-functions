@@ -22,10 +22,15 @@ import { pipe } from "./pipe";
  *  - Column 4+: values to be aggregated
  *
  * @param table_range_with_headers
- * @param prop Aggregation property
+ * @param aggregation_prop Aggregation property
+ * @param key_concept_id Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
-export function GM_AGGR(table_range_with_headers: string[][], prop: string) {
+export function GM_AGGR(
+  table_range_with_headers: string[][],
+  aggregation_prop: string,
+  key_concept_id: string
+) {
   // Ensure expected input range contents
   const inputTable = preProcessInputRangeWithHeaders(table_range_with_headers);
 
@@ -33,14 +38,15 @@ export function GM_AGGR(table_range_with_headers: string[][], prop: string) {
   const geoColumnWithHeaderRow = inputTable.map(row => [row[0]]);
   const aggregationPropertyColumnWithHeaderRow = GM_DATA(
     geoColumnWithHeaderRow,
-    prop
+    aggregation_prop,
+    key_concept_id
   );
   const aggregationPropertyNameColumnWithHeaderRow = gapminderPropertyToConceptIdMap[
-    prop
+    aggregation_prop
   ]
     ? GM_NAME(
         aggregationPropertyColumnWithHeaderRow,
-        gapminderPropertyToConceptIdMap[prop]
+        gapminderPropertyToConceptIdMap[aggregation_prop]
       )
     : aggregationPropertyColumnWithHeaderRow;
   const aggregationTableWithHeaders = inputTable.map((row, index) => {
