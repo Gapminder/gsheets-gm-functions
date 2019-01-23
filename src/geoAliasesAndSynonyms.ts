@@ -1,28 +1,8 @@
 import { ListGeoAliasesAndSynonyms } from "./gsheetsDataApiFeeds/listGeoAliasesAndSynonyms";
-
-/**
- * @hidden
- */
-const geoAliasesAndSynonymsDocSpreadsheetId =
-  "1p7YhbS_f056BUSlJNAm6k6YnNPde8OSdYpJ6YiVHxO4";
-/**
- * @hidden
- */
-const geoAliasesAndSynonymsDocWorksheetReferences = {
-  /* tslint:disable:object-literal-sort-keys */
-  global: 4,
-  world_4region: 5,
-  countries_etc: 6
-  /* tslint:enable:object-literal-sort-keys */
-};
-// Note: Custom functions can not reference named ranges in foreign spreadsheets, but we can reference the name of the worksheet (TODO)
-/*
-const geoAliasesAndSynonymsDocWorksheetReferences = {
-  "global": "a-global",
-  "world_4region": "a-world_4regions",
-  "countries_etc": "a-countries_etc",
-};
-*/
+import {
+  geoAliasesAndSynonymsDocSpreadsheetId,
+  geoAliasesAndSynonymsDocWorksheetReferences
+} from "./hardcodedConstants";
 
 /**
  * @hidden

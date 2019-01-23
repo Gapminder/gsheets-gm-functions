@@ -1,16 +1,8 @@
 import { ListDataGeographiesListOfCountriesEtc } from "./gsheetsDataApiFeeds/listDataGeographiesListOfCountriesEtc";
-
-/**
- * @hidden
- */
-const dataGeographiesDocSpreadsheetId =
-  "1qHalit8sXC0R8oVXibc2wa2gY7bkwGzOybEMTWp-08o";
-/**
- * @hidden
- */
-const dataGeographiesDocWorksheetReference = "2";
-// Note: Custom functions can not reference named ranges in foreign spreadsheets, but we can reference the name of the worksheet (TODO)
-// const geoDocWorksheetName = "list-of-countries-etc";
+import {
+  dataGeographiesDocSpreadsheetId,
+  dataGeographiesDocWorksheetReference
+} from "./hardcodedConstants";
 
 /**
  * @hidden
