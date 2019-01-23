@@ -2,7 +2,7 @@
  * This file is built and pushed to Google Scripts using the source code and tools at https://github.com/Gapminder/gsheets-gm-functions
  */
 
-import { GM_AGGREGATE } from "./GM_AGGREGATE";
+import { GM_AGGR } from "./GM_AGGR";
 import { GM_ID } from "./GM_ID";
 import { GM_INTERPOLATE } from "./GM_INTERPOLATE";
 import { GM_NAME } from "./GM_NAME";
@@ -33,11 +33,11 @@ import { GM_PROP } from "./GM_PROP";
  * @param {"four_regions"} prop
  * @customfunction
  */
-(global as any).GM_AGGREGATE = function(
+(global as any).GM_AGGR = function(
   table_range_with_headers: string[][],
   prop: string
 ) {
-  return GM_AGGREGATE(table_range_with_headers, prop);
+  return GM_AGGR(table_range_with_headers, prop);
 };
 
 /**

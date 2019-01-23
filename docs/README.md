@@ -4,7 +4,7 @@
 
 ### Functions
 
-* [GM_AGGREGATE](#gm_aggregate)
+* [GM_AGGR](#gm_aggr)
 * [GM_ID](#gm_id)
 * [GM_INTERPOLATE](#gm_interpolate)
 * [GM_NAME](#gm_name)
@@ -14,13 +14,13 @@
 
 ## Functions
 
-<a id="gm_aggregate"></a>
+<a id="gm_aggr"></a>
 
-###  GM_AGGREGATE
+###  GM_AGGR
 
-▸ **GM_AGGREGATE**(table_range_with_headers: *`string`[][]*, prop: *`string`*): `any`[][]
+▸ **GM_AGGR**(table_range_with_headers: *`string`[][]*, prop: *`string`*): `any`[][]
 
-*Defined in [GM_AGGREGATE.ts:27](https://github.com/Gapminder/gsheets-gm-functions/blob/51dea1f/src/GM_AGGREGATE.ts#L27)*
+*Defined in [GM_AGGR.ts:27](https://github.com/Gapminder/gsheets-gm-functions/blob/712a5e8/src/GM_AGGR.ts#L27)*
 
 Aggregates an input table by property and time, returning a table with the aggregated values of the input table.
 
@@ -48,7 +48,7 @@ ___
 
 ▸ **GM_ID**(column_range_with_headers: *`string`[][]*, concept_id: *`string`*): `string`[][]
 
-*Defined in [GM_ID.ts:10](https://github.com/Gapminder/gsheets-gm-functions/blob/51dea1f/src/GM_ID.ts#L10)*
+*Defined in [GM_ID.ts:10](https://github.com/Gapminder/gsheets-gm-functions/blob/712a5e8/src/GM_ID.ts#L10)*
 
 Inserts a matching column, including a header row, with Gapminder’s geo ids matched against the input column range, based on all spellings we have seen before. It should be entered in the header cell under which you want the first first id to appear and it uses as input another range of cells, which should start with the header of the column with names of a geography you want to identify.
 
@@ -69,7 +69,7 @@ ___
 
 ▸ **GM_INTERPOLATE**(table_range_with_headers: *`string`[][]*, method: *`string`*): `any`[][]
 
-*Defined in [GM_INTERPOLATE.ts:23](https://github.com/Gapminder/gsheets-gm-functions/blob/51dea1f/src/GM_INTERPOLATE.ts#L23)*
+*Defined in [GM_INTERPOLATE.ts:23](https://github.com/Gapminder/gsheets-gm-functions/blob/712a5e8/src/GM_INTERPOLATE.ts#L23)*
 
 Interpolates an input table, inserting a sorted table with additional rows, where the gaps (missing rows or empty values) in the input table have been filled in. This function works on data with two primary key columns: usually geo and time. (If we want to use this on data that has more keys: geo, time, age, gender, etc - we need a different formula)
 
@@ -97,7 +97,7 @@ ___
 
 ▸ **GM_NAME**(column_range_with_headers: *`string`[][]*, concept_id: *`string`*): `string`[][]
 
-*Defined in [GM_NAME.ts:10](https://github.com/Gapminder/gsheets-gm-functions/blob/51dea1f/src/GM_NAME.ts#L10)*
+*Defined in [GM_NAME.ts:10](https://github.com/Gapminder/gsheets-gm-functions/blob/712a5e8/src/GM_NAME.ts#L10)*
 
 Inserts a matching column, including a header row, with Gapminder’s common name for the geo matched against the input column range, based on all spellings we have seen before. (Like GM\_ID but inserts Gapminder’s common name for the geo instead of its id.)
 
@@ -118,7 +118,7 @@ ___
 
 ▸ **GM_PROP**(column_range_with_headers: *`string`[][]*, prop: *`string`*): `string`[][]
 
-*Defined in [GM_PROP.ts:10](https://github.com/Gapminder/gsheets-gm-functions/blob/51dea1f/src/GM_PROP.ts#L10)*
+*Defined in [GM_PROP.ts:10](https://github.com/Gapminder/gsheets-gm-functions/blob/712a5e8/src/GM_PROP.ts#L10)*
 
 Inserts a property column, including a header row, with a common Gapminder property matched against the input column range.
 

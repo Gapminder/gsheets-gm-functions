@@ -24,10 +24,7 @@ import { pipe } from "./pipe";
  * @param prop Aggregation property
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
-export function GM_AGGREGATE(
-  table_range_with_headers: string[][],
-  prop: string
-) {
+export function GM_AGGR(table_range_with_headers: string[][], prop: string) {
   // Clone the input param to prevent side effects
   const inputTable = table_range_with_headers.concat([]);
 

@@ -1,5 +1,5 @@
 import test, { ExecutionContext, Macro } from "ava";
-import { GM_AGGREGATE } from "./GM_AGGREGATE";
+import { GM_AGGR } from "./GM_AGGR";
 import { MinimalUrlFetchApp } from "./MinimalUrlFetchApp";
 (global as any).UrlFetchApp = MinimalUrlFetchApp;
 
@@ -10,7 +10,7 @@ const testAggregation: Macro<any> = (
   t: ExecutionContext,
   { table_range_with_headers, prop, expectedOutput }
 ) => {
-  const output = GM_AGGREGATE(table_range_with_headers, prop);
+  const output = GM_AGGR(table_range_with_headers, prop);
   // t.log({ table_range_with_headers });
   // t.log({ output });
   // t.log({ expectedOutput });
