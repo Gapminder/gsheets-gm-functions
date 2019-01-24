@@ -42,6 +42,18 @@ export const dataGeographiesDocSpreadsheetId =
 /**
  * @hidden
  */
-export const dataGeographiesDocWorksheetReference = "2";
+export const dataGeographiesDocListOfCountriesEtcWorksheetReference = "2";
 // Note: Custom functions can not reference named ranges in foreign spreadsheets, but we can reference the name of the worksheet (TODO)
-// export const geoDocWorksheetName = "list-of-countries-etc";
+// export const dataGeographiesDocListOfCountriesEtcWorksheetName = "list-of-countries-etc";
+
+/**
+ * @hidden
+ */
+export const fasttrackCatalogDocSpreadsheetId =
+  "1eOl5azDMt5rN04UV7QlYeGnVuYjtLwz_XIbPFkB-Xlo";
+/**
+ * @hidden
+ */
+export const fasttrackCatalogDocDataPointsWorksheetReference = "4";
+// Note: Custom functions can not reference named ranges in foreign spreadsheets, but we can reference the name of the worksheet (TODO)
+// export const fasttrackCatalogDocDataPointsWorksheetName = "datapoints";

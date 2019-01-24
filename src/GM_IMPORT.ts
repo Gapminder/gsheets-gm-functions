@@ -1,4 +1,4 @@
-import { getGeoAliasesAndSynonymsLookupTable } from "./geoAliasesAndSynonyms";
+import { getFasttrackCatalogDataPointsList } from "./fastttrackCatalog";
 
 /**
  * Imports a standard Gapminder concept table.
@@ -13,7 +13,8 @@ export function GM_IMPORT(
   time_unit: string,
   geography: string
 ) {
-  const importedData = [].map(lookup => {
+  const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
+  const importedData = fasttrackCatalogDataPointsWorksheetData.rows.map(row => {
     return ["foo"];
   });
 

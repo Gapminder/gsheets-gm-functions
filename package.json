@@ -34,7 +34,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "deploy": "npm run format && npm run build && npm run push && npm run docs",
+    "deploy": "npm run format && npm run build && npm run push && npm run docs && npm run lint",
     "docs": "typedoc --theme markdown --excludeExternals --externalPattern \"**/node_modules/**\" --mode file --ignoreCompilerErrors --out docs src",
     "format": "prettier \"src/**/*.ts\" --write",
     "lint": "tslint -t verbose --fix --project .",

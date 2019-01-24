@@ -59,7 +59,7 @@ function dataGeographiesListOfCountriesEtcPropertyLookup(
   // Convert the concept_id to the Gsheet-generated equivalent property (eg "UN member since" becomes "unmembersince")
   const gsxProperty = value_property
     .toLowerCase()
-    .replace(/[^A-Za-z0-9]*/g, "");
+    .replace(/[^A-Za-z0-9.-]*/g, "");
 
   const matchedData = inputColumn.map(inputRow => {
     const geo = inputRow[0];
