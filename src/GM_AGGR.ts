@@ -1,16 +1,16 @@
 import { exponential, linear } from "everpolate";
 import groupBy from "lodash/fp/groupBy";
 import mapValues from "lodash/fp/mapValues";
-import { preProcessInputRangeWithHeaders } from "./cleanInputRange";
 import { GM_DATA } from "./GM_DATA";
 import { GM_NAME } from "./GM_NAME";
 import {
   GmTable,
   GmTableRow,
   GmTableRowsByGeoAndTime
-} from "./gmTableStructure";
-import { gapminderPropertyToConceptIdMap } from "./hardcodedConstants";
-import { pipe } from "./pipe";
+} from "./gsheetsData/gmTableStructure";
+import { gapminderPropertyToConceptIdMap } from "./gsheetsData/hardcodedConstants";
+import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
+import { pipe } from "./lib/pipe";
 
 /**
  * Aggregates an input table by property and time, returning a table with the aggregated values of the input table.

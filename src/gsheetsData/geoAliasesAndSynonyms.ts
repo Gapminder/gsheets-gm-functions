@@ -1,10 +1,10 @@
-import { fetchWorksheetData } from "./gsheetsData/fetchWorksheetData";
-import { ListGeoAliasesAndSynonyms } from "./gsheetsDataApiFeeds/listGeoAliasesAndSynonyms";
+import { fetchWorksheetData } from "./fetchWorksheetData";
 import {
   geoAliasesAndSynonymsDocSpreadsheetId,
   geoAliasesAndSynonymsDocWorksheetNames,
   geoAliasesAndSynonymsDocWorksheetReferences
 } from "./hardcodedConstants";
+import { ListGeoAliasesAndSynonyms } from "./types/listGeoAliasesAndSynonyms";
 
 /**
  * @hidden

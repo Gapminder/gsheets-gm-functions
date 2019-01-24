@@ -1,5 +1,5 @@
-import { preProcessInputRangeWithHeaders } from "./cleanInputRange";
-import { getGeoAliasesAndSynonymsLookupTable } from "./geoAliasesAndSynonyms";
+import { getGeoAliasesAndSynonymsLookupTable } from "./gsheetsData/geoAliasesAndSynonyms";
+import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 
 /**
  * Inserts a matching column, including a header row, with Gapminder’s common name for the geo matched against the input column range, based on all spellings we have seen before. (Like GM_ID but inserts Gapminder’s common name for the geo instead of its id.)

@@ -1,5 +1,5 @@
-import { preProcessInputRangeWithHeaders } from "./cleanInputRange";
-import { getDataGeographiesListOfCountriesEtcLookupTable } from "./dataGeographies";
+import { getDataGeographiesListOfCountriesEtcLookupTable } from "./gsheetsData/dataGeographies";
+import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 
 /**
  * Inserts a property or concept column, including a header row, with a common Gapminder property or concept matched against the input column/table range.

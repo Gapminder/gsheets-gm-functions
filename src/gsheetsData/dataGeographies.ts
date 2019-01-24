@@ -1,10 +1,10 @@
-import { fetchWorksheetData } from "./gsheetsData/fetchWorksheetData";
-import { ListDataGeographiesListOfCountriesEtc } from "./gsheetsDataApiFeeds/listDataGeographiesListOfCountriesEtc";
+import { fetchWorksheetData } from "./fetchWorksheetData";
 import {
   dataGeographiesDocListOfCountriesEtcWorksheetName,
   dataGeographiesDocListOfCountriesEtcWorksheetReference,
   dataGeographiesDocSpreadsheetId
 } from "./hardcodedConstants";
+import { ListDataGeographiesListOfCountriesEtc } from "./types/listDataGeographiesListOfCountriesEtc";
 
 /**
  * @hidden

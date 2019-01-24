@@ -1,4 +1,4 @@
-import { getFasttrackCatalogDataPointsList } from "./fastttrackCatalog";
+import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 
 /**
  * Imports a standard Gapminder concept table.

@@ -1,12 +1,12 @@
 import { exponential, linear, step } from "everpolate";
 import range from "lodash/range";
 import round from "lodash/round";
-import { preProcessInputRangeWithHeaders } from "./cleanInputRange";
 import {
   GmTable,
   GmTableRow,
   GmTableRowsByGeoAndTime
-} from "./gmTableStructure";
+} from "./gsheetsData/gmTableStructure";
+import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 
 /**
  * Interpolates an input table, inserting a sorted table with additional rows, where the gaps (missing rows or empty values) in the input table have been filled in. This function works on data with two primary key columns: usually geo and time. (If we want to use this on data that has more keys: geo, time, age, gender, etc - we need a different formula)

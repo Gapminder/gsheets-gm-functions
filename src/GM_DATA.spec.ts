@@ -1,6 +1,6 @@
 import test, { ExecutionContext, Macro } from "ava";
 import { GM_DATA } from "./GM_DATA";
-import { MinimalUrlFetchApp } from "./MinimalUrlFetchApp";
+import { MinimalUrlFetchApp } from "./lib/MinimalUrlFetchApp";
 (global as any).UrlFetchApp = MinimalUrlFetchApp;
 
 /**

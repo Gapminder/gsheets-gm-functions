@@ -1,10 +1,10 @@
-import { fetchWorksheetData } from "./gsheetsData/fetchWorksheetData";
-import { ListFasttrackCatalogDataPoints } from "./gsheetsDataApiFeeds/listFasttrackCatalogDataPoints";
+import { fetchWorksheetData } from "./fetchWorksheetData";
 import {
   fasttrackCatalogDocDataPointsWorksheetName,
   fasttrackCatalogDocDataPointsWorksheetReference,
   fasttrackCatalogDocSpreadsheetId
 } from "./hardcodedConstants";
+import { ListFasttrackCatalogDataPoints } from "./types/listFasttrackCatalogDataPoints";
 
 /**
  * @hidden
@@ -74,17 +74,3 @@ function gsheetsDataApiFeedsListFasttrackCatalogDataPointsResponseToWorksheetDat
     rows
   };
 }
-
-/**
- * @hidden
- */
-/*
-function fasttrackCatalogDataPointsWorksheetDataToGeoLookupTable(
-  data: FasttrackCatalogDataPointsWorksheetData
-): FasttrackCatalogDataPointsLookupTable {
-  return data.rows.reduce((lookupTableAccumulator, currentValue) => {
-    lookupTableAccumulator[currentValue.geo] = currentValue;
-    return lookupTableAccumulator;
-  }, {});
-}
-*/
