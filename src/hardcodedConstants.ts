@@ -25,14 +25,16 @@ export const geoAliasesAndSynonymsDocWorksheetReferences = {
   countries_etc: 6
   /* tslint:enable:object-literal-sort-keys */
 };
-// Note: Custom functions can not reference named ranges in foreign spreadsheets, but we can reference the name of the worksheet (TODO)
-/*
-export const geoAliasesAndSynonymsDocWorksheetReferences = {
-  "global": "a-global",
-  "world_4region": "a-world_4regions",
-  "countries_etc": "a-countries_etc",
+/**
+ * @hidden
+ */
+export const geoAliasesAndSynonymsDocWorksheetNames = {
+  /* tslint:disable:object-literal-sort-keys */
+  global: "a-global",
+  world_4region: "a-world_4regions",
+  countries_etc: "a-countries_etc"
+  /* tslint:enable:object-literal-sort-keys */
 };
-*/
 
 /**
  * @hidden
@@ -43,8 +45,11 @@ export const dataGeographiesDocSpreadsheetId =
  * @hidden
  */
 export const dataGeographiesDocListOfCountriesEtcWorksheetReference = "2";
-// Note: Custom functions can not reference named ranges in foreign spreadsheets, but we can reference the name of the worksheet (TODO)
-// export const dataGeographiesDocListOfCountriesEtcWorksheetName = "list-of-countries-etc";
+/**
+ * @hidden
+ */
+export const dataGeographiesDocListOfCountriesEtcWorksheetName =
+  "list-of-countries-etc";
 
 /**
  * @hidden
@@ -55,5 +60,7 @@ export const fasttrackCatalogDocSpreadsheetId =
  * @hidden
  */
 export const fasttrackCatalogDocDataPointsWorksheetReference = "4";
-// Note: Custom functions can not reference named ranges in foreign spreadsheets, but we can reference the name of the worksheet (TODO)
-// export const fasttrackCatalogDocDataPointsWorksheetName = "datapoints";
+/**
+ * @hidden
+ */
+export const fasttrackCatalogDocDataPointsWorksheetName = "datapoints";

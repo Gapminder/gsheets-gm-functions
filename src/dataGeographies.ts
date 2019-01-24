@@ -1,5 +1,7 @@
+import { fetchWorksheetData } from "./gsheetsData/fetchWorksheetData";
 import { ListDataGeographiesListOfCountriesEtc } from "./gsheetsDataApiFeeds/listDataGeographiesListOfCountriesEtc";
 import {
+  dataGeographiesDocListOfCountriesEtcWorksheetName,
   dataGeographiesDocListOfCountriesEtcWorksheetReference,
   dataGeographiesDocSpreadsheetId
 } from "./hardcodedConstants";
@@ -41,17 +43,10 @@ interface DataGeographiesListOfCountriesEtcLookupTable {
  * @hidden
  */
 export function getDataGeographiesListOfCountriesEtcLookupTable() {
-  // TODO: Be able to reference the name of the worksheet (geoAliasesAndSynonymsDocWorksheetName)
-  /*
-  const jsonWorksheetsUrl = `https://spreadsheets.google.com/feeds/worksheets/${dataGeographiesDocSpreadsheetId}/public/values?alt=json`;
-  const response = UrlFetchApp.fetch(jsonWorksheetsUrl);
-  const obj = JSON.parse(response.getContentText());
-  console.log(obj);
-  */
-  const jsonWorksheetDataUrl = `https://spreadsheets.google.com/feeds/list/${dataGeographiesDocSpreadsheetId}/${dataGeographiesDocListOfCountriesEtcWorksheetReference}/public/values?alt=json`;
-  const worksheetDataHTTPResponse = UrlFetchApp.fetch(jsonWorksheetDataUrl);
-  const worksheetDataResponse: ListDataGeographiesListOfCountriesEtc.Response = JSON.parse(
-    worksheetDataHTTPResponse.getContentText()
+  const worksheetDataResponse: ListDataGeographiesListOfCountriesEtc.Response = fetchWorksheetData(
+    dataGeographiesDocSpreadsheetId,
+    dataGeographiesDocListOfCountriesEtcWorksheetReference,
+    dataGeographiesDocListOfCountriesEtcWorksheetName
   );
   const data = gsheetsDataApiFeedsListDataGeographiesListOfCountriesEtcResponseToWorksheetData(
     worksheetDataResponse

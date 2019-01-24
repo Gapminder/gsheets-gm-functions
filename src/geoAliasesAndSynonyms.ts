@@ -1,6 +1,8 @@
+import { fetchWorksheetData } from "./gsheetsData/fetchWorksheetData";
 import { ListGeoAliasesAndSynonyms } from "./gsheetsDataApiFeeds/listGeoAliasesAndSynonyms";
 import {
   geoAliasesAndSynonymsDocSpreadsheetId,
+  geoAliasesAndSynonymsDocWorksheetNames,
   geoAliasesAndSynonymsDocWorksheetReferences
 } from "./hardcodedConstants";
 
@@ -36,19 +38,10 @@ export function getGeoAliasesAndSynonymsLookupTable(geography) {
   if (!geoAliasesAndSynonymsDocWorksheetReferences[geography]) {
     throw new Error(`Unknown Gapminder geography: "${geography}"`);
   }
-  // TODO: Be able to reference the name of the worksheet (geoAliasesAndSynonymsDocWorksheetName)
-  /*
-  const jsonWorksheetsUrl = `https://spreadsheets.google.com/feeds/worksheets/${geoAliasesAndSynonymsDocSpreadsheetId}/public/values?alt=json`;
-  const response = UrlFetchApp.fetch(jsonWorksheetsUrl);
-  const obj = JSON.parse(response.getContentText());
-  console.log(obj);
-  */
-  const jsonWorksheetDataUrl = `https://spreadsheets.google.com/feeds/list/${geoAliasesAndSynonymsDocSpreadsheetId}/${
-    geoAliasesAndSynonymsDocWorksheetReferences[geography]
-  }/public/values?alt=json`;
-  const worksheetDataHTTPResponse = UrlFetchApp.fetch(jsonWorksheetDataUrl);
-  const worksheetDataResponse: ListGeoAliasesAndSynonyms.Response = JSON.parse(
-    worksheetDataHTTPResponse.getContentText()
+  const worksheetDataResponse: ListGeoAliasesAndSynonyms.Response = fetchWorksheetData(
+    geoAliasesAndSynonymsDocSpreadsheetId,
+    geoAliasesAndSynonymsDocWorksheetReferences[geography],
+    geoAliasesAndSynonymsDocWorksheetNames[geography]
   );
   const data = gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
     worksheetDataResponse

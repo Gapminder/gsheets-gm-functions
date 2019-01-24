@@ -1,5 +1,7 @@
+import { fetchWorksheetData } from "./gsheetsData/fetchWorksheetData";
 import { ListFasttrackCatalogDataPoints } from "./gsheetsDataApiFeeds/listFasttrackCatalogDataPoints";
 import {
+  fasttrackCatalogDocDataPointsWorksheetName,
   fasttrackCatalogDocDataPointsWorksheetReference,
   fasttrackCatalogDocSpreadsheetId
 } from "./hardcodedConstants";
@@ -38,17 +40,10 @@ interface FasttrackCatalogDataPointsLookupTable {
  * @hidden
  */
 export function getFasttrackCatalogDataPointsList() {
-  // TODO: Be able to reference the name of the worksheet (geoAliasesAndSynonymsDocWorksheetName)
-  /*
-  const jsonWorksheetsUrl = `https://spreadsheets.google.com/feeds/worksheets/${fasttrackCatalogDocSpreadsheetId}/public/values?alt=json`;
-  const response = UrlFetchApp.fetch(jsonWorksheetsUrl);
-  const obj = JSON.parse(response.getContentText());
-  console.log(obj);
-  */
-  const jsonWorksheetDataUrl = `https://spreadsheets.google.com/feeds/list/${fasttrackCatalogDocSpreadsheetId}/${fasttrackCatalogDocDataPointsWorksheetReference}/public/values?alt=json`;
-  const worksheetDataHTTPResponse = UrlFetchApp.fetch(jsonWorksheetDataUrl);
-  const worksheetDataResponse: ListFasttrackCatalogDataPoints.Response = JSON.parse(
-    worksheetDataHTTPResponse.getContentText()
+  const worksheetDataResponse: ListFasttrackCatalogDataPoints.Response = fetchWorksheetData(
+    fasttrackCatalogDocSpreadsheetId,
+    fasttrackCatalogDocDataPointsWorksheetReference,
+    fasttrackCatalogDocDataPointsWorksheetName
   );
   return gsheetsDataApiFeedsListFasttrackCatalogDataPointsResponseToWorksheetData(
     worksheetDataResponse
