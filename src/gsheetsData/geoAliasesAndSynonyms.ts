@@ -1,8 +1,7 @@
 import { fetchWorksheetData } from "./fetchWorksheetData";
 import {
   geoAliasesAndSynonymsDocSpreadsheetId,
-  geoAliasesAndSynonymsDocWorksheetNames,
-  geoAliasesAndSynonymsDocWorksheetReferences
+  geoAliasesAndSynonymsDocWorksheetReferencesByGeopgraphy
 } from "./hardcodedConstants";
 import { ListGeoAliasesAndSynonyms } from "./types/listGeoAliasesAndSynonyms";
 
@@ -35,13 +34,12 @@ interface GeoAliasesAndSynonymsLookupTable {
  * @hidden
  */
 export function getGeoAliasesAndSynonymsLookupTable(geography) {
-  if (!geoAliasesAndSynonymsDocWorksheetReferences[geography]) {
+  if (!geoAliasesAndSynonymsDocWorksheetReferencesByGeopgraphy[geography]) {
     throw new Error(`Unknown Gapminder geography: "${geography}"`);
   }
   const worksheetDataResponse: ListGeoAliasesAndSynonyms.Response = fetchWorksheetData(
     geoAliasesAndSynonymsDocSpreadsheetId,
-    geoAliasesAndSynonymsDocWorksheetReferences[geography],
-    geoAliasesAndSynonymsDocWorksheetNames[geography]
+    geoAliasesAndSynonymsDocWorksheetReferencesByGeopgraphy[geography]
   );
   const data = gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
     worksheetDataResponse

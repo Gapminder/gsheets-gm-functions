@@ -1,3 +1,7 @@
+import {
+  ConceptDataRow,
+  getConceptDataWorksheetData
+} from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 
 /**
@@ -14,9 +18,14 @@ export function GM_IMPORT(
   geography: string
 ) {
   const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
-  const importedData = fasttrackCatalogDataPointsWorksheetData.rows.map(row => {
-    return ["foo"];
+  const importedWorksheetData = getConceptDataWorksheetData(
+    concept_id,
+    time_unit,
+    geography,
+    fasttrackCatalogDataPointsWorksheetData
+  );
+  const importedData = importedWorksheetData.rows.map((row: ConceptDataRow) => {
+    return [row.geo, row.name, row.time, row.value];
   });
-
-  return [["Foo"]].concat(importedData);
+  return [["geo", "name", time_unit, concept_id]].concat(importedData);
 }

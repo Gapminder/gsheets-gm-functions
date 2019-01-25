@@ -1,6 +1,5 @@
 import { fetchWorksheetData } from "./fetchWorksheetData";
 import {
-  fasttrackCatalogDocDataPointsWorksheetName,
   fasttrackCatalogDocDataPointsWorksheetReference,
   fasttrackCatalogDocSpreadsheetId
 } from "./hardcodedConstants";
@@ -9,7 +8,7 @@ import { ListFasttrackCatalogDataPoints } from "./types/listFasttrackCatalogData
 /**
  * @hidden
  */
-interface FasttrackCatalogDataPointsDataRow {
+export interface FasttrackCatalogDataPointsDataRow {
   /* tslint:disable:object-literal-sort-keys */
   geography: string;
   time_unit: string;
@@ -25,7 +24,7 @@ interface FasttrackCatalogDataPointsDataRow {
 /**
  * @hidden
  */
-interface FasttrackCatalogDataPointsWorksheetData {
+export interface FasttrackCatalogDataPointsWorksheetData {
   rows: FasttrackCatalogDataPointsDataRow[];
 }
 
@@ -42,8 +41,7 @@ interface FasttrackCatalogDataPointsLookupTable {
 export function getFasttrackCatalogDataPointsList() {
   const worksheetDataResponse: ListFasttrackCatalogDataPoints.Response = fetchWorksheetData(
     fasttrackCatalogDocSpreadsheetId,
-    fasttrackCatalogDocDataPointsWorksheetReference,
-    fasttrackCatalogDocDataPointsWorksheetName
+    fasttrackCatalogDocDataPointsWorksheetReference
   );
   return gsheetsDataApiFeedsListFasttrackCatalogDataPointsResponseToWorksheetData(
     worksheetDataResponse
@@ -66,7 +64,7 @@ function gsheetsDataApiFeedsListFasttrackCatalogDataPointsResponseToWorksheetDat
       concept_name: currentValue.gsx$conceptname.$t,
       table_format: currentValue.gsx$tableformat.$t,
       csv_link: currentValue.gsx$csvlink.$t,
-      doc_id: currentValue.gsx$docid.$t
+      doc_id: currentValue.gsx$docid.$t.replace(/\/.*/, "") // Since sometimes the gsheet values for doc_id has included /edit#gid=0000 after the actual doc id
       /* tslint:enable:object-literal-sort-keys */
     };
   });

@@ -1,6 +1,5 @@
 import { fetchWorksheetData } from "./fetchWorksheetData";
 import {
-  dataGeographiesDocListOfCountriesEtcWorksheetName,
   dataGeographiesDocListOfCountriesEtcWorksheetReference,
   dataGeographiesDocSpreadsheetId
 } from "./hardcodedConstants";
@@ -45,8 +44,7 @@ interface DataGeographiesListOfCountriesEtcLookupTable {
 export function getDataGeographiesListOfCountriesEtcLookupTable() {
   const worksheetDataResponse: ListDataGeographiesListOfCountriesEtc.Response = fetchWorksheetData(
     dataGeographiesDocSpreadsheetId,
-    dataGeographiesDocListOfCountriesEtcWorksheetReference,
-    dataGeographiesDocListOfCountriesEtcWorksheetName
+    dataGeographiesDocListOfCountriesEtcWorksheetReference
   );
   const data = gsheetsDataApiFeedsListDataGeographiesListOfCountriesEtcResponseToWorksheetData(
     worksheetDataResponse

@@ -2,6 +2,15 @@
  * This file contains hard coded sheet ids, worksheet ids and other
  * mappings that must be reflected by the underlying source data
  */
+/* tslint:disable:object-literal-sort-keys */
+
+/**
+ * @hidden
+ */
+export interface WorksheetReference {
+  name: string;
+  position: number;
+}
 
 /**
  * @hidden
@@ -18,22 +27,21 @@ export const geoAliasesAndSynonymsDocSpreadsheetId =
 /**
  * @hidden
  */
-export const geoAliasesAndSynonymsDocWorksheetReferences = {
-  /* tslint:disable:object-literal-sort-keys */
-  global: 4,
-  world_4region: 5,
-  countries_etc: 6
-  /* tslint:enable:object-literal-sort-keys */
-};
-/**
- * @hidden
- */
-export const geoAliasesAndSynonymsDocWorksheetNames = {
-  /* tslint:disable:object-literal-sort-keys */
-  global: "a-global",
-  world_4region: "a-world_4regions",
-  countries_etc: "a-countries_etc"
-  /* tslint:enable:object-literal-sort-keys */
+export const geoAliasesAndSynonymsDocWorksheetReferencesByGeopgraphy: {
+  [geography: string]: WorksheetReference;
+} = {
+  global: {
+    name: "a-global",
+    position: 4
+  },
+  world_4region: {
+    name: "a-world_4regions",
+    position: 5
+  },
+  countries_etc: {
+    name: "a-countries_etc",
+    position: 6
+  }
 };
 
 /**
@@ -44,12 +52,10 @@ export const dataGeographiesDocSpreadsheetId =
 /**
  * @hidden
  */
-export const dataGeographiesDocListOfCountriesEtcWorksheetReference = "2";
-/**
- * @hidden
- */
-export const dataGeographiesDocListOfCountriesEtcWorksheetName =
-  "list-of-countries-etc";
+export const dataGeographiesDocListOfCountriesEtcWorksheetReference: WorksheetReference = {
+  name: "list-of-countries-etc",
+  position: 2
+};
 
 /**
  * @hidden
@@ -59,8 +65,48 @@ export const fasttrackCatalogDocSpreadsheetId =
 /**
  * @hidden
  */
-export const fasttrackCatalogDocDataPointsWorksheetReference = "4";
+export const fasttrackCatalogDocDataPointsWorksheetReference: WorksheetReference = {
+  name: "datapoints",
+  position: 4
+};
 /**
  * @hidden
  */
-export const fasttrackCatalogDocDataPointsWorksheetName = "datapoints";
+export const geographyToFasttrackCatalogGeographyMap = {
+  global: "world",
+  world_4region: "regions",
+  countries_etc: "countries-etc"
+};
+
+/**
+ * @hidden
+ */
+export const conceptDataDocWorksheetReferencesByGeographyAndTimeUnit: {
+  [geography: string]: { [time_unit: string]: WorksheetReference };
+} = {
+  global: {
+    year: {
+      name: "data-world-by-year",
+      position: 4
+    }
+  },
+  world_4region: {
+    year: {
+      name: "data-regions-by-year",
+      position: 3
+    }
+  },
+  countries_etc: {
+    year: {
+      name: "data-countries-etc-by-year",
+      position: 2
+    }
+  }
+};
+
+/**
+ * @hidden
+ */
+export const gapminderConceptIdToConceptDataConceptValueColumnHeaderMap = {
+  pop: "population"
+};
