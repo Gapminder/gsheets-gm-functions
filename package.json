@@ -40,7 +40,8 @@
     "lint": "tslint -t verbose --fix --project .",
     "push": "clasp push",
     "watch": "watch 'npm run build && npm run push' src/",
-    "test": "ava --verbose"
+    "test": "npm run format && npm run test:ava && npm run build && npm run docs && npm run lint",
+    "test:ava": "ava --verbose"
   },
   "ava": {
     "failFast": true,

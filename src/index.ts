@@ -1,5 +1,6 @@
 /**
  * This file is built and pushed to Google Scripts using the source code and tools at https://github.com/Gapminder/gsheets-gm-functions
+ * Note: Global functions must be exposed to the (global as any) object, or it will not be picked up by gas-webpack-plugin.
  */
 
 import { GM_AGGR } from "./GM_AGGR";
@@ -11,7 +12,7 @@ import { GM_NAME } from "./GM_NAME";
 
 /* tslint:disable:only-arrow-functions */
 
-// Expose as custom functions (picked up by gas-webpack-plugin).
+// Expose custom functions
 //
 // Note: The jsdoc below is manually curated based on the master
 // versions in GM_*.ts to enable autocompletion and docs within the spreadsheet
@@ -41,6 +42,26 @@ import { GM_NAME } from "./GM_NAME";
   geography: string
 ) {
   return GM_AGGR(table_range_with_headers, aggregation_prop, geography);
+};
+
+/**
+ * Inserts a property column, including a header row, with a common Gapminder property matched against the input column range.
+ *
+ * @param {A1:A1000} column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
+ * @param {"UN members since"} property_or_concept_id Either the property ("UN member since") or concept id ("pop") of which value to look up
+ * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
+ * @customfunction
+ */
+(global as any).GM_DATA = function(
+  column_or_table_range_with_headers: string[][],
+  property_or_concept_id: string,
+  geography: string
+) {
+  return GM_DATA(
+    column_or_table_range_with_headers,
+    property_or_concept_id,
+    geography
+  );
 };
 
 /**
@@ -105,24 +126,4 @@ import { GM_NAME } from "./GM_NAME";
   geography: string
 ) {
   return GM_NAME(column_range_with_headers, geography);
-};
-
-/**
- * Inserts a property column, including a header row, with a common Gapminder property matched against the input column range.
- *
- * @param {A1:A1000} column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
- * @param {"UN members since"} property_or_concept_id Either the property ("UN member since") or concept id ("pop") of which value to look up
- * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
- * @customfunction
- */
-(global as any).GM_DATA = function(
-  column_or_table_range_with_headers: string[][],
-  property_or_concept_id: string,
-  geography: string
-) {
-  return GM_DATA(
-    column_or_table_range_with_headers,
-    property_or_concept_id,
-    geography
-  );
 };
