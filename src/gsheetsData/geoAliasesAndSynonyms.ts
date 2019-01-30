@@ -83,7 +83,7 @@ export function keyNormalizerForSlightlySmarterLookups(lookupKey) {
   const trimmedLowerCasedWithoutDiacritics = removeDiacritics(
     lookupKey.trim().toLowerCase()
   );
-  return trimmedLowerCasedWithoutDiacritics.replace(/[^a-z0-9 ()]/, "");
+  return trimmedLowerCasedWithoutDiacritics.replace(/[^a-z0-9 ()]/g, "");
 }
 
 /**

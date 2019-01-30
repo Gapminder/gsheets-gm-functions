@@ -36,6 +36,10 @@ const testKeyNormalizerForSlightlySmarterLookups: Macro<any> = (
     expectedOutput: "foo"
   },
   {
+    lookupKey: "foo**",
+    expectedOutput: "foo"
+  },
+  {
     lookupKey: "foo (bar)",
     expectedOutput: "foo (bar)"
   },
