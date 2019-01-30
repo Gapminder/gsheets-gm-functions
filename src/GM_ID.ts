@@ -1,4 +1,4 @@
-import { getGeoAliasesAndSynonymsLookupTable } from "./gsheetsData/geoAliasesAndSynonyms";
+import { matchColumnValuesUsingGeoAliasesAndSynonyms } from "./gsheetsData/geoAliasesAndSynonyms";
 import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 
 /**
@@ -17,16 +17,17 @@ export function GM_ID(
     column_range_with_headers
   );
 
-  const lookupTable = getGeoAliasesAndSynonymsLookupTable(geography);
-
   // Drop the input range header row
   inputColumn.shift();
 
-  const matchedData = inputColumn.map(inputRow => {
-    const alias = inputRow[0];
-    const result = lookupTable[alias];
-    return [result ? result.geo : `Unknown alias: ${alias}`];
-  });
+  const matchedGeos = matchColumnValuesUsingGeoAliasesAndSynonyms(
+    inputColumn,
+    geography
+  );
 
-  return [["geo"]].concat(matchedData);
+  return [["geo"]].concat(
+    matchedGeos.map(matchedGeo => [
+      matchedGeo.geo ? matchedGeo.geo : `Unknown alias: ${matchedGeo.alias}`
+    ])
+  );
 }

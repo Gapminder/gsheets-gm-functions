@@ -21,7 +21,7 @@
 
 ▸ **GM_AGGR**(table_range_with_headers: *`string`[][]*, aggregation_prop: *`string`*, geography: *`string`*): `any`[][]
 
-*Defined in [GM_AGGR.ts:29](https://github.com/Gapminder/gsheets-gm-functions/blob/0fafd32/src/GM_AGGR.ts#L29)*
+*Defined in [GM_AGGR.ts:29](https://github.com/Gapminder/gsheets-gm-functions/blob/5601ca7/src/GM_AGGR.ts#L29)*
 
 Aggregates an input table by property and time, returning a table with the aggregated values of the input table.
 
@@ -50,7 +50,7 @@ ___
 
 ▸ **GM_DATA**(column_or_table_range_with_headers: *`string`[][]*, property_or_concept_id: *`string`*, geography: *`string`*): `any`[][]
 
-*Defined in [GM_DATA.ts:12](https://github.com/Gapminder/gsheets-gm-functions/blob/0fafd32/src/GM_DATA.ts#L12)*
+*Defined in [GM_DATA.ts:12](https://github.com/Gapminder/gsheets-gm-functions/blob/5601ca7/src/GM_DATA.ts#L12)*
 
 Inserts a property or concept column, including a header row, with a common Gapminder property or concept matched against the input column/table range.
 
@@ -72,7 +72,7 @@ ___
 
 ▸ **GM_ID**(column_range_with_headers: *`string`[][]*, geography: *`string`*): `string`[][]
 
-*Defined in [GM_ID.ts:11](https://github.com/Gapminder/gsheets-gm-functions/blob/0fafd32/src/GM_ID.ts#L11)*
+*Defined in [GM_ID.ts:11](https://github.com/Gapminder/gsheets-gm-functions/blob/5601ca7/src/GM_ID.ts#L11)*
 
 Inserts a matching column, including a header row, with Gapminder’s geo ids matched against the input column range, based on all spellings we have seen before. It should be entered in the header cell under which you want the first first id to appear and it uses as input another range of cells, which should start with the header of the column with names of a geography you want to identify.
 
@@ -93,7 +93,7 @@ ___
 
 ▸ **GM_IMPORT**(concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*): `string`[][]
 
-*Defined in [GM_IMPORT.ts:15](https://github.com/Gapminder/gsheets-gm-functions/blob/0fafd32/src/GM_IMPORT.ts#L15)*
+*Defined in [GM_IMPORT.ts:15](https://github.com/Gapminder/gsheets-gm-functions/blob/5601ca7/src/GM_IMPORT.ts#L15)*
 
 Imports a standard Gapminder concept table.
 
@@ -115,7 +115,7 @@ ___
 
 ▸ **GM_INTERPOLATE**(table_range_with_headers: *`string`[][]*, method: *`string`*): `any`[][]
 
-*Defined in [GM_INTERPOLATE.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/0fafd32/src/GM_INTERPOLATE.ts#L24)*
+*Defined in [GM_INTERPOLATE.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/5601ca7/src/GM_INTERPOLATE.ts#L24)*
 
 Interpolates an input table, inserting a sorted table with additional rows, where the gaps (missing rows or empty values) in the input table have been filled in. This function works on data with two primary key columns: usually geo and time. (If we want to use this on data that has more keys: geo, time, age, gender, etc - we need a different formula)
 
@@ -141,9 +141,9 @@ ___
 
 ###  GM_NAME
 
-▸ **GM_NAME**(column_range_with_headers: *`string`[][]*, concept_id: *`string`*): `string`[][]
+▸ **GM_NAME**(column_range_with_headers: *`string`[][]*, geography: *`string`*): `string`[][]
 
-*Defined in [GM_NAME.ts:11](https://github.com/Gapminder/gsheets-gm-functions/blob/0fafd32/src/GM_NAME.ts#L11)*
+*Defined in [GM_NAME.ts:11](https://github.com/Gapminder/gsheets-gm-functions/blob/5601ca7/src/GM_NAME.ts#L11)*
 
 Inserts a matching column, including a header row, with Gapminder’s common name for the geo matched against the input column range, based on all spellings we have seen before. (Like GM\_ID but inserts Gapminder’s common name for the geo instead of its id.)
 
@@ -152,7 +152,7 @@ Inserts a matching column, including a header row, with Gapminder’s common nam
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | column_range_with_headers | `string`[][] |  \- |
-| concept_id | `string` |  Should be one of the sets listed in the gapminder geo ontology such as “countries\_etc” (see the tab “geo-sets” in this workbook with one sheet for each set of geographies, and for each of them a look up table with aliases). Our plan is to add more known sets of geographies to this workbook (such as indian\_states, us\_states ) |
+| geography | `string` |  Should be one of the sets listed in the gapminder geo ontology such as "countries\_etc" |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.

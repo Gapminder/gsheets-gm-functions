@@ -19,6 +19,13 @@ interface GeoAliasesAndSynonymsDataRow {
 /**
  * @hidden
  */
+interface MissingGeoAliasDataRow {
+  alias: string;
+}
+
+/**
+ * @hidden
+ */
 interface GeoAliasesAndSynonymsWorksheetData {
   rows: GeoAliasesAndSynonymsDataRow[];
 }
@@ -78,4 +85,20 @@ function geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(
     lookupTableAccumulator[currentValue.alias] = currentValue;
     return lookupTableAccumulator;
   }, {});
+}
+
+/**
+ * @hidden
+ */
+export function matchColumnValuesUsingGeoAliasesAndSynonyms(
+  columnValues,
+  geography
+) {
+  const lookupTable = getGeoAliasesAndSynonymsLookupTable(geography);
+  return columnValues.map(
+    (inputRow): GeoAliasesAndSynonymsDataRow | MissingGeoAliasDataRow => {
+      const alias = inputRow[0];
+      return lookupTable[alias] ? lookupTable[alias] : { alias };
+    }
+  );
 }
