@@ -50,6 +50,16 @@ export function GM_AGGR(
       )
     : aggregationPropertyColumnWithHeaderRow;
   const aggregationTableWithHeaders = inputTable.map((row, index) => {
+    if (aggregationPropertyColumnWithHeaderRow[index] === undefined) {
+      throw new Error(
+        `The aggregationPropertyColumnWithHeaderRow at index ${index} is undefined`
+      );
+    }
+    if (aggregationPropertyNameColumnWithHeaderRow[index] === undefined) {
+      throw new Error(
+        `The aggregationPropertyNameColumnWithHeaderRow at index ${index} is undefined`
+      );
+    }
     return [
       aggregationPropertyColumnWithHeaderRow[index][0],
       aggregationPropertyNameColumnWithHeaderRow[index][0],
