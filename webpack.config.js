@@ -16,13 +16,32 @@ module.exports = {
   output: {
     filename: `code-${version}.js`,
     path: path.resolve(__dirname, destination),
+    libraryTarget: 'this'
   },
   resolve: {
     extensions: ['.ts', '.js'],
   },
   module: {
     rules: [
-      { test: /\.ts?$/, loader: 'ts-loader' },
+      {
+        test: /\.ts?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+          {
+            loader: 'ts-loader'
+          }
+        ],
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      }
     ],
   },
   plugins: [
