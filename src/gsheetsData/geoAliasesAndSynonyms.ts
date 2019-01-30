@@ -1,3 +1,4 @@
+import { remove as removeDiacritics } from "diacritics";
 import { fetchWorksheetData } from "./fetchWorksheetData";
 import {
   geoAliasesAndSynonymsDocSpreadsheetId,
@@ -78,8 +79,11 @@ function gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
  * By trimming the lookup keys, we allow slightly fuzzy matching, such as "Foo " == "foo" and "Fóo*" == "Foo"
  * @hidden
  */
-function keyFormatterForSlightlySmarterLookups(lookupKey) {
-  return lookupKey;
+export function keyNormalizerForSlightlySmarterLookups(lookupKey) {
+  const trimmedLowerCasedWithoutDiacritics = removeDiacritics(
+    lookupKey.trim().toLowerCase()
+  );
+  return trimmedLowerCasedWithoutDiacritics.replace(/[^a-z0-9 ()]/, "");
 }
 
 /**
@@ -90,10 +94,10 @@ function geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(
 ): GeoAliasesAndSynonymsLookupTable {
   return data.rows.reduce((lookupTableAccumulator, currentValue) => {
     lookupTableAccumulator[
-      keyFormatterForSlightlySmarterLookups(currentValue.geo)
+      keyNormalizerForSlightlySmarterLookups(currentValue.geo)
     ] = currentValue;
     lookupTableAccumulator[
-      keyFormatterForSlightlySmarterLookups(currentValue.alias)
+      keyNormalizerForSlightlySmarterLookups(currentValue.alias)
     ] = currentValue;
     return lookupTableAccumulator;
   }, {});
@@ -109,8 +113,9 @@ export function matchColumnValuesUsingGeoAliasesAndSynonyms(
   const lookupTable = getGeoAliasesAndSynonymsLookupTable(geography);
   return columnValues.map(
     (inputRow): GeoAliasesAndSynonymsDataRow | MissingGeoAliasDataRow => {
-      const alias = keyFormatterForSlightlySmarterLookups(inputRow[0]);
-      return lookupTable[alias] ? lookupTable[alias] : { alias };
+      const alias = inputRow[0];
+      const lookupKey = keyNormalizerForSlightlySmarterLookups(alias);
+      return lookupTable[lookupKey] ? lookupTable[lookupKey] : { alias };
     }
   );
 }

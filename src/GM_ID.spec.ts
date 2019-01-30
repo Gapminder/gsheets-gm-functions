@@ -36,13 +36,7 @@ const testGmId: Macro<any> = (
       ["Usa"]
     ],
     concept_id: "countries_etc",
-    expectedOutput: [
-      ["geo"],
-      ["alb"],
-      ["Unknown alias: Albania*"],
-      ["Unknown alias: Albania "],
-      ["Unknown alias: Usa"]
-    ]
+    expectedOutput: [["geo"], ["alb"], ["alb"], ["alb"], ["usa"]]
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {
