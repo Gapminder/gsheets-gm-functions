@@ -75,14 +75,26 @@ function gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
 }
 
 /**
+ * By trimming the lookup keys, we allow slightly fuzzy matching, such as "Foo " == "foo" and "Fóo*" == "Foo"
+ * @hidden
+ */
+function keyFormatterForSlightlySmarterLookups(lookupKey) {
+  return lookupKey;
+}
+
+/**
  * @hidden
  */
 function geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(
   data: GeoAliasesAndSynonymsWorksheetData
 ): GeoAliasesAndSynonymsLookupTable {
   return data.rows.reduce((lookupTableAccumulator, currentValue) => {
-    lookupTableAccumulator[currentValue.geo] = currentValue;
-    lookupTableAccumulator[currentValue.alias] = currentValue;
+    lookupTableAccumulator[
+      keyFormatterForSlightlySmarterLookups(currentValue.geo)
+    ] = currentValue;
+    lookupTableAccumulator[
+      keyFormatterForSlightlySmarterLookups(currentValue.alias)
+    ] = currentValue;
     return lookupTableAccumulator;
   }, {});
 }
@@ -97,7 +109,7 @@ export function matchColumnValuesUsingGeoAliasesAndSynonyms(
   const lookupTable = getGeoAliasesAndSynonymsLookupTable(geography);
   return columnValues.map(
     (inputRow): GeoAliasesAndSynonymsDataRow | MissingGeoAliasDataRow => {
-      const alias = inputRow[0];
+      const alias = keyFormatterForSlightlySmarterLookups(inputRow[0]);
       return lookupTable[alias] ? lookupTable[alias] : { alias };
     }
   );
