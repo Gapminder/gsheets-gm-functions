@@ -47,20 +47,27 @@ import { GM_NAME } from "./GM_NAME";
 /**
  * Inserts a property column, including a header row, with a common Gapminder property matched against the input column range.
  *
- * @param {A1:A1000} column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
+ * @param {A1:D} column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
  * @param {"UN members since"} property_or_concept_id Either the property ("UN member since") or concept id ("pop") of which value to look up
  * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
+ * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
+ * @param {"countries_etc"} geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param {"pop-v5-countries-etc-per-year!A1:D"} property_or_concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
 (global as any).GM_DATA = function(
   column_or_table_range_with_headers: string[][],
   property_or_concept_id: string,
-  geography: string
+  time_unit: string,
+  geography: string,
+  property_or_concept_data_table_range_with_headers: string[][]
 ) {
   return GM_DATA(
     column_or_table_range_with_headers,
     property_or_concept_id,
-    geography
+    time_unit,
+    geography,
+    property_or_concept_data_table_range_with_headers
   );
 };
 

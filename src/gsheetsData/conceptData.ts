@@ -2,14 +2,11 @@ import {
   FasttrackCatalogDataPointsDataRow,
   FasttrackCatalogDataPointsWorksheetData
 } from "./fastttrackCatalog";
-import { fetchWorksheetData } from "./fetchWorksheetData";
 import {
   conceptDataDocWorksheetReferencesByGeographyAndTimeUnit,
-  gapminderConceptIdToConceptDataConceptValueColumnHeaderMap,
   geographyToFasttrackCatalogGeographyMap
 } from "./hardcodedConstants";
 import { listConceptDataByGeographyAndTimeUnit } from "./types/listConceptDataByGeographyAndTimeUnit";
-import GsxValue = listConceptDataByGeographyAndTimeUnit.GsxValue;
 
 /**
  * @hidden
@@ -76,46 +73,29 @@ export function getConceptDataWorksheetData(
       `Unsupported time_unit for geography "${geography}": "${time_unit}"`
     );
   }
-  const conceptDataDocWorksheetReference =
-    conceptDataDocWorksheetReferencesByGeographyAndTimeUnit[geography][
-      time_unit
-    ];
-  const conceptDataDocSpreadsheetId = matchingConcept.doc_id;
-  const worksheetDataResponse: listConceptDataByGeographyAndTimeUnit.Response = fetchWorksheetData(
-    conceptDataDocSpreadsheetId,
-    conceptDataDocWorksheetReference
+  const worksheetCsvDataHTTPResponse = UrlFetchApp.fetch(
+    matchingConcept.csv_link
   );
-  return listConceptDataByGeographyAndTimeUnitResponseToWorksheetData(
-    worksheetDataResponse,
-    concept_id
+  const worksheetCsvData = Utilities.parseCsv(
+    worksheetCsvDataHTTPResponse.getContentText()
+  );
+  return listConceptDataByGeographyAndTimeUnitWorksheetCsvDataToWorksheetData(
+    worksheetCsvData
   );
 }
 
 /**
  * @hidden
  */
-function listConceptDataByGeographyAndTimeUnitResponseToWorksheetData(
-  r: listConceptDataByGeographyAndTimeUnit.Response,
-  concept_id: string
+function listConceptDataByGeographyAndTimeUnitWorksheetCsvDataToWorksheetData(
+  worksheetCsvData
 ): ConceptDataWorksheetData {
-  const dataConceptValueColumnHeader =
-    gapminderConceptIdToConceptDataConceptValueColumnHeaderMap[concept_id];
-  const rows = r.feed.entry.map(currentValue => {
-    const gsxValue: GsxValue =
-      currentValue["gsx$" + dataConceptValueColumnHeader];
+  const rows = worksheetCsvData.map(csvDataRow => {
     return {
-      /* tslint:disable:object-literal-sort-keys */
-      geo: currentValue.gsx$geo.$t,
-      name: currentValue.gsx$name.$t,
-      time:
-        currentValue.gsx$time !== undefined
-          ? currentValue.gsx$time.$t
-          : currentValue.gsx$year.$t,
-      value:
-        gsxValue !== undefined
-          ? gsxValue.$t
-          : `Missing value column header "${dataConceptValueColumnHeader}"`
-      /* tslint:enable:object-literal-sort-keys */
+      geo: csvDataRow[0],
+      name: csvDataRow[1],
+      time: csvDataRow[2],
+      value: csvDataRow[3]
     };
   });
   return {

@@ -103,10 +103,3 @@ export const conceptDataDocWorksheetReferencesByGeographyAndTimeUnit: {
     }
   }
 };
-
-/**
- * @hidden
- */
-export const gapminderConceptIdToConceptDataConceptValueColumnHeaderMap = {
-  pop: "population"
-};
