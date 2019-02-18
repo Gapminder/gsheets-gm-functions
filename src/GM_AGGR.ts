@@ -39,7 +39,9 @@ export function GM_AGGR(
   const aggregationPropertyColumnWithHeaderRow = GM_DATA(
     geoColumnWithHeaderRow,
     aggregation_prop,
-    geography
+    undefined,
+    geography,
+    undefined
   );
   const aggregationPropertyNameColumnWithHeaderRow = gapminderPropertyToConceptIdMap[
     aggregation_prop
