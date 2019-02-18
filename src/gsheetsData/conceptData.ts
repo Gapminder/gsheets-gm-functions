@@ -90,6 +90,9 @@ export function getConceptDataWorksheetData(
 function listConceptDataByGeographyAndTimeUnitWorksheetCsvDataToWorksheetData(
   worksheetCsvData
 ): ConceptDataWorksheetData {
+  // Drop header row
+  worksheetCsvData.shift();
+  // Interpret the remaining rows based on position
   const rows = worksheetCsvData.map(csvDataRow => {
     return {
       geo: csvDataRow[0],
