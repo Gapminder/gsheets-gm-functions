@@ -12,6 +12,40 @@ import { GM_NAME } from "./GM_NAME";
 
 /* tslint:disable:only-arrow-functions */
 
+// Configure custom menus
+
+(global as any).onOpen = function onOpen() {
+  console.log("onOpen runs");
+  const ui = SpreadsheetApp.getUi();
+  const menu = ui.createMenu("Gapminder Data");
+  menu.addItem(
+    `Import/refresh data dependencies`,
+    "menuRefreshDataDependencies"
+  );
+  menu.addToUi();
+};
+
+(global as any).menuRefreshDataDependencies = function menuImportDataDependencies() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(
+    "data-dependencies"
+  );
+
+  if (sheet === null) {
+    SpreadsheetApp.getUi().alert(
+      "No sheet named 'data-dependencies'. Please add one"
+    );
+    return;
+  }
+
+  const dataDependenciesRangeValues = sheet.getDataRange().getValues();
+
+  // for each data dependency - copy the corresponding data worksheet to this spreadsheet
+  // TODO
+
+  SpreadsheetApp.getUi().alert(JSON.stringify(dataDependenciesRangeValues));
+  return;
+};
+
 // Expose custom functions
 //
 // Note: The jsdoc below is manually curated based on the master
