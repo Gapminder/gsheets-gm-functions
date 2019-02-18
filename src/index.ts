@@ -58,7 +58,7 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
       fasttrackCatalogDataPointsWorksheetData
     );
 
-    const destinationSheetName = `data:${concept_id}:${time_unit}:${geography}:v${version}`;
+    const destinationSheetName = `data:${concept_id}:${time_unit}:${geography}`; // :v${version}
 
     // Import sheet from source document
     const sourceDoc = SpreadsheetApp.openById(
