@@ -47,7 +47,6 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
     const concept_id = dataDependencyRow[0];
     const time_unit = dataDependencyRow[1];
     const geography = dataDependencyRow[2];
-    const version = dataDependencyRow[3];
 
     const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
 
@@ -58,7 +57,7 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
       fasttrackCatalogDataPointsWorksheetData
     );
 
-    const destinationSheetName = `data:${concept_id}:${time_unit}:${geography}`; // :v${version}
+    const destinationSheetName = `data:${concept_id}:${time_unit}:${geography}`;
 
     // Import sheet from source document
     const sourceDoc = SpreadsheetApp.openById(
