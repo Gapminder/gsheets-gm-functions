@@ -81,7 +81,7 @@ const testGmDataConceptLookup: Macro<any> = (
       ["zoo", "Zoo", "1901"]
     ],
     concept_id: "pop",
-    time_unti: "year",
+    time_unit: "year",
     geography: "countries_etc",
     property_or_concept_data_table_range_with_headers: [
       ["geo_id", "geo_name", "year", "population"],
@@ -100,7 +100,7 @@ const testGmDataConceptLookup: Macro<any> = (
       ["swe", "Sweden", "1950"]
     ],
     concept_id: "pop",
-    time_unti: "year",
+    time_unit: "year",
     geography: "countries_etc",
     property_or_concept_data_table_range_with_headers: undefined,
     expectedOutput: [
