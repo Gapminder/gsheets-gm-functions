@@ -36,6 +36,68 @@ export function getConceptDataWorksheetData(
   geography,
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
 ) {
+  const matchingConcept = getMatchingConcept(
+    concept_id,
+    time_unit,
+    geography,
+    fasttrackCatalogDataPointsWorksheetData
+  );
+  const worksheetCsvDataHTTPResponse = UrlFetchApp.fetch(
+    matchingConcept.csv_link
+  );
+  const worksheetCsvData = Utilities.parseCsv(
+    worksheetCsvDataHTTPResponse.getContentText()
+  );
+  return listConceptDataByGeographyAndTimeUnitWorksheetCsvDataToWorksheetData(
+    worksheetCsvData
+  );
+}
+
+/**
+ * @hidden
+ */
+export function getConceptDataWorksheetMetadata(
+  concept_id,
+  time_unit,
+  geography,
+  fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
+) {
+  const matchingConcept = getMatchingConcept(
+    concept_id,
+    time_unit,
+    geography,
+    fasttrackCatalogDataPointsWorksheetData
+  );
+  if (!conceptDataDocWorksheetReferencesByGeographyAndTimeUnit[geography]) {
+    throw new Error(`Unsupported Gapminder geography: "${geography}"`);
+  }
+  if (
+    !conceptDataDocWorksheetReferencesByGeographyAndTimeUnit[geography][
+      time_unit
+    ]
+  ) {
+    throw new Error(
+      `Unsupported time_unit for geography "${geography}": "${time_unit}"`
+    );
+  }
+  return {
+    docId: matchingConcept.doc_id,
+    worksheetReference:
+      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit[geography][
+        time_unit
+      ]
+  };
+}
+
+/**
+ * @hidden
+ */
+function getMatchingConcept(
+  concept_id,
+  time_unit,
+  geography,
+  fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
+) {
   if (!geography) {
     geography = "countries_etc";
   }
@@ -60,28 +122,7 @@ export function getConceptDataWorksheetData(
       `More than one concept matches concept_id "${concept_id}", time_unit "${time_unit}", fasttrackCatalogGeography "${fasttrackCatalogGeography}" in the fasttrack catalog`
     );
   }
-  const matchingConcept = matchingConcepts[0];
-  if (!conceptDataDocWorksheetReferencesByGeographyAndTimeUnit[geography]) {
-    throw new Error(`Unsupported Gapminder geography: "${geography}"`);
-  }
-  if (
-    !conceptDataDocWorksheetReferencesByGeographyAndTimeUnit[geography][
-      time_unit
-    ]
-  ) {
-    throw new Error(
-      `Unsupported time_unit for geography "${geography}": "${time_unit}"`
-    );
-  }
-  const worksheetCsvDataHTTPResponse = UrlFetchApp.fetch(
-    matchingConcept.csv_link
-  );
-  const worksheetCsvData = Utilities.parseCsv(
-    worksheetCsvDataHTTPResponse.getContentText()
-  );
-  return listConceptDataByGeographyAndTimeUnitWorksheetCsvDataToWorksheetData(
-    worksheetCsvData
-  );
+  return matchingConcepts[0];
 }
 
 /**
