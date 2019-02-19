@@ -135,12 +135,19 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
 /**
  * Inserts a property column, including a header row, with a common Gapminder property matched against the input column range.
  *
+ * Note that using a range from a locally imported data dependency is the only performant way to join concept data in a spreadsheet.
+ *
+ * Takes 10-20 seconds:
+ * =GM_DATA(B7:D, "pop")
+ *
+ * Takes 2-4 seconds:
+ * =GM_DATA(B7:D, "pop", "year", "countries_etc", 'data:pop:year:countries_etc'!A1:D)
+ *
  * @param {A1:D} column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
  * @param {"UN members since"} property_or_concept_id Either the property ("UN member since") or concept id ("pop") of which value to look up
- * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
  * @param {"countries_etc"} geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
- * @param {"pop-v5-countries-etc-per-year!A1:D"} property_or_concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
+ * @param {'data:pop:year:countries_etc'!A1:D} property_or_concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
 (global as any).GM_DATA = function(
@@ -175,6 +182,20 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
 
 /**
  * Imports a standard Gapminder concept table.
+ *
+ * Note that using data dependencies in combination with the QUERY() function instead of GM_IMPORT() is the only performant way to include concept data in a spreadsheet.
+ *
+ * Takes 2-4 seconds:
+ * =GM_IMPORT("pop", "year", "global")
+ *
+ * Almost instant:
+ * =QUERY('data:pop:year:global'!A1:D)
+ *
+ * Always yields "Error: Result too large" since the "countries_etc" version of the dataset is rather large:
+ * =GM_IMPORT("pop", "year", "countries_etc")
+ *
+ * Finishes in 3-10 seconds:
+ * =QUERY('data:pop:year:countries_etc'!A1:D)
  *
  * @param {"pop"} concept_id Concept id (eg. "pop") of which concept to import
  * @param {"year"} time_unit Time unit variant (eg. "year") of the concept to import

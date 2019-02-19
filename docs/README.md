@@ -54,6 +54,12 @@ ___
 
 Inserts a property or concept column, including a header row, with a common Gapminder property or concept matched against the input column/table range.
 
+Note that using a range from a locally imported data dependency is the only performant way to join concept data in a spreadsheet.
+
+Takes 10-20 seconds: =GM\_DATA(B7:D, "pop")
+
+Takes 2-4 seconds: =GM\_DATA(B7:D, "pop", "year", "countries\_etc", 'data:pop:year:countries\_etc'!A1:D)
+
 **Parameters:**
 
 | Name | Type | Description |
@@ -98,6 +104,16 @@ ___
 *Defined in [GM_IMPORT.ts:15](https://github.com/Gapminder/gsheets-gm-functions/blob/3cd5d1d/src/GM_IMPORT.ts#L15)*
 
 Imports a standard Gapminder concept table.
+
+Note that using data dependencies in combination with the QUERY() function instead of GM\_IMPORT() is the only performant way to include concept data in a spreadsheet.
+
+Takes 2-4 seconds: =GM\_IMPORT("pop", "year", "global")
+
+Almost instant: =QUERY('data:pop:year:global'!A1:D)
+
+Always yields "Error: Result too large" since the "countries\_etc" version of the dataset is rather large: =GM\_IMPORT("pop", "year", "countries\_etc")
+
+Finishes in 3-10 seconds: =QUERY('data:pop:year:countries\_etc'!A1:D)
 
 **Parameters:**
 

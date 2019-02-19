@@ -6,6 +6,15 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 /**
  * Inserts a property or concept column, including a header row, with a common Gapminder property or concept matched against the input column/table range.
  *
+ *
+ * Note that using a range from a locally imported data dependency is the only performant way to join concept data in a spreadsheet.
+ *
+ * Takes 10-20 seconds:
+ * =GM_DATA(B7:D, "pop")
+ *
+ * Takes 2-4 seconds:
+ * =GM_DATA(B7:D, "pop", "year", "countries_etc", 'data:pop:year:countries_etc'!A1:D)
+ *
  * @param column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
  * @param property_or_concept_id Either the property (eg. "UN member since") or concept id (eg. "pop") of which value to look up
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
