@@ -10,6 +10,7 @@
 * [GM_IMPORT](#gm_import)
 * [GM_INTERPOLATE](#gm_interpolate)
 * [GM_NAME](#gm_name)
+* [GM_UNPIVOT](#gm_unpivot)
 
 ---
 
@@ -171,6 +172,28 @@ Inserts a matching column, including a header row, with Gapminder’s common nam
 | ------ | ------ | ------ |
 | column_range_with_headers | `string`[][] |  \- |
 | geography | `string` |  Should be one of the sets listed in the gapminder geo ontology such as "countries\_etc" |
+
+**Returns:** `string`[][]
+A two-dimensional array containing the cell/column contents described above in the summary.
+
+___
+<a id="gm_unpivot"></a>
+
+###  GM_UNPIVOT
+
+▸ **GM_UNPIVOT**(table_range_with_headers: *`string`[][]*, time_label: *`string`*, value_label: *`string`*): `string`[][]
+
+*Defined in GM_UNPIVOT.ts:16*
+
+Unpivots a standard pivoted Gapminder table \[geo, name, ...time-values-across-columns\], converting the data column headers into time units and the column values as concept values.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| table_range_with_headers | `string`[][] |  The table range to unpivot |
+| time_label | `string` |  (Optional with default "time") the header label to use for the time column |
+| value_label | `string` |  (Optional with default "value") the header label to use for the value column |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.

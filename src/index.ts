@@ -9,6 +9,7 @@ import { GM_ID } from "./GM_ID";
 import { GM_IMPORT } from "./GM_IMPORT";
 import { GM_INTERPOLATE } from "./GM_INTERPOLATE";
 import { GM_NAME } from "./GM_NAME";
+import { GM_UNPIVOT } from "./GM_UNPIVOT";
 import { getConceptDataWorksheetMetadata } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 
@@ -242,4 +243,20 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
   geography: string
 ) {
   return GM_NAME(column_range_with_headers, geography);
+};
+
+/**
+ * Unpivots a standard pivoted Gapminder table [geo, name, ...time-values-across-columns], converting the data column headers into time units and the column values as concept values.
+ *
+ * @param {A1:A1000} table_range_with_headers The table range to unpivot
+ * @param {"year"} time_label (Optional with default "time") the header label to use for the time column
+ * @param {"Income level"} value_label (Optional with default "value") the header label to use for the value column
+ * @customfunction
+ */
+(global as any).GM_UNPIVOT = function(
+  table_range_with_headers: string[][],
+  time_label: string,
+  value_label: string
+) {
+  return GM_UNPIVOT(table_range_with_headers, time_label, value_label);
 };

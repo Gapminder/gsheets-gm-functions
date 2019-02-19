@@ -11,6 +11,15 @@ export interface GmTableRow {
 /**
  * @hidden
  */
+export interface GmTableRowWithTimesAcrossColumns {
+  geo: string;
+  name: string;
+  timeInColumnsData: string[];
+}
+
+/**
+ * @hidden
+ */
 export interface GmTableRowsByGeoAndTime {
   [geo: string]: { [time: string]: GmTableRow };
 }
@@ -47,5 +56,35 @@ export class GmTable {
       _[inputTableRow.geo][inputTableRow.time] = inputTableRow;
       return _;
     }, {});
+  }
+
+  public static structureRowWithTimesAcrossColumns(
+    row: any[]
+  ): GmTableRowWithTimesAcrossColumns {
+    return {
+      /* tslint:disable:object-literal-sort-keys */
+      geo: row[0],
+      name: row[1],
+      timeInColumnsData: row.slice(2)
+      /* tslint:enable:object-literal-sort-keys */
+    };
+  }
+
+  public static unpivotRowWithTimesAcrossColumns(
+    inputTableRow: GmTableRowWithTimesAcrossColumns,
+    headerTableRow: GmTableRowWithTimesAcrossColumns
+  ): GmTableRow[] {
+    return inputTableRow.timeInColumnsData.map(
+      (time, index): GmTableRow => {
+        return {
+          /* tslint:disable:object-literal-sort-keys */
+          geo: inputTableRow.geo,
+          name: inputTableRow.name,
+          time: headerTableRow.timeInColumnsData[index],
+          data: [time]
+          /* tslint:enable:object-literal-sort-keys */
+        };
+      }
+    );
   }
 }
