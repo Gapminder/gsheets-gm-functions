@@ -119,6 +119,7 @@ Inserts a matching column, including a header row, with Gapminder’s geo ids ma
 | ------ | ------ | ------ |
 | column_range_with_headers | `string`[][] |  \- |
 | geography | `string` |  Should be one of the sets listed in the gapminder geo ontology such as "countries\_etc" |
+| verbose | `boolean` |  Explains how a certain row is invalid instead of simply returning "\[Invalid\]" for the row |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
@@ -200,6 +201,7 @@ Inserts a matching column, including a header row, with Gapminder’s common nam
 | ------ | ------ | ------ |
 | column_range_with_headers | `string`[][] |  \- |
 | geography | `string` |  Should be one of the sets listed in the gapminder geo ontology such as "countries\_etc" |
+| verbose | `boolean` |  Explains how a certain row is invalid instead of simply returning "\[Invalid\]" for the row |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.

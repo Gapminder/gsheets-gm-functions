@@ -201,13 +201,15 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
  *
  * @param {A1:A} column_range_with_headers
  * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param {TRUE} verbose Explains how a certain row is invalid instead of simply returning "[Invalid]" for the row
  * @customfunction
  */
 (global as any).GM_ID = function(
   column_range_with_headers: string[][],
-  geography: string
+  geography: string,
+  verbose: boolean
 ) {
-  return GM_ID(column_range_with_headers, geography);
+  return GM_ID(column_range_with_headers, geography, verbose);
 };
 
 /**
@@ -265,13 +267,15 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
  *
  * @param {A1:A} column_range_with_headers
  * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param {TRUE} verbose Explains how a certain row is invalid instead of simply returning "[Invalid]" for the row
  * @customfunction
  */
 (global as any).GM_NAME = function(
   column_range_with_headers: string[][],
-  geography: string
+  geography: string,
+  verbose: boolean
 ) {
-  return GM_NAME(column_range_with_headers, geography);
+  return GM_NAME(column_range_with_headers, geography, verbose);
 };
 
 /**

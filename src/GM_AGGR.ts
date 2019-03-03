@@ -48,7 +48,8 @@ export function GM_AGGR(
   ]
     ? GM_NAME(
         aggregationPropertyColumnWithHeaderRow,
-        gapminderPropertyToConceptIdMap[aggregation_prop]
+        gapminderPropertyToConceptIdMap[aggregation_prop],
+        true
       )
     : aggregationPropertyColumnWithHeaderRow;
   const aggregationTableWithHeaders = inputTable.map((row, index) => {

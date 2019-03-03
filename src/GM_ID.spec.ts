@@ -8,9 +8,9 @@ import { MinimalUrlFetchApp } from "./lib/MinimalUrlFetchApp";
  */
 const testGmId: Macro<any> = (
   t: ExecutionContext,
-  { column_range_with_headers, concept_id, expectedOutput }
+  { column_range_with_headers, concept_id, verbose, expectedOutput }
 ) => {
-  const output = GM_ID(column_range_with_headers, concept_id);
+  const output = GM_ID(column_range_with_headers, concept_id, verbose);
   // t.log({output, expectedOutput});
   t.deepEqual(output, expectedOutput);
 };
@@ -20,11 +20,24 @@ const testGmId: Macro<any> = (
   {
     column_range_with_headers: [["Country"], ["foo"]],
     concept_id: "countries_etc",
+    verbose: true,
     expectedOutput: [["geo"], ["Unknown alias: foo"]]
+  },
+  {
+    column_range_with_headers: [["Country"], ["foo"]],
+    concept_id: "countries_etc",
+    verbose: false,
+    expectedOutput: [["geo"], ["[Invalid]"]]
+  },
+  {
+    column_range_with_headers: [["Country"], ["foo"]],
+    concept_id: "countries_etc",
+    expectedOutput: [["geo"], ["[Invalid]"]]
   },
   {
     column_range_with_headers: [["Country"], ["foo"], [""], [""]],
     concept_id: "countries_etc",
+    verbose: true,
     expectedOutput: [["geo"], ["Unknown alias: foo"]]
   },
   {
