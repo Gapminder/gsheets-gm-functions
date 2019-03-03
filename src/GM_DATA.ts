@@ -33,27 +33,21 @@ export function GM_DATA(
     column_or_table_range_with_headers
   );
 
-  if (!geography) {
-    geography = "countries_etc";
-  }
-
   // Separate the input range header row
   const inputColumnOrTableHeaderRow = inputColumnOrTable.shift();
+  const inputColumnOrTableWithoutHeaderRow = inputColumnOrTable;
 
   // If input range is a column - assume property lookup - otherwise assume concept lookup
   if (inputColumnOrTableHeaderRow.length === 1) {
     return dataGeographiesListOfCountriesEtcPropertyLookup(
-      inputColumnOrTable,
+      inputColumnOrTableWithoutHeaderRow,
       property_or_concept_id,
       geography,
       property_or_concept_data_table_range_with_headers
     );
   } else {
-    if (!time_unit) {
-      time_unit = "year";
-    }
     return conceptValueLookup(
-      inputColumnOrTable,
+      inputColumnOrTableWithoutHeaderRow,
       property_or_concept_id,
       time_unit,
       geography,
@@ -66,11 +60,14 @@ export function GM_DATA(
  * @hidden
  */
 function dataGeographiesListOfCountriesEtcPropertyLookup(
-  inputColumn,
+  inputColumnWithoutHeaderRow,
   property,
   geography,
   property_or_concept_data_table_range_with_headers
 ): any[][] {
+  if (!geography) {
+    geography = "countries_etc";
+  }
   if (geography !== "countries_etc") {
     throw new Error(
       "Lookups of properties using other key concepts than countries_etc is currently not supported"
@@ -84,7 +81,7 @@ function dataGeographiesListOfCountriesEtcPropertyLookup(
   // Convert the concept_id to the Gsheet-generated equivalent property (eg "UN member since" becomes "unmembersince")
   const gsxProperty = property.toLowerCase().replace(/[^A-Za-z0-9.-]*/g, "");
 
-  const matchedData = inputColumn.map(inputRow => {
+  const matchedData = inputColumnWithoutHeaderRow.map(inputRow => {
     const geo = inputRow[0];
     if (lookupTable[geo] === undefined) {
       return [`Unknown geo: ${geo}`];
@@ -103,13 +100,21 @@ function dataGeographiesListOfCountriesEtcPropertyLookup(
  * @hidden
  */
 function conceptValueLookup(
-  inputTable,
+  inputTableWithoutHeaderRow,
   concept_id,
   time_unit,
   geography,
   property_or_concept_data_table_range_with_headers
 ): any[][] {
-  const inputTableRows = inputTable.map(GmTable.structureRow);
+  if (!geography) {
+    geography = "countries_etc";
+  }
+  if (!time_unit) {
+    time_unit = "year";
+  }
+  const inputTableRowsWithoutHeaderRow = inputTableWithoutHeaderRow.map(
+    GmTable.structureRow
+  );
   if (!property_or_concept_data_table_range_with_headers) {
     property_or_concept_data_table_range_with_headers = GM_IMPORT(
       concept_id,
@@ -122,16 +127,18 @@ function conceptValueLookup(
   );
   const conceptDataRows = conceptData.map(GmTable.structureRow);
   const conceptDataByGeoAndTime = GmTable.byGeoAndTime(conceptDataRows);
-  const matchedData = inputTableRows.map((inputRow: GmTableRow) => {
-    const geo = inputRow.geo;
-    if (conceptDataByGeoAndTime[geo] === undefined) {
-      return [`Unknown geo: ${geo}`];
+  const matchedData = inputTableRowsWithoutHeaderRow.map(
+    (inputRow: GmTableRow) => {
+      const geo = inputRow.geo;
+      if (conceptDataByGeoAndTime[geo] === undefined) {
+        return [`Unknown geo: ${geo}`];
+      }
+      const time = inputRow.time;
+      if (conceptDataByGeoAndTime[geo][time] === undefined) {
+        return [`Missing time entry: ${time}`];
+      }
+      return conceptDataByGeoAndTime[geo][time].data;
     }
-    const time = inputRow.time;
-    if (conceptDataByGeoAndTime[geo][time] === undefined) {
-      return [`Missing time entry: ${time}`];
-    }
-    return conceptDataByGeoAndTime[geo][time].data;
-  });
+  );
   return [[concept_id]].concat(matchedData);
 }

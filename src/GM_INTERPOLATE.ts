@@ -56,9 +56,10 @@ export function GM_INTERPOLATE(
       throw new Error(`Interpolation method "${method}" is not supported`);
   }
   const outputTableRows: GmTableRow[] = [];
-  const inputTableHeaderRow = GmTable.structureRow(inputTable.shift());
   const inputTableRows = inputTable.map(GmTable.structureRow);
-  const inputTableGeoIdToGeoNameLookup = inputTableRows.reduce(
+  const inputTableHeaderRow = inputTableRows.slice(0, 1).shift();
+  const inputTableRowsWithoutHeaderRow = inputTableRows.slice(1);
+  const inputTableGeoIdToGeoNameLookup = inputTableRowsWithoutHeaderRow.reduce(
     (acc, inputTableRow) => {
       acc[inputTableRow.geo] = inputTableRow.name;
       return acc;

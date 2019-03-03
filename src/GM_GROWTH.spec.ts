@@ -8,7 +8,7 @@ import { MinimalUtilities } from "./lib/MinimalUtilities";
 /**
  * @hidden
  */
-const testGmAnnualGrowth: Macro<any> = (
+const testGmGrowth: Macro<any> = (
   t: ExecutionContext,
   {
     table_range_with_headers,
@@ -36,7 +36,11 @@ const testGmAnnualGrowth: Macro<any> = (
     table_range_with_headers: [
       ["geo_id", "geo_name", "year"],
       ["foo", "Foo", "1900"],
-      ["zoo", "Zoo", "1901"]
+      ["foo", "Foo", "1901"],
+      ["foo", "Foo", "1902"],
+      ["bar", "Bar", "1900"],
+      ["bar", "Bar", "1901"],
+      ["bar", "Bar", "1902"]
     ],
     concept_id: "pop",
     time_unit: "year",
@@ -45,12 +49,22 @@ const testGmAnnualGrowth: Macro<any> = (
       ["geo_id", "geo_name", "year", "population"],
       ["foo", "Foo", 1900, 100],
       ["foo", "Foo", 1901, 150],
-      ["zoo", "Zoo", 1900, 200],
-      ["zoo", "Zoo", 1901, 250]
+      ["foo", "Foo", 1902, 200],
+      ["bar", "Bar", 1900, 250],
+      ["bar", "Bar", 1901, 200],
+      ["bar", "Bar", 1902, 210]
     ],
-    expectedOutput: [["pop"], [undefined], [2.5]]
+    expectedOutput: [
+      ["pop"],
+      [undefined],
+      [0.5],
+      [0.33333333333333326],
+      [undefined],
+      [-0.19999999999999996],
+      [0.050000000000000044]
+    ]
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {
-  test("testGmAnnualGrowth - " + index, testGmAnnualGrowth, testData);
+  test("testGmGrowth - " + index, testGmGrowth, testData);
 });

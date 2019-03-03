@@ -6,6 +6,7 @@ export interface GmTableRow {
   name: string;
   time: string | number;
   data: string[];
+  originalRowIndex?: number;
 }
 
 /**
@@ -28,13 +29,14 @@ export interface GmTableRowsByGeoAndTime {
  * @hidden
  */
 export class GmTable {
-  public static structureRow(row: any[]): GmTableRow {
+  public static structureRow(row: any[], index): GmTableRow {
     return {
       /* tslint:disable:object-literal-sort-keys */
       geo: row[0],
       name: row[1],
       time: row[2],
-      data: row.slice(3)
+      data: row.slice(3),
+      originalRowIndex: index
       /* tslint:enable:object-literal-sort-keys */
     };
   }
@@ -81,7 +83,8 @@ export class GmTable {
           geo: inputTableRow.geo,
           name: inputTableRow.name,
           time: headerTableRow.timeInColumnsData[index],
-          data: [time]
+          data: [time],
+          originalRowIndex: index
           /* tslint:enable:object-literal-sort-keys */
         };
       }

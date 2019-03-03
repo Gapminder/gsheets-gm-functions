@@ -23,6 +23,14 @@ export function GM_GROWTH(
   geography: string,
   concept_data_table_range_with_headers: string[][]
 ) {
+  // Ensure expected input range contents
+  const inputTable = preProcessInputRangeWithHeaders(table_range_with_headers);
+  const inputTableRows = inputTable.map(GmTable.structureRow);
+  const inputTableRowsWithoutHeaderRow = inputTableRows.slice(1);
+  const inputTableRowsWithoutHeaderRowByGeoAndTime = GmTable.byGeoAndTime(
+    inputTableRowsWithoutHeaderRow
+  );
+  // Concept data
   const gmDataResult: any[][] = GM_DATA(
     table_range_with_headers,
     concept_id,
@@ -30,21 +38,31 @@ export function GM_GROWTH(
     geography,
     concept_data_table_range_with_headers
   );
-  // Replace GM_DATA property column with the growth over time unit
-  const headerRow: string[] = gmDataResult.shift();
-
-  const gmAnnualGrowthDataColumn: number[] = [];
-  for (let i = 1; i < gmDataResult.length; i++) {
-    gmAnnualGrowthDataColumn[i] =
-      parseFloat(gmDataResult[i][0]) / parseFloat(gmDataResult[i - 1][0]);
+  const gmDataHeaderRow: string[] = gmDataResult.slice().shift();
+  // Replace GM_DATA concept data with the growth over time unit in each geo
+  const geos = Object.keys(inputTableRowsWithoutHeaderRowByGeoAndTime);
+  const growthOverTime: number[] = [];
+  for (const geo of geos) {
+    const inputTableRowsByTime =
+      inputTableRowsWithoutHeaderRowByGeoAndTime[geo];
+    const geoTimes = Object.keys(inputTableRowsByTime).sort();
+    for (let k = 0; k < geoTimes.length; k++) {
+      const time = geoTimes[k];
+      const inputTableRow: GmTableRow = inputTableRowsByTime[time];
+      const i = inputTableRow.originalRowIndex;
+      if (k === 0) {
+        growthOverTime[i - 1] = undefined;
+      } else {
+        growthOverTime[i - 1] =
+          parseFloat(gmDataResult[i][0]) / parseFloat(gmDataResult[i - 1][0]) -
+          1;
+      }
+    }
   }
-
-  const gmAnnualGrowth: any[][] = gmAnnualGrowthDataColumn.map(
+  const growthOverTimeDataColumn: any[][] = growthOverTime.map(
     (gmAnnualGrowthDataValue: number) => {
       return [gmAnnualGrowthDataValue];
     }
   );
-  gmAnnualGrowth[0] = [undefined];
-
-  return [headerRow].concat(gmAnnualGrowth);
+  return [gmDataHeaderRow].concat(growthOverTimeDataColumn);
 }

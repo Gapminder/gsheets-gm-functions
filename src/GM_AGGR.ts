@@ -71,12 +71,11 @@ export function GM_AGGR(
 
   // Aggregate input table by property and time
   const outputTableRows: GmTableRow[] = [];
-  const aggregationTableHeaderRow = GmTable.structureRow(
-    aggregationTableWithHeaders.shift()
-  );
   const aggregationTableRows = aggregationTableWithHeaders.map(
     GmTable.structureRow
   );
+  const aggregationTableHeaderRow = aggregationTableRows.slice().shift();
+  const aggregationTableRowsWithoutHeaderRow = aggregationTableRows.slice(1);
 
   const aggregatedRowsByGeoAndTime: GmTableRowsByGeoAndTime = pipe([
     groupBy("geo"),
@@ -104,7 +103,7 @@ export function GM_AGGR(
         })
       ])(geoItemGroup);
     })
-  ])(aggregationTableRows);
+  ])(aggregationTableRowsWithoutHeaderRow);
 
   // Build output table based on aggregation results
   const geos = Object.keys(aggregatedRowsByGeoAndTime);
