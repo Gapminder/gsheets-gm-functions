@@ -5,7 +5,7 @@ export interface GmTableRow {
   geo: string;
   name: string;
   time: string | number;
-  data: string[];
+  data: any[];
   originalRowIndex?: number;
 }
 
