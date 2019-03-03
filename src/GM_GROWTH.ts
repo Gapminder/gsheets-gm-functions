@@ -32,7 +32,6 @@ export function GM_GROWTH(
   );
   // Replace GM_DATA property column with the growth over time unit
   const headerRow: string[] = gmDataResult.shift();
-  console.log({ headerRow, gmDataResult });
 
   const gmAnnualGrowthDataColumn: number[] = [];
   for (let i = 1; i < gmDataResult.length; i++) {

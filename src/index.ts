@@ -10,8 +10,8 @@ import { GM_ID } from "./GM_ID";
 import { GM_IMPORT } from "./GM_IMPORT";
 import { GM_INTERPOLATE } from "./GM_INTERPOLATE";
 import { GM_NAME } from "./GM_NAME";
-import { GM_UNPIVOT } from "./GM_UNPIVOT";
 import { GM_PER_CAP } from "./GM_PER_CAP";
+import { GM_UNPIVOT } from "./GM_UNPIVOT";
 import { getConceptDataWorksheetMetadata } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 
@@ -20,7 +20,6 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
 // Configure custom menus
 
 (global as any).onOpen = function onOpen() {
-  console.log("onOpen runs");
   const ui = SpreadsheetApp.getUi();
   const menu = ui.createMenu("Gapminder Data");
   menu.addItem(
@@ -122,7 +121,7 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
  *  - Column 3: time
  *  - Column 4+: values to be aggregated
  *
- * @param {A1:A1000} table_range_with_headers
+ * @param {A1:D} table_range_with_headers
  * @param {"four_regions"} aggregation_prop Aggregation property
  * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
  * @customfunction
@@ -170,15 +169,9 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
 };
 
 /**
- * Inserts a property column, including a header row, with a common Gapminder property matched against the input column range.
+ * Inserts the growth per time unit of a common Gapminder concept column, including a header row, matched against the input table range.
  *
- * Note that using a range from a locally imported data dependency is the only performant way to join concept data in a spreadsheet.
- *
- * Takes 10-20 seconds:
- * =GM_GROWTH(B7:D, "pop")
- *
- * Takes 2-4 seconds:
- * =GM_GROWTH(B7:D, "pop", "year", "countries_etc", 'data:pop:year:countries_etc'!A1:D)
+ * Note: Uses GM_DATA internally. Performance-related documentation about GM_DATA applies.
  *
  * @param {A1:D} table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
  * @param {"pop"} concept_id The concept id ("pop") of which value to look up
@@ -206,7 +199,7 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
 /**
  * Inserts a matching column, including a header row, with Gapminder’s geo ids matched against the input column range, based on all spellings we have seen before. It should be entered in the header cell under which you want the first first id to appear and it uses as input another range of cells, which should start with the header of the column with names of a geography you want to identify.
  *
- * @param {A1:A1000} column_range_with_headers
+ * @param {A1:A} column_range_with_headers
  * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
  * @customfunction
  */
@@ -256,7 +249,7 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
  *  - Column 3: time
  *  - Column 4+: values to be interpolated
  *
- * @param {A1:A1000} table_range_with_headers
+ * @param {A1:D} table_range_with_headers
  * @param {"linear"} method Optional. linear (default), growth, flat_forward, flat_backward
  * @customfunction
  */
@@ -270,7 +263,7 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
 /**
  * Inserts a column, including a header row, with Gapminder’s common name for the geo matched against the input column range, based on all spellings we have seen before. (Like GM_ID but inserts Gapminder’s common name for the geo instead of its id.)
  *
- * @param {A1:A1000} column_range_with_headers
+ * @param {A1:A} column_range_with_headers
  * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
  * @customfunction
  */
@@ -315,7 +308,7 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
 /**
  * Unpivots a standard pivoted Gapminder table [geo, name, ...time-values-across-columns], converting the data column headers into time units and the column values as concept values.
  *
- * @param {A1:A1000} table_range_with_headers The table range to unpivot
+ * @param {A1:D} table_range_with_headers The table range to unpivot
  * @param {"year"} time_label (Optional with default "time") the header label to use for the time column
  * @param {"Income level"} value_label (Optional with default "value") the header label to use for the value column
  * @customfunction

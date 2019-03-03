@@ -41,7 +41,6 @@ export function GM_PER_CAP(
   );
   const headerRow: string[] = conceptGmDataResult.shift();
   populationGmDataResult.shift();
-  console.log({ headerRow, conceptGmDataResult });
 
   const gmPerCapDataColumn: number[] = [];
   for (let i = 0; i < conceptGmDataResult.length; i++) {
