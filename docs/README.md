@@ -24,7 +24,7 @@
 
 ▸ **GM_AGGR**(table_range_with_headers: *`string`[][]*, aggregation_prop: *`string`*, geography: *`string`*): `any`[][]
 
-*Defined in [GM_AGGR.ts:29](https://github.com/Gapminder/gsheets-gm-functions/blob/3cd5d1d/src/GM_AGGR.ts#L29)*
+*Defined in [GM_AGGR.ts:29](https://github.com/Gapminder/gsheets-gm-functions/blob/4ce2e8d/src/GM_AGGR.ts#L29)*
 
 Aggregates an input table by property and time, returning a table with the aggregated values of the input table.
 
@@ -53,7 +53,7 @@ ___
 
 ▸ **GM_DATA**(column_or_table_range_with_headers: *`string`[][]*, property_or_concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*, property_or_concept_data_table_range_with_headers: *`string`[][]*): `any`[][]
 
-*Defined in [GM_DATA.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/4d78af4/src/GM_DATA.ts#L24)*
+*Defined in [GM_DATA.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/4ce2e8d/src/GM_DATA.ts#L24)*
 
 Inserts a property or concept column, including a header row, with a common Gapminder property or concept matched against the input column/table range.
 
@@ -83,7 +83,7 @@ ___
 
 ▸ **GM_GROWTH**(table_range_with_headers: *`string`[][]*, concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*, concept_data_table_range_with_headers: *`string`[][]*): `string`[][]
 
-*Defined in [GM_GROWTH.ts:19](https://github.com/Gapminder/gsheets-gm-functions/blob/4d78af4/src/GM_GROWTH.ts#L19)*
+*Defined in [GM_GROWTH.ts:19](https://github.com/Gapminder/gsheets-gm-functions/blob/4ce2e8d/src/GM_GROWTH.ts#L19)*
 
 Inserts the growth per time unit of a common Gapminder concept column, including a header row, matched against the input table range.
 
@@ -107,9 +107,9 @@ ___
 
 ###  GM_ID
 
-▸ **GM_ID**(column_range_with_headers: *`string`[][]*, geography: *`string`*): `string`[][]
+▸ **GM_ID**(column_range_with_headers: *`string`[][]*, geography: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_ID.ts:11](https://github.com/Gapminder/gsheets-gm-functions/blob/3cd5d1d/src/GM_ID.ts#L11)*
+*Defined in [GM_ID.ts:12](https://github.com/Gapminder/gsheets-gm-functions/blob/4ce2e8d/src/GM_ID.ts#L12)*
 
 Inserts a matching column, including a header row, with Gapminder’s geo ids matched against the input column range, based on all spellings we have seen before. It should be entered in the header cell under which you want the first first id to appear and it uses as input another range of cells, which should start with the header of the column with names of a geography you want to identify.
 
@@ -131,7 +131,7 @@ ___
 
 ▸ **GM_IMPORT**(concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*): `string`[][]
 
-*Defined in [GM_IMPORT.ts:15](https://github.com/Gapminder/gsheets-gm-functions/blob/3cd5d1d/src/GM_IMPORT.ts#L15)*
+*Defined in [GM_IMPORT.ts:29](https://github.com/Gapminder/gsheets-gm-functions/blob/4ce2e8d/src/GM_IMPORT.ts#L29)*
 
 Imports a standard Gapminder concept table.
 
@@ -163,7 +163,7 @@ ___
 
 ▸ **GM_INTERPOLATE**(table_range_with_headers: *`string`[][]*, method: *`string`*): `any`[][]
 
-*Defined in [GM_INTERPOLATE.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/3cd5d1d/src/GM_INTERPOLATE.ts#L24)*
+*Defined in [GM_INTERPOLATE.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/4ce2e8d/src/GM_INTERPOLATE.ts#L24)*
 
 Interpolates an input table, inserting a sorted table with additional rows, where the gaps (missing rows or empty values) in the input table have been filled in. This function works on data with two primary key columns: usually geo and time. (If we want to use this on data that has more keys: geo, time, age, gender, etc - we need a different formula)
 
@@ -189,9 +189,9 @@ ___
 
 ###  GM_NAME
 
-▸ **GM_NAME**(column_range_with_headers: *`string`[][]*, geography: *`string`*): `string`[][]
+▸ **GM_NAME**(column_range_with_headers: *`string`[][]*, geography: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_NAME.ts:11](https://github.com/Gapminder/gsheets-gm-functions/blob/3cd5d1d/src/GM_NAME.ts#L11)*
+*Defined in [GM_NAME.ts:12](https://github.com/Gapminder/gsheets-gm-functions/blob/4ce2e8d/src/GM_NAME.ts#L12)*
 
 Inserts a matching column, including a header row, with Gapminder’s common name for the geo matched against the input column range, based on all spellings we have seen before. (Like GM\_ID but inserts Gapminder’s common name for the geo instead of its id.)
 
@@ -213,7 +213,7 @@ ___
 
 ▸ **GM_PER_CAP**(table_range_with_headers_and_concept_values: *`string`[][]*, time_unit: *`string`*, geography: *`string`*, population_concept_data_table_range_with_headers: *`string`[][]*): `string`[][]
 
-*Defined in [GM_PER_CAP.ts:18](https://github.com/Gapminder/gsheets-gm-functions/blob/571d1d5/src/GM_PER_CAP.ts#L18)*
+*Defined in [GM_PER_CAP.ts:18](https://github.com/Gapminder/gsheets-gm-functions/blob/4ce2e8d/src/GM_PER_CAP.ts#L18)*
 
 Divides the concept-value column(s) of the input table range by the population of the geography.
 
@@ -238,7 +238,7 @@ ___
 
 ▸ **GM_UNPIVOT**(table_range_with_headers: *`string`[][]*, time_label: *`string`*, value_label: *`string`*): `string`[][]
 
-*Defined in GM_UNPIVOT.ts:16*
+*Defined in [GM_UNPIVOT.ts:16](https://github.com/Gapminder/gsheets-gm-functions/blob/4ce2e8d/src/GM_UNPIVOT.ts#L16)*
 
 Unpivots a standard pivoted Gapminder table \[geo, name, ...time-values-across-columns\], converting the data column headers into time units and the column values as concept values.
 
