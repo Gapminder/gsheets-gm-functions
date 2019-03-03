@@ -28,7 +28,7 @@ export function GM_DATA(
   time_unit: string,
   geography: string,
   property_or_concept_data_table_range_with_headers: string[][]
-) {
+): any[][] {
   // Ensure expected input range contents
   const inputColumnOrTable = preProcessInputRangeWithHeaders(
     column_or_table_range_with_headers
@@ -71,7 +71,7 @@ function dataGeographiesListOfCountriesEtcPropertyLookup(
   property,
   geography,
   property_or_concept_data_table_range_with_headers
-) {
+): any[][] {
   if (geography !== "countries_etc") {
     throw new Error(
       "Lookups of properties using other key concepts than countries_etc is currently not supported"
@@ -109,7 +109,7 @@ function conceptValueLookup(
   time_unit,
   geography,
   property_or_concept_data_table_range_with_headers
-) {
+): any[][] {
   const inputTableRows = inputTable.map(GmTable.structureRow);
   if (!property_or_concept_data_table_range_with_headers) {
     property_or_concept_data_table_range_with_headers = GM_IMPORT(
