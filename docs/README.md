@@ -5,8 +5,8 @@
 ### Functions
 
 * [GM_AGGR](#gm_aggr)
-* [GM_ANNUAL_GROWTH](#gm_annual_growth)
 * [GM_DATA](#gm_data)
+* [GM_GROWTH](#gm_growth)
 * [GM_ID](#gm_id)
 * [GM_IMPORT](#gm_import)
 * [GM_INTERPOLATE](#gm_interpolate)
@@ -46,37 +46,13 @@ The range must be four columns wide.
 A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
-<a id="gm_annual_growth"></a>
-
-###  GM_ANNUAL_GROWTH
-
-▸ **GM_ANNUAL_GROWTH**(table_range_with_headers: *`string`[][]*, concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*, concept_data_table_range_with_headers: *`string`[][]*): `string`[][]
-
-*Defined in GM_ANNUAL_GROWTH.ts:17*
-
-Inserts the growth per time unit of a common Gapminder concept column, including a header row, matched against the input table range.
-
-**Parameters:**
-
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| table_range_with_headers | `string`[][] |  A table range including \[geo,name,time\] to be used for a concept value lookup |
-| concept_id | `string` |  Concept id (eg. "pop") of which concept to import |
-| time_unit | `string` |  (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against |
-| geography | `string` |  (Optional with default "countries\_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries\_etc" |
-| concept_data_table_range_with_headers | `string`[][] |  (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons. |
-
-**Returns:** `string`[][]
-A two-dimensional array containing the cell/column contents described above in the summary.
-
-___
 <a id="gm_data"></a>
 
 ###  GM_DATA
 
 ▸ **GM_DATA**(column_or_table_range_with_headers: *`string`[][]*, property_or_concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*, property_or_concept_data_table_range_with_headers: *`string`[][]*): `any`[][]
 
-*Defined in [GM_DATA.ts:16](https://github.com/Gapminder/gsheets-gm-functions/blob/3cd5d1d/src/GM_DATA.ts#L16)*
+*Defined in [GM_DATA.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/4d78af4/src/GM_DATA.ts#L24)*
 
 Inserts a property or concept column, including a header row, with a common Gapminder property or concept matched against the input column/table range.
 
@@ -97,6 +73,32 @@ Takes 2-4 seconds: =GM\_DATA(B7:D, "pop", "year", "countries\_etc", 'data:pop:ye
 | property_or_concept_data_table_range_with_headers | `string`[][] |  (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the property or concept data to look up against. Can be included for performance reasons. |
 
 **Returns:** `any`[][]
+A two-dimensional array containing the cell/column contents described above in the summary.
+
+___
+<a id="gm_growth"></a>
+
+###  GM_GROWTH
+
+▸ **GM_GROWTH**(table_range_with_headers: *`string`[][]*, concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*, concept_data_table_range_with_headers: *`string`[][]*): `string`[][]
+
+*Defined in [GM_GROWTH.ts:19](https://github.com/Gapminder/gsheets-gm-functions/blob/4d78af4/src/GM_GROWTH.ts#L19)*
+
+Inserts the growth per time unit of a common Gapminder concept column, including a header row, matched against the input table range.
+
+Note: Uses GM\_DATA internally. Performance-related documentation about GM\_DATA applies.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| table_range_with_headers | `string`[][] |  A table range including \[geo,name,time\] to be used for a concept value lookup |
+| concept_id | `string` |  Concept id (eg. "pop") of which concept to import |
+| time_unit | `string` |  (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against |
+| geography | `string` |  (Optional with default "countries\_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries\_etc" |
+| concept_data_table_range_with_headers | `string`[][] |  (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons. |
+
+**Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___

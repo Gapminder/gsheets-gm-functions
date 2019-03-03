@@ -7,6 +7,8 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 /**
  * Inserts the growth per time unit of a common Gapminder concept column, including a header row, matched against the input table range.
  *
+ * Note: Uses GM_DATA internally. Performance-related documentation about GM_DATA applies.
+ *
  * @param table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
  * @param concept_id Concept id (eg. "pop") of which concept to import
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
@@ -14,7 +16,7 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
  * @param concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
-export function GM_ANNUAL_GROWTH(
+export function GM_GROWTH(
   table_range_with_headers: string[][],
   concept_id: string,
   time_unit: string,

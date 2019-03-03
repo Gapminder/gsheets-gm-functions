@@ -6,7 +6,6 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 /**
  * Inserts a property or concept column, including a header row, with a common Gapminder property or concept matched against the input column/table range.
  *
- *
  * Note that using a range from a locally imported data dependency is the only performant way to join concept data in a spreadsheet.
  *
  * Takes 10-20 seconds:

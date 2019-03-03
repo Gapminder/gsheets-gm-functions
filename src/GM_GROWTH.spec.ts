@@ -1,5 +1,5 @@
 import test, { ExecutionContext, Macro } from "ava";
-import { GM_ANNUAL_GROWTH } from "./GM_ANNUAL_GROWTH";
+import { GM_GROWTH } from "./GM_GROWTH";
 import { MinimalUrlFetchApp } from "./lib/MinimalUrlFetchApp";
 import { MinimalUtilities } from "./lib/MinimalUtilities";
 (global as any).UrlFetchApp = MinimalUrlFetchApp;
@@ -19,7 +19,7 @@ const testGmAnnualGrowth: Macro<any> = (
     expectedOutput
   }
 ) => {
-  const output = GM_ANNUAL_GROWTH(
+  const output = GM_GROWTH(
     table_range_with_headers,
     concept_id,
     time_unit,
