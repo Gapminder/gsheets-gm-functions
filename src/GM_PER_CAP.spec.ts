@@ -11,21 +11,17 @@ import { MinimalUtilities } from "./lib/MinimalUtilities";
 const testGmPerCap: Macro<any> = (
   t: ExecutionContext,
   {
-    table_range_with_headers,
-    concept_id,
+    table_range_with_headers_and_concept_values,
     time_unit,
     geography,
-    concept_data_table_range_with_headers,
     population_concept_data_table_range_with_headers,
     expectedOutput
   }
 ) => {
   const output = GM_PER_CAP(
-    table_range_with_headers,
-    concept_id,
+    table_range_with_headers_and_concept_values,
     time_unit,
     geography,
-    concept_data_table_range_with_headers,
     population_concept_data_table_range_with_headers
   );
   // t.log({ output, expectedOutput });
@@ -35,21 +31,13 @@ const testGmPerCap: Macro<any> = (
 [
   /* tslint:disable:object-literal-sort-keys */
   {
-    table_range_with_headers: [
-      ["geo_id", "geo_name", "year"],
-      ["foo", "Foo", "1900"],
-      ["zoo", "Zoo", "1901"]
+    table_range_with_headers_and_concept_values: [
+      ["geo_id", "geo_name", "year", "foo"],
+      ["foo", "Foo", "1900", "10000"],
+      ["zoo", "Zoo", "1901", "12500"]
     ],
-    concept_id: "foo",
     time_unit: "year",
     geography: "countries_etc",
-    concept_data_table_range_with_headers: [
-      ["geo_id", "geo_name", "year", "population"],
-      ["foo", "Foo", 1900, 10000],
-      ["foo", "Foo", 1901, 15000],
-      ["zoo", "Zoo", 1900, 20000],
-      ["zoo", "Zoo", 1901, 25000]
-    ],
     population_concept_data_table_range_with_headers: [
       ["geo_id", "geo_name", "year", "population"],
       ["foo", "Foo", 1900, 100],
@@ -57,7 +45,7 @@ const testGmPerCap: Macro<any> = (
       ["zoo", "Zoo", 1900, 200],
       ["zoo", "Zoo", 1901, 250]
     ],
-    expectedOutput: [["foo per capita"], [100], [100]]
+    expectedOutput: [["foo per capita"], [100], [50]]
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {

@@ -275,32 +275,26 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
 };
 
 /**
- * Inserts a property or concept column, including a header row, with a common Gapminder property or concept matched against the input column/table range and divided by the population of the geography.
+ * Divides the concept-value column(s) of the input table range by the population of the geography.
  *
  * Note: Uses GM_DATA internally. Performance-related documentation about GM_DATA applies.
  *
- * @param {A1:D} table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
- * @param {"UN members since"} concept_id Either the property ("UN member since") or concept id ("pop") of which value to look up
+ * @param {A1:D} table_range_with_headers_and_concept_values A table range including [geo,name,time,concept-values...]
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
  * @param {"countries_etc"} geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
- * @param {'data:foo:year:countries_etc'!A1:D} concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
  * @param {'data:pop:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the population concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
 (global as any).GM_PER_CAP = function(
-  table_range_with_headers: string[][],
-  concept_id: string,
+  table_range_with_headers_and_concept_values: string[][],
   time_unit: string,
   geography: string,
-  concept_data_table_range_with_headers: string[][],
   population_concept_data_table_range_with_headers: string[][]
 ) {
   return GM_PER_CAP(
-    table_range_with_headers,
-    concept_id,
+    table_range_with_headers_and_concept_values,
     time_unit,
     geography,
-    concept_data_table_range_with_headers,
     population_concept_data_table_range_with_headers
   );
 };
