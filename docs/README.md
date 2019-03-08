@@ -113,9 +113,9 @@ ___
 
 ▸ **GM_ID**(column_range_with_headers: *`string`[][]*, geography: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_ID.ts:12](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.4.0/src/GM_ID.ts#L12)*
+*Defined in [GM_ID.ts:13](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.4.0/src/GM_ID.ts#L13)*
 
-Inserts a matching column, including a header row, with Gapminder’s geo ids matched against the input column range, based on all spellings we have seen before. It should be entered in the header cell under which you want the first first id to appear and it uses as input another range of cells, which should start with the header of the column with names of a geography you want to identify.
+Inserts a matching column, including a header row, with Gapminder’s geo ids matched against the input column range, based on all spellings we have seen before. It should be entered in the header cell under which you want the first first id to appear and it uses as input another range of cells, which should start with the header of the column with names of a geography you want to identify. Note: Automatically adds geo ids as aliases in geo lookup tables, so that "USA" matches "usa" even though no specific alias "usa" is mapped to "usa".
 
 **Parameters:**
 
@@ -195,9 +195,9 @@ ___
 
 ▸ **GM_NAME**(column_range_with_headers: *`string`[][]*, geography: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_NAME.ts:12](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.4.0/src/GM_NAME.ts#L12)*
+*Defined in [GM_NAME.ts:13](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.4.0/src/GM_NAME.ts#L13)*
 
-Inserts a matching column, including a header row, with Gapminder’s common name for the geo matched against the input column range, based on all spellings we have seen before. (Like GM\_ID but inserts Gapminder’s common name for the geo instead of its id.)
+Inserts a matching column, including a header row, with Gapminder’s common name for the geo matched against the input column range, based on all spellings we have seen before. (Like GM\_ID but inserts Gapminder’s common name for the geo instead of its id.) Note: Automatically adds geo ids as aliases in geo lookup tables, so that "USA" matches "usa" even though no specific alias "usa" is mapped to "usa".
 
 **Parameters:**
 

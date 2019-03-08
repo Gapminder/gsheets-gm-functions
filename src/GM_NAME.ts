@@ -3,6 +3,7 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 
 /**
  * Inserts a matching column, including a header row, with Gapminder’s common name for the geo matched against the input column range, based on all spellings we have seen before. (Like GM_ID but inserts Gapminder’s common name for the geo instead of its id.)
+ * Note: Automatically adds geo ids as aliases in geo lookup tables, so that "USA" matches "usa" even though no specific alias "usa" is mapped to "usa".
  *
  * @param column_range_with_headers
  * @param geography Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
