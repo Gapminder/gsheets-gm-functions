@@ -10,6 +10,7 @@ Gapminder-specific custom functions for Google Spreadsheets.
 
 * [GM_AGGR](#gm_aggr)
 * [GM_DATA](#gm_data)
+* [GM_GEO_LOOKUP_TABLE](#gm_geo_lookup_table)
 * [GM_GROWTH](#gm_growth)
 * [GM_ID](#gm_id)
 * [GM_IMPORT](#gm_import)
@@ -78,6 +79,28 @@ Takes 2-4 seconds: =GM\_DATA(B7:D, "pop", "year", "countries\_etc", 'data:pop:ye
 | property_or_concept_data_table_range_with_headers | `string`[][] |  (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the property or concept data to look up against. Can be included for performance reasons. |
 
 **Returns:** `any`[][]
+A two-dimensional array containing the cell/column contents described above in the summary.
+
+___
+<a id="gm_geo_lookup_table"></a>
+
+###  GM_GEO_LOOKUP_TABLE
+
+▸ **GM_GEO_LOOKUP_TABLE**(geography: *`string`*): `string`[][]
+
+*Defined in GM_GEO_LOOKUP_TABLE.ts:18*
+
+Inserts a table with Gapminder’s geo ids together with their aliases (all spellings we have seen before), including lower cased variants without diacritics and special characters to allow for somewhat fuzzy matching.
+
+To be used as the source range for VLOOKUP where the dataset is too large for GM\_ID or GM\_NAME to be used directly.
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| geography | `string` |  Should be one of the sets listed in the gapminder geo ontology such as "countries\_etc" |
+
+**Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___

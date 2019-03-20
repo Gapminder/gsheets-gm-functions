@@ -9,7 +9,7 @@ import { ListGeoAliasesAndSynonyms } from "./types/listGeoAliasesAndSynonyms";
 /**
  * @hidden
  */
-interface GeoAliasesAndSynonymsDataRow {
+export interface GeoAliasesAndSynonymsDataRow {
   /* tslint:disable:object-literal-sort-keys */
   alias: string;
   geo: string;
@@ -27,14 +27,14 @@ interface MissingGeoAliasDataRow {
 /**
  * @hidden
  */
-interface GeoAliasesAndSynonymsWorksheetData {
+export interface GeoAliasesAndSynonymsWorksheetData {
   rows: GeoAliasesAndSynonymsDataRow[];
 }
 
 /**
  * @hidden
  */
-interface GeoAliasesAndSynonymsLookupTable {
+export interface GeoAliasesAndSynonymsLookupTable {
   [alias: string]: GeoAliasesAndSynonymsDataRow;
 }
 
@@ -42,6 +42,14 @@ interface GeoAliasesAndSynonymsLookupTable {
  * @hidden
  */
 export function getGeoAliasesAndSynonymsLookupTable(geography) {
+  const data = getGeoAliasesAndSynonymsWorksheetData(geography);
+  return geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(data, null);
+}
+
+/**
+ * @hidden
+ */
+export function getGeoAliasesAndSynonymsWorksheetData(geography) {
   if (!geoAliasesAndSynonymsDocWorksheetReferencesByGeopgraphy[geography]) {
     throw new Error(`Unknown Gapminder geography: "${geography}"`);
   }
@@ -49,10 +57,9 @@ export function getGeoAliasesAndSynonymsLookupTable(geography) {
     geoAliasesAndSynonymsDocSpreadsheetId,
     geoAliasesAndSynonymsDocWorksheetReferencesByGeopgraphy[geography]
   );
-  const data = gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
+  return gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
     worksheetDataResponse
   );
-  return geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(data);
 }
 
 /**
@@ -79,7 +86,9 @@ function gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
  * By trimming the lookup keys, we allow slightly fuzzy matching, such as "Foo " == "foo" and "Fóo*" == "Foo"
  * @hidden
  */
-export function keyNormalizerForSlightlySmarterLookups(lookupKey) {
+export function keyNormalizerForSlightlySmarterLookups(
+  lookupKey: string
+): string {
   const trimmedLowerCasedWithoutDiacritics = removeDiacritics(
     lookupKey.trim().toLowerCase()
   );
@@ -89,16 +98,16 @@ export function keyNormalizerForSlightlySmarterLookups(lookupKey) {
 /**
  * @hidden
  */
-function geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(
-  data: GeoAliasesAndSynonymsWorksheetData
+export function geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(
+  data: GeoAliasesAndSynonymsWorksheetData,
+  normalizer: (lookupKey: string) => string
 ): GeoAliasesAndSynonymsLookupTable {
+  if (!normalizer) {
+    normalizer = keyNormalizerForSlightlySmarterLookups;
+  }
   return data.rows.reduce((lookupTableAccumulator, currentValue) => {
-    lookupTableAccumulator[
-      keyNormalizerForSlightlySmarterLookups(currentValue.geo)
-    ] = currentValue;
-    lookupTableAccumulator[
-      keyNormalizerForSlightlySmarterLookups(currentValue.alias)
-    ] = currentValue;
+    lookupTableAccumulator[normalizer(currentValue.geo)] = currentValue;
+    lookupTableAccumulator[normalizer(currentValue.alias)] = currentValue;
     return lookupTableAccumulator;
   }, {});
 }
@@ -110,6 +119,9 @@ export function matchColumnValuesUsingGeoAliasesAndSynonyms(
   columnValues,
   geography
 ) {
+  if (!geography) {
+    geography = "countries_etc";
+  }
   const lookupTable = getGeoAliasesAndSynonymsLookupTable(geography);
   return columnValues.map(
     (inputRow): GeoAliasesAndSynonymsDataRow | MissingGeoAliasDataRow => {

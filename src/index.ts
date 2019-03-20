@@ -5,6 +5,7 @@
 
 import { GM_AGGR } from "./GM_AGGR";
 import { GM_DATA } from "./GM_DATA";
+import { GM_GEO_LOOKUP_TABLE } from "./GM_GEO_LOOKUP_TABLE";
 import { GM_GROWTH } from "./GM_GROWTH";
 import { GM_ID } from "./GM_ID";
 import { GM_IMPORT } from "./GM_IMPORT";
@@ -94,6 +95,19 @@ import { menuRefreshDataDependencies } from "./menuRefreshDataDependencies";
     geography,
     property_or_concept_data_table_range_with_headers
   );
+};
+
+/**
+ * Inserts a table with Gapminder’s geo ids together with their aliases (all spellings we have seen before), including lower cased
+ * variants without diacritics and special characters to allow for somewhat fuzzy matching.
+ *
+ * To be used as the source range for VLOOKUP where the dataset is too large for GM_ID or GM_NAME to be used directly.
+ *
+ * @param {"countries_etc"} geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @customfunction
+ */
+(global as any).GM_GEO_LOOKUP_TABLE = function(geography: string) {
+  return GM_GEO_LOOKUP_TABLE(geography);
 };
 
 /**
