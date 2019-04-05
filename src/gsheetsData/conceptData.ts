@@ -92,7 +92,7 @@ export function getConceptDataWorksheetMetadata(
 /**
  * @hidden
  */
-function getMatchingConcept(
+export function getMatchingConcept(
   concept_id,
   time_unit,
   geography,

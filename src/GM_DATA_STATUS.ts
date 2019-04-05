@@ -1,3 +1,6 @@
+import { getMatchingConcept } from "./gsheetsData/conceptData";
+import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
+
 /**
  * Evaluates if the referenced dataset is set up according to the standard format and complete:
  * - Checks the row header of the output sheets ( the so called "data-countries-etc/world/region-by year)
@@ -20,5 +23,19 @@ export function GM_DATA_STATUS(
   if (verbose === undefined) {
     verbose = false;
   }
-  return [["TODO"]];
+  try {
+    const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
+    const matchingConcept = getMatchingConcept(
+      concept_id,
+      time_unit,
+      geography,
+      fasttrackCatalogDataPointsWorksheetData
+    );
+    if (!matchingConcept.csv_link) {
+      throw new Error("No CSV Link");
+    }
+    return [["GOOD"]];
+  } catch (err) {
+    return [["BAD" + (verbose ? ": " + err.message : "")]];
+  }
 }
