@@ -10,6 +10,7 @@ Gapminder-specific custom functions for Google Spreadsheets.
 
 * [GM_AGGR](#gm_aggr)
 * [GM_DATA](#gm_data)
+* [GM_DATA_STATUS](#gm_data_status)
 * [GM_GEO_LOOKUP_TABLE](#gm_geo_lookup_table)
 * [GM_GROWTH](#gm_growth)
 * [GM_ID](#gm_id)
@@ -79,6 +80,32 @@ Takes 2-4 seconds: =GM\_DATA(B7:D, "pop", "year", "countries\_etc", 'data:pop:ye
 | property_or_concept_data_table_range_with_headers | `string`[][] |  (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the property or concept data to look up against. Can be included for performance reasons. |
 
 **Returns:** `any`[][]
+A two-dimensional array containing the cell/column contents described above in the summary.
+
+___
+<a id="gm_data_status"></a>
+
+###  GM_DATA_STATUS
+
+▸ **GM_DATA_STATUS**(concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*, verbose: *`boolean`*): `string`[][]
+
+*Defined in [GM_DATA_STATUS.ts:13](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.5.0/src/GM_DATA_STATUS.ts#L13)*
+
+Evaluates if the referenced dataset is set up according to the standard format and complete:
+
+*   Checks the row header of the output sheets ( the so called "data-countries-etc/world/region-by year)
+*   Checks the about sheet (to see if it follows the requirements in col A) Returns "GOOD" or "BAD: What is bad... ".
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| concept_id | `string` |  The concept id ("pop") of which concept data to check status for |
+| time_unit | `string` |  (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for |
+| geography | `string` |  (Optional with default "countries\_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries\_etc" |
+| verbose | `boolean` |  Explains how a certain dataset is invalid instead of simply returning "BAD" for the row |
+
+**Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___

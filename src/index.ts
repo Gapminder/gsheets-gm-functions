@@ -5,6 +5,7 @@
 
 import { GM_AGGR } from "./GM_AGGR";
 import { GM_DATA } from "./GM_DATA";
+import { GM_DATA_STATUS } from "./GM_DATA_STATUS";
 import { GM_GEO_LOOKUP_TABLE } from "./GM_GEO_LOOKUP_TABLE";
 import { GM_GROWTH } from "./GM_GROWTH";
 import { GM_ID } from "./GM_ID";
@@ -95,6 +96,27 @@ import { menuRefreshDataDependencies } from "./menuRefreshDataDependencies";
     geography,
     property_or_concept_data_table_range_with_headers
   );
+};
+
+/**
+ * Evaluates if the referenced dataset is set up according to the standard format and complete:
+ * - Checks the row header of the output sheets ( the so called "data-countries-etc/world/region-by year)
+ * - Checks the about sheet (to see if it follows the requirements in col A)
+ * Returns "GOOD" or "BAD: What is bad...".
+ *
+ * @param {"pop"} concept_id The concept id ("pop") of which concept data to check status for
+ * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for
+ * @param {"countries_etc"} geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param {FALSE} verbose Explains how a certain dataset is invalid instead of simply returning "BAD" for the row
+ * @return A two-dimensional array containing the cell/column contents described above in the summary.
+ */
+(global as any).GM_DATA_STATUS = function(
+  concept_id: string,
+  time_unit: string,
+  geography: string,
+  verbose: boolean
+) {
+  return GM_DATA_STATUS(concept_id, time_unit, geography, verbose);
 };
 
 /**
