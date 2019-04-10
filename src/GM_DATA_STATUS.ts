@@ -2,10 +2,8 @@ import { getMatchingConcept } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 
 /**
- * Evaluates if the referenced dataset is set up according to the standard format and complete:
- * - Checks the row header of the output sheets ( the so called "data-countries-etc/world/region-by year)
- * - Checks the about sheet (to see if it follows the requirements in col A)
- * Returns "GOOD" or "BAD: What is bad... ".
+ * Checks if the referenced data is available remotely for import.
+ * Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
  *
  * @param concept_id The concept id ("pop") of which concept data to check status for
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for

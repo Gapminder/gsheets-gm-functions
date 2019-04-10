@@ -10,6 +10,7 @@ Gapminder-specific custom functions for Google Spreadsheets.
 
 * [GM_AGGR](#gm_aggr)
 * [GM_DATA](#gm_data)
+* [GM_DATASET_VALIDATION](#gm_dataset_validation)
 * [GM_DATA_STATUS](#gm_data_status)
 * [GM_GEO_LOOKUP_TABLE](#gm_geo_lookup_table)
 * [GM_GROWTH](#gm_growth)
@@ -83,18 +84,41 @@ Takes 2-4 seconds: =GM\_DATA(B7:D, "pop", "year", "countries\_etc", 'data:pop:ye
 A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
+<a id="gm_dataset_validation"></a>
+
+###  GM_DATASET_VALIDATION
+
+▸ **GM_DATASET_VALIDATION**(about_sheet_range_except_the_title_row: *`string`[][]*, data_for_world_by_year_sheet_range: *`string`[][]*, data_for_regions_by_year_sheet_range: *`string`[][]*, data_for_countries_etc_by_year_range_sheet_range: *`string`[][]*): `string`[][]
+
+*Defined in GM_DATASET_VALIDATION.ts:16*
+
+Evaluates if the referenced dataset ranges are set up according to the standard format and complete:
+
+*   Checks the row header of the output sheets (the so called "data-countries-etc/world/region-by-year)
+*   Checks the about sheet (to see if it follows the requirements in col A of the template) Returns "GOOD" or "BAD: What is bad... ".
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| about_sheet_range_except_the_title_row | `string`[][] |  Local spreadsheet range referencing the ABOUT sheet contents except the header row (where this function is expected to be used). |
+| data_for_world_by_year_sheet_range | `string`[][] |  Local spreadsheet range referencing the "world-by-year" concept data sheet. |
+| data_for_regions_by_year_sheet_range | `string`[][] |  Local spreadsheet range referencing the "regions-by-year" concept data sheet. |
+| data_for_countries_etc_by_year_range_sheet_range | `string`[][] |  Local spreadsheet range referencing the "countries-etc-by-year" concept data sheet. |
+
+**Returns:** `string`[][]
+A two-dimensional array containing the cell/column contents described above in the summary.
+
+___
 <a id="gm_data_status"></a>
 
 ###  GM_DATA_STATUS
 
 ▸ **GM_DATA_STATUS**(concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_DATA_STATUS.ts:13](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.5.0/src/GM_DATA_STATUS.ts#L13)*
+*Defined in [GM_DATA_STATUS.ts:14](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.5.0/src/GM_DATA_STATUS.ts#L14)*
 
-Evaluates if the referenced dataset is set up according to the standard format and complete:
-
-*   Checks the row header of the output sheets ( the so called "data-countries-etc/world/region-by year)
-*   Checks the about sheet (to see if it follows the requirements in col A) Returns "GOOD" or "BAD: What is bad... ".
+Checks if the referenced data is available remotely for import. Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
 
 **Parameters:**
 

@@ -6,6 +6,7 @@
 import { GM_AGGR } from "./GM_AGGR";
 import { GM_DATA } from "./GM_DATA";
 import { GM_DATA_STATUS } from "./GM_DATA_STATUS";
+import { GM_DATASET_VALIDATION } from "./GM_DATASET_VALIDATION";
 import { GM_GEO_LOOKUP_TABLE } from "./GM_GEO_LOOKUP_TABLE";
 import { GM_GROWTH } from "./GM_GROWTH";
 import { GM_ID } from "./GM_ID";
@@ -99,16 +100,16 @@ import { menuRefreshDataDependencies } from "./menuRefreshDataDependencies";
 };
 
 /**
- * Evaluates if the referenced dataset is set up according to the standard format and complete:
- * - Checks the row header of the output sheets ( the so called "data-countries-etc/world/region-by year)
- * - Checks the about sheet (to see if it follows the requirements in col A)
- * Returns "GOOD" or "BAD: What is bad...".
+ * Checks if the referenced data is available remotely for import:
+ * - The concept needs to be listed in a supported catalog (fasttrack / human-numbers)
+ * - The concept dataset needs to be properly published and formatted
+ * Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
  *
  * @param {"pop"} concept_id The concept id ("pop") of which concept data to check status for
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for
  * @param {"countries_etc"} geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
  * @param {FALSE} verbose Explains how a certain dataset is invalid instead of simply returning "BAD" for the row
- * @return A two-dimensional array containing the cell/column contents described above in the summary.
+ * @customfunction
  */
 (global as any).GM_DATA_STATUS = function(
   concept_id: string,
@@ -117,6 +118,32 @@ import { menuRefreshDataDependencies } from "./menuRefreshDataDependencies";
   verbose: boolean
 ) {
   return GM_DATA_STATUS(concept_id, time_unit, geography, verbose);
+};
+
+/**
+ * Evaluates if the referenced dataset is set up according to the standard format and complete:
+ * - Checks the row header of the output sheets ( the so called "data-countries-etc/world/region-by year)
+ * - Checks the about sheet (to see if it follows the requirements in col A)
+ * Returns "GOOD" or "BAD: What is bad...".
+ *
+ * @param {"'ABOUT'!A2:J"} about_sheet_range_except_the_title_row Local spreadsheet range referencing the ABOUT sheet contents except the header row (where this function is expected to be used).
+ * @param {"'data-for-world-by-year'!A:F"} data_for_world_by_year_sheet_range Local spreadsheet range referencing the "world-by-year" concept data sheet.
+ * @param {"'data-for-regions-by-year'!A:F"} data_for_regions_by_year_sheet_range Local spreadsheet range referencing the "regions-by-year" concept data sheet.
+ * @param {"'data-for-countries-etc-by-year'!A:F"} data_for_countries_etc_by_year_range_sheet_range Local spreadsheet range referencing the "countries-etc-by-year" concept data sheet.
+ * @customfunction
+ */
+(global as any).GM_DATASET_VALIDATION = function(
+  about_sheet_range_except_the_title_row: string[][],
+  data_for_world_by_year_sheet_range: string[][],
+  data_for_regions_by_year_sheet_range: string[][],
+  data_for_countries_etc_by_year_range_sheet_range: string[][]
+) {
+  return GM_DATASET_VALIDATION(
+    about_sheet_range_except_the_title_row,
+    data_for_world_by_year_sheet_range,
+    data_for_regions_by_year_sheet_range,
+    data_for_countries_etc_by_year_range_sheet_range
+  );
 };
 
 /**
