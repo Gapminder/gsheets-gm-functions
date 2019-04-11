@@ -1,25 +1,19 @@
+import { fetchGoogleSpreadsheetResource } from "../lib/fetchGoogleSpreadsheetResource";
 import { WorksheetReference } from "./hardcodedConstants";
 
 /**
+ * TODO: Be able to reference the name of the worksheet
  * @hidden
  */
 export function fetchWorksheetData(
   spreadsheetId,
   worksheetReference: WorksheetReference
 ) {
-  // TODO: Be able to reference the name of the worksheet
-  /*
-  const jsonWorksheetsUrl = `https://spreadsheets.google.com/feeds/worksheets/${spreadsheetId}/public/values?alt=json`;
-  const response = UrlFetchApp.fetch(jsonWorksheetsUrl);
-  const obj = JSON.parse(response.getContentText());
-  console.log(obj);
-  */
   const jsonWorksheetDataUrl = `https://spreadsheets.google.com/feeds/list/${spreadsheetId}/${
     worksheetReference.position
   }/public/values?alt=json`;
-  const worksheetDataHTTPResponse = UrlFetchApp.fetch(jsonWorksheetDataUrl);
-  const worksheetDataResponse = JSON.parse(
-    worksheetDataHTTPResponse.getContentText()
+  const worksheetDataResponse = fetchGoogleSpreadsheetResource(
+    jsonWorksheetDataUrl
   );
   const fetchedWorksheetName = worksheetDataResponse.feed.title.$t;
   if (fetchedWorksheetName !== worksheetReference.name) {
