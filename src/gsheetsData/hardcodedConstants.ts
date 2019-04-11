@@ -93,20 +93,20 @@ export const conceptDataDocWorksheetReferencesByGeographyAndTimeUnit: {
 } = {
   global: {
     year: {
-      name: "data-world-by-year",
-      position: 4
+      name: "data-for-world-by-year",
+      position: 2
     }
   },
   world_4region: {
     year: {
-      name: "data-regions-by-year",
+      name: "data-for-regions-by-year",
       position: 3
     }
   },
   countries_etc: {
     year: {
-      name: "data-countries-etc-by-year",
-      position: 2
+      name: "data-for-countries-etc-by-year",
+      position: 4
     }
   }
 };
