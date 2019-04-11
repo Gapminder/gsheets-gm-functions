@@ -36,14 +36,14 @@ export function getConceptDataWorksheetData(
   geography,
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
 ) {
-  const matchingConcept = getMatchingConcept(
+  const matchingConcept = getConceptDataWorksheetMetadata(
     concept_id,
     time_unit,
     geography,
     fasttrackCatalogDataPointsWorksheetData
   );
   const worksheetCsvDataHTTPResponse = UrlFetchApp.fetch(
-    matchingConcept.csv_link
+    matchingConcept.csvLink
   );
   const worksheetCsvData = Utilities.parseCsv(
     worksheetCsvDataHTTPResponse.getContentText()
@@ -81,6 +81,7 @@ export function getConceptDataWorksheetMetadata(
     );
   }
   return {
+    csvLink: matchingConcept.csv_link,
     docId: matchingConcept.doc_id,
     worksheetReference:
       conceptDataDocWorksheetReferencesByGeographyAndTimeUnit[geography][
@@ -92,7 +93,7 @@ export function getConceptDataWorksheetMetadata(
 /**
  * @hidden
  */
-export function getMatchingConcept(
+function getMatchingConcept(
   concept_id,
   time_unit,
   geography,

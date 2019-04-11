@@ -10,8 +10,8 @@ Gapminder-specific custom functions for Google Spreadsheets.
 
 * [GM_AGGR](#gm_aggr)
 * [GM_DATA](#gm_data)
+* [GM_DATASET_CATALOG_STATUS](#gm_dataset_catalog_status)
 * [GM_DATASET_VALIDATION](#gm_dataset_validation)
-* [GM_DATA_STATUS](#gm_data_status)
 * [GM_GEO_LOOKUP_TABLE](#gm_geo_lookup_table)
 * [GM_GROWTH](#gm_growth)
 * [GM_ID](#gm_id)
@@ -84,13 +84,36 @@ Takes 2-4 seconds: =GM\_DATA(B7:D, "pop", "year", "countries\_etc", 'data:pop:ye
 A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
+<a id="gm_dataset_catalog_status"></a>
+
+###  GM_DATASET_CATALOG_STATUS
+
+▸ **GM_DATASET_CATALOG_STATUS**(concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*, verbose: *`boolean`*): `string`[][]
+
+*Defined in [GM_DATASET_CATALOG_STATUS.ts:14](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.5.0/src/GM_DATASET_CATALOG_STATUS.ts#L14)*
+
+Checks if the referenced data is available remotely for import. Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| concept_id | `string` |  The concept id ("pop") of which concept data to check status for |
+| time_unit | `string` |  (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for |
+| geography | `string` |  (Optional with default "countries\_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries\_etc" |
+| verbose | `boolean` |  Explains how a certain dataset is invalid instead of simply returning "BAD" for the row |
+
+**Returns:** `string`[][]
+A two-dimensional array containing the cell/column contents described above in the summary.
+
+___
 <a id="gm_dataset_validation"></a>
 
 ###  GM_DATASET_VALIDATION
 
 ▸ **GM_DATASET_VALIDATION**(about_sheet_range_except_the_title_row: *`string`[][]*, data_for_world_by_year_sheet_range: *`string`[][]*, data_for_regions_by_year_sheet_range: *`string`[][]*, data_for_countries_etc_by_year_range_sheet_range: *`string`[][]*): `string`[][]
 
-*Defined in GM_DATASET_VALIDATION.ts:16*
+*Defined in [GM_DATASET_VALIDATION.ts:16](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.5.0/src/GM_DATASET_VALIDATION.ts#L16)*
 
 Evaluates if the referenced dataset ranges are set up according to the standard format and complete:
 
@@ -105,29 +128,6 @@ Evaluates if the referenced dataset ranges are set up according to the standard 
 | data_for_world_by_year_sheet_range | `string`[][] |  Local spreadsheet range referencing the "world-by-year" concept data sheet. |
 | data_for_regions_by_year_sheet_range | `string`[][] |  Local spreadsheet range referencing the "regions-by-year" concept data sheet. |
 | data_for_countries_etc_by_year_range_sheet_range | `string`[][] |  Local spreadsheet range referencing the "countries-etc-by-year" concept data sheet. |
-
-**Returns:** `string`[][]
-A two-dimensional array containing the cell/column contents described above in the summary.
-
-___
-<a id="gm_data_status"></a>
-
-###  GM_DATA_STATUS
-
-▸ **GM_DATA_STATUS**(concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*, verbose: *`boolean`*): `string`[][]
-
-*Defined in [GM_DATA_STATUS.ts:14](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.5.0/src/GM_DATA_STATUS.ts#L14)*
-
-Checks if the referenced data is available remotely for import. Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
-
-**Parameters:**
-
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| concept_id | `string` |  The concept id ("pop") of which concept data to check status for |
-| time_unit | `string` |  (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for |
-| geography | `string` |  (Optional with default "countries\_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries\_etc" |
-| verbose | `boolean` |  Explains how a certain dataset is invalid instead of simply returning "BAD" for the row |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.

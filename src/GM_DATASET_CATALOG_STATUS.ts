@@ -1,4 +1,4 @@
-import { getMatchingConcept } from "./gsheetsData/conceptData";
+import { getConceptDataWorksheetMetadata } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 
 /**
@@ -11,7 +11,7 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
  * @param verbose Explains how a certain dataset is invalid instead of simply returning "BAD" for the row
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
-export function GM_DATA_STATUS(
+export function GM_DATASET_CATALOG_STATUS(
   concept_id: string,
   time_unit: string,
   geography: string,
@@ -23,13 +23,13 @@ export function GM_DATA_STATUS(
   }
   try {
     const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
-    const matchingConcept = getMatchingConcept(
+    const conceptDataWorksheetMetadata = getConceptDataWorksheetMetadata(
       concept_id,
       time_unit,
       geography,
       fasttrackCatalogDataPointsWorksheetData
     );
-    if (!matchingConcept.csv_link) {
+    if (!conceptDataWorksheetMetadata.csvLink) {
       throw new Error("No CSV Link");
     }
     return [["GOOD"]];

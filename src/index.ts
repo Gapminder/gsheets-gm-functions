@@ -5,7 +5,7 @@
 
 import { GM_AGGR } from "./GM_AGGR";
 import { GM_DATA } from "./GM_DATA";
-import { GM_DATA_STATUS } from "./GM_DATA_STATUS";
+import { GM_DATASET_CATALOG_STATUS } from "./GM_DATASET_CATALOG_STATUS";
 import { GM_DATASET_VALIDATION } from "./GM_DATASET_VALIDATION";
 import { GM_GEO_LOOKUP_TABLE } from "./GM_GEO_LOOKUP_TABLE";
 import { GM_GROWTH } from "./GM_GROWTH";
@@ -111,13 +111,13 @@ import { menuRefreshDataDependencies } from "./menuRefreshDataDependencies";
  * @param {FALSE} verbose Explains how a certain dataset is invalid instead of simply returning "BAD" for the row
  * @customfunction
  */
-(global as any).GM_DATA_STATUS = function(
+(global as any).GM_DATASET_CATALOG_STATUS = function(
   concept_id: string,
   time_unit: string,
   geography: string,
   verbose: boolean
 ) {
-  return GM_DATA_STATUS(concept_id, time_unit, geography, verbose);
+  return GM_DATASET_CATALOG_STATUS(concept_id, time_unit, geography, verbose);
 };
 
 /**
