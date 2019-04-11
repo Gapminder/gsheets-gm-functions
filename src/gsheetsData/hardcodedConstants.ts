@@ -22,8 +22,15 @@ export const gapminderPropertyToConceptIdMap = {
 /**
  * @hidden
  */
+export const conceptDatasetTemplateSpreadsheetId =
+  "1ObY2k1SDDEwMfeM5jhQW8hIMcEpo8Oo0qclLZ3L6ByA";
+
+/**
+ * @hidden
+ */
 export const geoAliasesAndSynonymsDocSpreadsheetId =
   "1p7YhbS_f056BUSlJNAm6k6YnNPde8OSdYpJ6YiVHxO4";
+
 /**
  * @hidden
  */
