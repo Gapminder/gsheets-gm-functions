@@ -52,14 +52,13 @@ export function GM_DATASET_CATALOG_STATUS(
       JSON.stringify(worksheetReferences) !==
       JSON.stringify(expectedWorksheetReferences)
     ) {
-      SpreadsheetApp.getUi().alert(
+      throw new Error(
         `The worksheets in the concept dataset source spreadsheet ("${
           conceptDataCatalogEntry.docId
         }") should be ${JSON.stringify(
           expectedWorksheetReferences
         )} but are currently ${JSON.stringify(worksheetReferences)}`
       );
-      return;
     }
     return [["GOOD"]];
   } catch (err) {
