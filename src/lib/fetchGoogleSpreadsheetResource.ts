@@ -9,7 +9,13 @@ export function fetchGoogleSpreadsheetResource(url) {
     followRedirects: false
   });
   if (response.getResponseCode() === 302) {
-    const responseHeaders = response.getHeaders() as any;
+    const toLowerCaseKeys = obj => {
+      return Object.keys(obj).reduce((accum, key) => {
+        accum[key.toLowerCase()] = obj[key];
+        return accum;
+      }, {});
+    };
+    const responseHeaders = toLowerCaseKeys(response.getHeaders()) as any;
     if (
       responseHeaders.location.indexOf(
         "https://accounts.google.com/ServiceLogin?"
