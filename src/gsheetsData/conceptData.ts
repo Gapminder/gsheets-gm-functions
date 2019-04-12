@@ -36,7 +36,7 @@ export function getConceptDataWorksheetData(
   geography,
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
 ) {
-  const matchingConcept = getConceptDataWorksheetMetadata(
+  const matchingConcept = getConceptDataCatalogEntry(
     concept_id,
     time_unit,
     geography,
@@ -56,7 +56,7 @@ export function getConceptDataWorksheetData(
 /**
  * @hidden
  */
-export function getConceptDataWorksheetMetadata(
+export function getConceptDataCatalogEntry(
   concept_id,
   time_unit,
   geography,

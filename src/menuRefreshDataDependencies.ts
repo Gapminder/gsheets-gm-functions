@@ -1,4 +1,4 @@
-import { getConceptDataWorksheetMetadata } from "./gsheetsData/conceptData";
+import { getConceptDataCatalogEntry } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 
 /**
@@ -27,7 +27,7 @@ export function menuRefreshDataDependencies() {
 
     const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
 
-    const conceptDataWorksheetMetadata = getConceptDataWorksheetMetadata(
+    const conceptDataCatalogEntry = getConceptDataCatalogEntry(
       concept_id,
       time_unit,
       geography,
@@ -41,7 +41,7 @@ export function menuRefreshDataDependencies() {
       conceptDataWorksheetMetadata.docId
     );
     const sourceSheet = sourceDoc.getSheetByName(
-      conceptDataWorksheetMetadata.worksheetReference.name
+      conceptDataCatalogEntry.worksheetReference.name
     );
 
     // Make sure that the destination sheet exists

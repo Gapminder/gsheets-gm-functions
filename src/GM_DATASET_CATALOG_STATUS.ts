@@ -1,5 +1,7 @@
-import { getConceptDataWorksheetMetadata } from "./gsheetsData/conceptData";
+import { getConceptDataCatalogEntry } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
+import { fetchWorksheetReferences } from "./gsheetsData/fetchWorksheetReferences";
+import { conceptDataDocWorksheetReferencesByGeographyAndTimeUnit } from "./gsheetsData/hardcodedConstants";
 
 /**
  * Checks if the referenced data is available remotely for import.
@@ -23,14 +25,41 @@ export function GM_DATASET_CATALOG_STATUS(
   }
   try {
     const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
-    const conceptDataWorksheetMetadata = getConceptDataWorksheetMetadata(
+    const conceptDataCatalogEntry = getConceptDataCatalogEntry(
       concept_id,
       time_unit,
       geography,
       fasttrackCatalogDataPointsWorksheetData
     );
-    if (!conceptDataWorksheetMetadata.csvLink) {
+    if (!conceptDataCatalogEntry.csvLink) {
       throw new Error("No CSV Link");
+    }
+    // Compare worksheets with the expected ones defined in conceptDataDocWorksheetReferencesByGeographyAndTimeUnit
+    const worksheetReferences = fetchWorksheetReferences(
+      conceptDataCatalogEntry.docId
+    );
+    const expectedWorksheetReferences = [
+      {
+        name: "ABOUT",
+        position: 1
+      },
+      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit.global.year,
+      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit.world_4region
+        .year,
+      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit.countries_etc.year
+    ];
+    if (
+      JSON.stringify(worksheetReferences) !==
+      JSON.stringify(expectedWorksheetReferences)
+    ) {
+      SpreadsheetApp.getUi().alert(
+        `The worksheets in the concept dataset source spreadsheet ("${
+          conceptDataCatalogEntry.docId
+        }") should be ${JSON.stringify(
+          expectedWorksheetReferences
+        )} but are currently ${JSON.stringify(worksheetReferences)}`
+      );
+      return;
     }
     return [["GOOD"]];
   } catch (err) {

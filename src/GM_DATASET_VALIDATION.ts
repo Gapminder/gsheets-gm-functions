@@ -1,4 +1,4 @@
-import { getConceptDataWorksheetMetadata } from "./gsheetsData/conceptData";
+import { getConceptDataCatalogEntry } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 
 /**

@@ -90,7 +90,7 @@ ___
 
 ▸ **GM_DATASET_CATALOG_STATUS**(concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_DATASET_CATALOG_STATUS.ts:14](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.5.0/src/GM_DATASET_CATALOG_STATUS.ts#L14)*
+*Defined in [GM_DATASET_CATALOG_STATUS.ts:16](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.5.0/src/GM_DATASET_CATALOG_STATUS.ts#L16)*
 
 Checks if the referenced data is available remotely for import. Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
 
