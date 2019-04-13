@@ -20,7 +20,7 @@ export function GM_DATASET_VALIDATION(
   data_for_countries_etc_by_year_range_sheet_range: string[][]
 ) {
   try {
-    return [["GOOD"]];
+    return [["TODO: GM_DATASET_VALIDATION"]];
   } catch (err) {
     return [["BAD: " + err.message]];
   }
