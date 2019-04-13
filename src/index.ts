@@ -100,10 +100,15 @@ import { menuRefreshDataDependencies } from "./menuRefreshDataDependencies";
 };
 
 /**
- * Checks if the referenced data is available remotely for import:
- * - The concept needs to be listed in a supported catalog (fasttrack / human-numbers)
- * - The concept dataset needs to be properly published and formatted
+ * Checks if the referenced data is available remotely for use by GM_* functions.
+ *
+ * Runs the basic validation checks against the referenced dataset making sure that
+ *  - it is listed in the fasttrack catalog
+ *  - the relevant worksheets in the dataset source document are published as well as named and ordered correctly
+ *
  * Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
+ *
+ * Note: The function results are not automatically re-evaluated as changes are made to the source documents or the catalog. You can trigger a manual update by deleting the cell and undoing the deletion immediately.
  *
  * @param {"pop"} concept_id The concept id ("pop") of which concept data to check status for
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for

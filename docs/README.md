@@ -90,9 +90,18 @@ ___
 
 ▸ **GM_DATASET_CATALOG_STATUS**(concept_id: *`string`*, time_unit: *`string`*, geography: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_DATASET_CATALOG_STATUS.ts:16](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.5.0/src/GM_DATASET_CATALOG_STATUS.ts#L16)*
+*Defined in [GM_DATASET_CATALOG_STATUS.ts:23](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.5.0/src/GM_DATASET_CATALOG_STATUS.ts#L23)*
 
-Checks if the referenced data is available remotely for import. Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
+Checks if the referenced data is available remotely for use by GM\_\* functions.
+
+Runs the basic validation checks against the referenced dataset making sure that
+
+*   it is listed in the fasttrack catalog
+*   the relevant worksheets in the dataset source document are published as well as named and ordered correctly
+
+Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
+
+Note: The function results are not automatically re-evaluated as changes are made to the source documents or the catalog. You can trigger a manual update by deleting the cell and undoing the deletion immediately.
 
 **Parameters:**
 
