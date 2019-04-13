@@ -53,8 +53,8 @@ export function menuRefreshDataDependencies() {
 
   const dataDependencies = dataDependenciesWithHeaderRow.slice(1);
 
-  const writeStatus = (index, { dataRows, lastChecked, notes }) => {
-    const updatedRowValues = [dataRows, lastChecked, notes];
+  const writeStatus = (index, { lastChecked, notes, sourceDataRows }) => {
+    const updatedRowValues = [sourceDataRows, lastChecked, notes];
     const dataDependencyRow = 2 + index;
     sheet
       .getRange(
@@ -76,9 +76,9 @@ export function menuRefreshDataDependencies() {
     // Do not attempt to import bad datasets
     if (dataStatus.toString().substr(0, 3) === "BAD") {
       writeStatus(index, {
-        dataRows: null,
         lastChecked: null,
-        notes: "Not imported since catalog status is marked as BAD"
+        notes: "Not imported since catalog status is marked as BAD",
+        sourceDataRows: null
       });
       return;
     }
@@ -101,11 +101,11 @@ export function menuRefreshDataDependencies() {
     );
     if (!sourceSheet) {
       writeStatus(index, {
-        dataRows: null,
         lastChecked: null,
         notes: `Not imported since the source sheet "${
           conceptDataCatalogEntry.worksheetReference.name
-        }" was not available`
+        }" was not available`,
+        sourceDataRows: null
       });
       return;
     }
@@ -122,42 +122,52 @@ export function menuRefreshDataDependencies() {
 
     const lastChecked = new Date();
     writeStatus(index, {
-      dataRows: null,
       lastChecked,
-      notes: "About to import..."
+      notes: "About to import...",
+      sourceDataRows: null
     });
 
-    // Remove existing imported data before import (we keep only 1x1 cell)
-    if (destinationSheet.getMaxColumns() > 1) {
-      destinationSheet.deleteColumns(1, destinationSheet.getMaxColumns() - 1);
+    // Read values to import
+    const sourceDataRange = sourceSheet.getDataRange();
+    const importValues = sourceDataRange.getValues();
+    const sourceDataRows = sourceDataRange.getNumRows();
+    const sourceDataColumns = sourceDataRange.getNumColumns();
+
+    // Remove excess rows and columns in case the import data range is smaller than the previously imported data range
+    // This prevents stale data from lingering around after the import
+    if (destinationSheet.getMaxRows() > sourceDataRows) {
+      destinationSheet.deleteRows(
+        sourceDataRows,
+        destinationSheet.getMaxRows() - sourceDataRows
+      );
     }
-    if (destinationSheet.getMaxRows() > 1) {
-      destinationSheet.deleteRows(1, destinationSheet.getMaxRows() - 1);
+    if (destinationSheet.getMaxColumns() > sourceDataColumns) {
+      destinationSheet.deleteColumns(
+        sourceDataColumns,
+        destinationSheet.getMaxColumns() - sourceDataColumns
+      );
     }
-    destinationSheet.getRange(1, 1, 1, 1).setValues([[null]]);
-
-    // Import values
-    const importValues = sourceSheet.getDataRange().getValues();
-    const dataRows = importValues.length - 1;
+    // Insert new rows if the existing range is smaller than the import data range
+    if (destinationSheet.getMaxRows() < sourceDataRows) {
+      destinationSheet.insertRows(
+        destinationSheet.getMaxRows(),
+        sourceDataRows - destinationSheet.getMaxRows()
+      );
+    }
+    if (destinationSheet.getMaxColumns() < sourceDataColumns) {
+      destinationSheet.insertColumns(
+        destinationSheet.getMaxColumns(),
+        sourceDataColumns - destinationSheet.getMaxColumns()
+      );
+    }
     writeStatus(index, {
-      dataRows,
       lastChecked,
-      notes: "[Importing...] Cleared previously imported data"
+      notes:
+        "[Importing...] Adjusted destination sheet rows and columns to accommodate the new data",
+      sourceDataRows
     });
 
-    // Write imported values
-    destinationSheet.insertRows(1, importValues.length - 1);
-    writeStatus(index, {
-      dataRows,
-      lastChecked,
-      notes: "[Importing...] Inserted placeholder rows for the new data"
-    });
-    destinationSheet.insertColumns(1, importValues[0].length - 1);
-    writeStatus(index, {
-      dataRows,
-      lastChecked,
-      notes: "[Importing...] Inserted placeholder columns for the new data"
-    });
+    // Write values to import
     destinationSheet
       .getRange(
         1,
@@ -167,9 +177,9 @@ export function menuRefreshDataDependencies() {
       )
       .setValues(importValues);
     writeStatus(index, {
-      dataRows,
       lastChecked,
-      notes: "Imported the data successfully"
+      notes: "Imported the data successfully",
+      sourceDataRows
     });
   });
 
