@@ -22,6 +22,17 @@ export function menuValidateDatasetSpreadsheet() {
     return;
   }
 
+  // In case an older version of the template was used to create the about sheet
+  const validationTableRange = activeSpreadsheet.getRangeByName(
+    "validation_table"
+  );
+  if (validationTableRange === null) {
+    SpreadsheetApp.getUi().alert(
+      "No named range 'validation_table' was found. It is mandatory since it is used to report the results of the validation. Please add it to your ABOUT sheet and run this again."
+    );
+    return;
+  }
+
   const validationResults: ValidationResult[] = [];
 
   const recordValidationResult = (key, passed, message) => {
@@ -316,9 +327,6 @@ export function menuValidateDatasetSpreadsheet() {
   // activeSpreadsheet.getRangeByName("contributors_ids");
 
   // Update validation results
-  const validationTableRange = activeSpreadsheet.getRangeByName(
-    "validation_table"
-  );
   const validationTableRangeValues = validationResults.map(
     (validationResult: ValidationResult, i) => {
       return [i + 1, validationResult.key, validationResult.result];
