@@ -24,82 +24,77 @@ export function menuValidateDatasetSpreadsheet() {
 
   const validationResults: ValidationResult[] = [];
 
+  const recordValidationResult = (key, passed, message) => {
+    validationResults.push({
+      key,
+      passed,
+      result: `${passed ? "GOOD" : "BAD"}: ${message}`
+    });
+  };
+
+  const validatedNamedRange = name => {
+    const namedRange = activeSpreadsheet.getRangeByName(name);
+    if (namedRange === null) {
+      recordValidationResult(name, false, `Named range '${name}' is missing`);
+    } else {
+      recordValidationResult(name, true, `Named range '${name}' exists`);
+    }
+    return namedRange;
+  };
+
   // About this file
   // This text is the roughly the same in all Gapminder's datasets, to explain to a user what kind of file they have encountered.
   // (No validation performed at the moment)
 
   // Version:
-  // This should start with a v, followed by an integer to show version of this dataset should probably be v1, for now, as you are creating it from the template. But in some cases, the first usage of this template may still deserve a higher version than 1, like when  building on Gapminder's previous series of versions, you should increment the version number used before adopting this template. The same version identifier is used in the version table further down in this sheet.
-  // (No validation performed at the moment)
-
-  const versionRange = activeSpreadsheet.getRangeByName("version");
-  if (versionRange === null) {
-    validationResults.push({
-      key: "version",
-      passed: false,
-      result: "BAD: Named range 'version' is missing"
-    });
-  } else {
-    validationResults.push({
-      key: "version",
-      passed: false,
-      result: "GOOD: Named range 'version' exists"
-    });
+  const versionRange = validatedNamedRange("version");
+  if (versionRange) {
+    const version = versionRange.getValue();
+    if (version === "") {
+      recordValidationResult("version", false, "Version is empty");
+    } else {
+      recordValidationResult("version", true, "Version is filled in");
+      // This should start with a v, followed by an integer to show version of this dataset should probably be v1, for now, as you are creating it from the template. But in some cases, the first usage of this template may still deserve a higher version than 1, like when  building on Gapminder's previous series of versions, you should increment the version number used before adopting this template. The same version identifier is used in the version table further down in this sheet.
+      // (No validation performed at the moment)
+    }
   }
-  const version = versionRange.getValue();
-  if (version === "") {
-    validationResults.push({
-      key: "version",
-      passed: false,
-      result: "BAD: Version is empty"
-    });
-  } else {
-    validationResults.push({
-      key: "version",
-      passed: true,
-      result: "GOOD: Version is filled in"
-    });
+
+  // Updated:
+  // The date when this version was published.
+  const lastUpdatedRange = validatedNamedRange("date");
+  if (lastUpdatedRange) {
+    const lastUpdated = lastUpdatedRange.getValue();
+    console.log("menuValidateDatasetSpreadsheet - lastUpdated", lastUpdated);
+    if (lastUpdated === "") {
+      recordValidationResult("date", false, "'Updated:' is empty");
+    } else {
+      recordValidationResult("date", true, "'Updated:' is filled in");
+    }
   }
 
   // Update validation results
   const validationTableRange = activeSpreadsheet.getRangeByName(
     "validation_table"
   );
-
-  // Either all good or validation results to display
-  const allGoodValidationRow = [
-    1,
-    "passed-validation",
-    "GOOD: All validation checks passed"
-  ];
-  let validationTableRangeValues;
-  if (
-    validationResults.filter(
-      (validationResult: ValidationResult) => validationResult.passed !== true
-    ).length === 0
-  ) {
-    validationTableRangeValues = [allGoodValidationRow];
-  } else {
-    validationTableRangeValues = validationResults.map(
-      (validationResult: ValidationResult, i) => {
-        return [i, validationResult.key, validationResult.result];
-      }
-    );
-  }
+  const validationTableRangeValues = validationResults.map(
+    (validationResult: ValidationResult, i) => {
+      return [i+1, validationResult.key, validationResult.result];
+    }
+  );
 
   // Accommodate the validation table range to hold the validation results
   if (validationTableRange.getNumRows() > validationTableRangeValues.length) {
     // Remove excess rows and columns in case the new validation results are smaller than previous validation results
     // This prevents stale data from lingering around after the validation
     aboutSheet.deleteRows(
-      validationTableRange.getRow() + validationTableRange.getNumRows(),
+      validationTableRange.getRow(),
       validationTableRange.getNumRows() - validationTableRangeValues.length
     );
   }
   if (validationTableRange.getNumRows() < validationTableRangeValues.length) {
     // Insert new rows if the existing range is smaller than the new validation results
     aboutSheet.insertRows(
-      validationTableRange.getNumRows(),
+      validationTableRange.getRow(),
       validationTableRangeValues.length - validationTableRange.getNumRows()
     );
   }
@@ -107,7 +102,7 @@ export function menuValidateDatasetSpreadsheet() {
     validationTableRange.getRow(),
     validationTableRange.getColumn(),
     validationTableRangeValues.length,
-    allGoodValidationRow.length
+    3
   );
   activeSpreadsheet.setNamedRange("validation_table", newValidationTableRange);
 
