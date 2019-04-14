@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [ "es5" ],
+    "lib": [ "es7" ],
     "esModuleInterop": true,
     "module": "commonjs",
     "rootDir": "./src",

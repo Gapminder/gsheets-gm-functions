@@ -16,6 +16,7 @@ import { GM_NAME } from "./GM_NAME";
 import { GM_PER_CAP } from "./GM_PER_CAP";
 import { GM_UNPIVOT } from "./GM_UNPIVOT";
 import { menuRefreshDataDependencies } from "./menuRefreshDataDependencies";
+import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet";
 
 /* tslint:disable:only-arrow-functions */
 
@@ -28,10 +29,21 @@ import { menuRefreshDataDependencies } from "./menuRefreshDataDependencies";
     `Import/refresh data dependencies`,
     "menuRefreshDataDependencies"
   );
+  const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const aboutSheet = activeSpreadsheet.getSheetByName("ABOUT");
+  const namedRanges = activeSpreadsheet.getNamedRanges();
+  const namedRangeNames = namedRanges.map(namedRange => namedRange.getName());
+  if (aboutSheet && namedRangeNames.includes("dataset_id")) {
+    menu.addItem(
+      `Validate this dataset spreadsheet`,
+      "menuValidateDatasetSpreadsheet"
+    );
+  }
   menu.addToUi();
 };
 
 (global as any).menuRefreshDataDependencies = menuRefreshDataDependencies;
+(global as any).menuValidateDatasetSpreadsheet = menuValidateDatasetSpreadsheet;
 
 // Expose custom functions
 //
