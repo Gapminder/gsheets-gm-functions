@@ -258,10 +258,10 @@ export function menuValidateDatasetSpreadsheet() {
 
       // ID
       // This is a short id for storing the indicator in the database.
-      // It should be short, and contain only lowercase latin characters or numbers. But no space, dashes or underscores. It should be  somewhat human readable, like an acronym, but less than 20 characters.
       // And it is also used in the link (url) to charts showing this data.
       columnNumber = 5;
-      if (indicatorTableRow[columnNumber] === "") {
+      const indicatorId = String(indicatorTableRow[columnNumber]);
+      if (indicatorId === "") {
         recordValidationResult(
           key,
           false,
@@ -273,6 +273,39 @@ export function menuValidateDatasetSpreadsheet() {
           true,
           `Indicator ${rowNumber} has an ID (Column ${columnNumber})`
         );
+
+        // It should contain only lowercase latin characters (a-z) or numbers, and no space, dashes or underscores.
+        if (indicatorId.match(/^([a-z0-9]*)$/)) {
+          recordValidationResult(
+            key,
+            false,
+            `Indicator ${rowNumber}'s ID contains only lowercase latin characters (a-z) or numbers, and no space, dashes or underscores. (Column ${columnNumber})`
+          );
+        } else {
+          recordValidationResult(
+            key,
+            false,
+            `Indicator ${rowNumber}'s ID should contain only lowercase latin characters (a-z) or numbers, and no space, dashes or underscores. (Column ${columnNumber})`
+          );
+        }
+
+        // It should be somewhat human readable, like an acronym,
+        // (No validation performed at the moment)
+
+        // Max 20 characters
+        if (indicatorId.length <= 20) {
+          recordValidationResult(
+            key,
+            true,
+            `Indicator ${rowNumber}'s ID should be max 20 characters`
+          );
+        } else {
+          recordValidationResult(
+            key,
+            false,
+            `Indicator ${rowNumber}'s ID has less than or equal to 20 characters`
+          );
+        }
       }
 
       // type
