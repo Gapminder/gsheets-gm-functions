@@ -150,10 +150,13 @@ export function menuValidateDatasetSpreadsheet() {
   const indicatorTableRange = assertExistingNamedRange("indicator_table");
   if (indicatorTableRange) {
     // Make sure the named range "indicator_table" covers the complete table.
-    // It must start on the first row of indicators and ending on the last row. This table is used to fetch all properties of the indicators.
+    // It must start on the first row of indicators and end on the last row. This table is used to fetch all properties of the indicators.
     // (No validation performed at the moment)
 
-    // The order of columns in this nested table should not be changed. You should adjust the numbers of rows to fit the number of indicators of the dataset. In future versions of your dataset, you can remove or add rows, if the number of indicators change.
+    // The order of columns in this nested table should not be changed.
+    // (No validation performed at the moment)
+
+    // You should adjust the numbers of rows to fit the number of indicators of the dataset. In future versions of your dataset, you can remove or add rows, if the number of indicators change.
     // (No validation performed at the moment)
 
     const indicatorTableValues = indicatorTableRange.getValues();
@@ -414,8 +417,13 @@ export function menuValidateDatasetSpreadsheet() {
   const sourcesTableRange = assertExistingNamedRange("source_table");
   if (sourcesTableRange) {
     // Make sure the named range "source_table" covers the complete table area here.
-    // It must starting on the first row and ending on the last row.
-    // The order of columns in this nested table, should not be changed. You should adjust the numbers of rows to fit the number of sources of the dataset. In future versions of your dataset, you can remove or add rows, if the number of sources change.
+    // It must start on the first row and end on the last row.
+    // (No validation performed at the moment)
+
+    // The order of columns in this nested table, should not be changed.
+    // (No validation performed at the moment)
+
+    // You should adjust the numbers of rows to fit the number of sources of the dataset. In future versions of your dataset, you can remove or add rows, if the number of sources change.
     // (No validation performed at the moment)
 
     const sourcesTableValues = sourcesTableRange.getValues();
@@ -497,8 +505,13 @@ export function menuValidateDatasetSpreadsheet() {
   const versionsTableRange = assertExistingNamedRange("version_table");
   if (versionsTableRange) {
     // Make sure the named range "version_table" covers the complete table area here.
-    // It must starting on the first row and ending on the last row.
-    // The order of columns in this nested table, should not be changed. You should adjust the numbers of rows to fit the number of versions of the dataset. When you create a new version of the dataset, you will copy the work document, and the link to the copy, will be what you paste in this version table, inside the work document, form which it is fetched in the dataprocess.
+    // It must start on the first row and end on the last row.
+    // (No validation performed at the moment)
+
+    // The order of columns in this nested table, should not be changed.
+    // (No validation performed at the moment)
+
+    // You should adjust the numbers of rows to fit the number of versions of the dataset. When you create a new version of the dataset, you will copy the work document, and the link to the copy, will be what you paste in this version table, inside the work document, from which it is fetched in the data process.
     // (No validation performed at the moment)
 
     const versionsTableValues = versionsTableRange.getValues();
@@ -588,6 +601,12 @@ export function menuValidateDatasetSpreadsheet() {
           `Version-listing ${rowNumber} has "Changes compared to previous" (Column ${columnNumber})`
         );
       }
+
+      // Date
+      // (No validation performed at the moment)
+
+      // Contributors
+      // (No validation performed at the moment)
     });
   }
 
