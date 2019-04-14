@@ -1,4 +1,13 @@
-docs for devs
+# Developer documentation
+
+(Work-in-progress)
+
+## Commands
+
+`npm run deploy` - Deploy the scripts and menu actions to [GM Functions - Script development document with tests and examples](https://docs.google.com/spreadsheets/d/1nSt4xgHP3DLc0ryNNDp9AAj_68T3XPt2euZs0ycU1Gs/edit) and [GM Functions - Dataset Validation Example Dataset - v1](https://docs.google.com/spreadsheets/d/1okSzN1kABaNIq85RFz1QojRTEt9845zY6-RDvG_QOHk/edit).  
+
+## Unsorted doc notes for devs
+
 general:
 https://developers.google.com/apps-script/guides/sheets/functions
 debugging / troubleshooting:
