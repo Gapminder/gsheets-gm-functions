@@ -8,7 +8,7 @@ import { conceptDataDocWorksheetReferencesByGeographyAndTimeUnit } from "./gshee
  *
  * Runs the basic validation checks against the referenced dataset making sure that
  *  - it is listed in the fasttrack catalog
- *  - the relevant worksheets in the dataset source document are published as well as named and ordered correctly
+ *  - the relevant "data-" worksheet in the dataset source document is published
  *
  * Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
  *
@@ -45,26 +45,24 @@ export function GM_DATASET_CATALOG_STATUS(
     const worksheetReferences = fetchWorksheetReferences(
       conceptDataCatalogEntry.docId
     );
-    const expectedWorksheetReferences = [
-      {
-        name: "ABOUT",
-        position: 1
-      },
-      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit.global.year,
-      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit.world_4region
-        .year,
-      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit.countries_etc.year
-    ];
+    const expectedWorksheetReference =
+      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit[geography][
+        time_unit
+      ];
     if (
-      JSON.stringify(worksheetReferences) !==
-      JSON.stringify(expectedWorksheetReferences)
+      worksheetReferences.filter(
+        worksheetReference =>
+          worksheetReference.name === expectedWorksheetReference.name
+      ).length === 0
     ) {
       throw new Error(
-        `The published worksheets in the concept dataset source spreadsheet ("${
+        `A published "${
+          expectedWorksheetReference.name
+        }" worksheet was not found in the concept dataset source spreadsheet ("${
           conceptDataCatalogEntry.docId
-        }") should be ${JSON.stringify(
-          expectedWorksheetReferences
-        )} but are currently ${JSON.stringify(worksheetReferences)}`
+        }"). Currently published worksheets are currently "${worksheetReferences
+          .map(worksheetReference => worksheetReference.name)
+          .join(", ")}"`
       );
     }
     return [["GOOD"]];

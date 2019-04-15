@@ -116,7 +116,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  *
  * Runs the basic validation checks against the referenced dataset making sure that
  *  - it is listed in the fasttrack catalog
- *  - the relevant worksheets in the dataset source document are published as well as named and ordered correctly
+ *  - the relevant "data-" worksheet in the dataset source document is published
  *
  * Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
  *
