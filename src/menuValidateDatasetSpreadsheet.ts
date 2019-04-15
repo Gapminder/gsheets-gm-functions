@@ -136,6 +136,25 @@ function validateDatasetSpreadsheet(
           }' data sheet has at least 4 header columns`
         );
       }
+
+      // No filter mode turned on in data sheets (since it breaks the CSV endpoint)
+      if (dataSheetMetadata.sheet.getFilter() !== null) {
+        recordValidationResult(
+          key,
+          false,
+          `The '${
+            dataSheetMetadata.name
+          }' data sheet should not have filter mode turned on (since it breaks the CSV endpoint)`
+        );
+      } else {
+        recordValidationResult(
+          key,
+          true,
+          `The '${
+            dataSheetMetadata.name
+          }' data sheet does not have filter mode turned on (since it breaks the CSV endpoint)`
+        );
+      }
     });
   }
 
