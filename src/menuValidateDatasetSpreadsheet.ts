@@ -1,3 +1,5 @@
+import Range = GoogleAppsScript.Spreadsheet.Range;
+
 /**
  * @hidden
  */
@@ -62,6 +64,48 @@ export function menuValidateDatasetSpreadsheet() {
     } else {
       recordValidationResult(key, true, `'${label}' is filled in`);
       return value;
+    }
+  };
+
+  const assertNamedRangeCoversTheEntireTable = (
+    range: Range,
+    name: string,
+    tableName: string
+  ) => {
+    const rowValuesAreEmpty = rowValues =>
+      rowValues.filter(rowValue => rowValue !== "").length === 0;
+    // Two rows above the range should be empty (One row above is the header row)
+    const twoRowsAboveRange = aboutSheet.getRange(
+      range.getRow() - 2,
+      range.getColumn(),
+      1,
+      range.getNumColumns()
+    );
+    const twoRowsAboveIsEmpty = rowValuesAreEmpty(
+      twoRowsAboveRange.getValues()[0]
+    );
+    // One row below the range should be empty
+    const oneRowBelowRange = aboutSheet.getRange(
+      range.getRow() + range.getNumRows(),
+      range.getColumn(),
+      1,
+      range.getNumColumns()
+    );
+    const oneRowBelowIsEmpty = rowValuesAreEmpty(
+      oneRowBelowRange.getValues()[0]
+    );
+    if (!twoRowsAboveIsEmpty || !oneRowBelowIsEmpty) {
+      recordValidationResult(
+        name,
+        false,
+        `The named range '${name}' should cover the whole ${tableName} table`
+      );
+    } else {
+      recordValidationResult(
+        name,
+        true,
+        `The named range '${name}' covers the whole ${tableName} table`
+      );
     }
   };
 
@@ -151,12 +195,14 @@ export function menuValidateDatasetSpreadsheet() {
   if (indicatorTableRange) {
     // Make sure the named range "indicator_table" covers the complete table.
     // It must start on the first row of indicators and end on the last row. This table is used to fetch all properties of the indicators.
-    // (No validation performed at the moment)
+    // You should adjust the numbers of rows to fit the number of indicators of the dataset. In future versions of your dataset, you can remove or add rows, if the number of indicators change.
+    assertNamedRangeCoversTheEntireTable(
+      indicatorTableRange,
+      "indicator_table",
+      "Indicator(s)"
+    );
 
     // The order of columns in this nested table should not be changed.
-    // (No validation performed at the moment)
-
-    // You should adjust the numbers of rows to fit the number of indicators of the dataset. In future versions of your dataset, you can remove or add rows, if the number of indicators change.
     // (No validation performed at the moment)
 
     const indicatorTableValues = indicatorTableRange.getValues();
@@ -418,12 +464,14 @@ export function menuValidateDatasetSpreadsheet() {
   if (sourcesTableRange) {
     // Make sure the named range "source_table" covers the complete table area here.
     // It must start on the first row and end on the last row.
-    // (No validation performed at the moment)
+    // You should adjust the numbers of rows to fit the number of sources of the dataset. In future versions of your dataset, you can remove or add rows, if the number of sources change.
+    assertNamedRangeCoversTheEntireTable(
+      sourcesTableRange,
+      "source_table",
+      "Sources"
+    );
 
     // The order of columns in this nested table, should not be changed.
-    // (No validation performed at the moment)
-
-    // You should adjust the numbers of rows to fit the number of sources of the dataset. In future versions of your dataset, you can remove or add rows, if the number of sources change.
     // (No validation performed at the moment)
 
     const sourcesTableValues = sourcesTableRange.getValues();
@@ -506,12 +554,14 @@ export function menuValidateDatasetSpreadsheet() {
   if (versionsTableRange) {
     // Make sure the named range "version_table" covers the complete table area here.
     // It must start on the first row and end on the last row.
-    // (No validation performed at the moment)
+    // You should adjust the numbers of rows to fit the number of versions of the dataset. When you create a new version of the dataset, you will copy the work document, and the link to the copy, will be what you paste in this version table, inside the work document, from which it is fetched in the data process.
+    assertNamedRangeCoversTheEntireTable(
+      versionsTableRange,
+      "version_table",
+      "Versions"
+    );
 
     // The order of columns in this nested table, should not be changed.
-    // (No validation performed at the moment)
-
-    // You should adjust the numbers of rows to fit the number of versions of the dataset. When you create a new version of the dataset, you will copy the work document, and the link to the copy, will be what you paste in this version table, inside the work document, from which it is fetched in the data process.
     // (No validation performed at the moment)
 
     const versionsTableValues = versionsTableRange.getValues();
