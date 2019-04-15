@@ -1,4 +1,6 @@
 import Range = GoogleAppsScript.Spreadsheet.Range;
+import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
+import Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
 
 /**
  * @hidden
@@ -12,10 +14,63 @@ interface ValidationResult {
 /**
  * @hidden
  */
+interface DataSheetMetadata {
+  headerFormulas: string[];
+  headers: string[];
+  name: string;
+  sheet: Sheet;
+}
+
+/**
+ * @hidden
+ */
 export function menuValidateDatasetSpreadsheet() {
   const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   const aboutSheet = activeSpreadsheet.getSheetByName("ABOUT");
+  const dataSheetsMetadata = getDataSheetsMetadata(activeSpreadsheet);
+  validateDatasetSpreadsheet(activeSpreadsheet, aboutSheet, dataSheetsMetadata);
+}
 
+/**
+ * @hidden
+ */
+function getDataSheetsMetadata(
+  activeSpreadsheet: Spreadsheet
+): DataSheetMetadata[] {
+  return getPresentDataSheets(activeSpreadsheet).map((dataSheet: Sheet) => {
+    const dataRange = dataSheet.getDataRange();
+    const headersRange = dataSheet.getRange(
+      dataRange.getRow(),
+      dataRange.getColumn(),
+      1,
+      dataRange.getNumColumns()
+    );
+    return {
+      headerFormulas: headersRange.getFormulas()[0],
+      headers: headersRange.getValues()[0].map(v => String(v)),
+      name: dataSheet.getSheetName(),
+      sheet: dataSheet
+    };
+  });
+}
+
+/**
+ * @hidden
+ */
+function getPresentDataSheets(activeSpreadsheet: Spreadsheet): Sheet[] {
+  return activeSpreadsheet
+    .getSheets()
+    .filter((sheet: Sheet) => sheet.getSheetName().indexOf("data-") === 0);
+}
+
+/**
+ * @hidden
+ */
+function validateDatasetSpreadsheet(
+  activeSpreadsheet: Spreadsheet,
+  aboutSheet: Sheet,
+  dataSheetsMetadata: DataSheetMetadata[]
+) {
   // Should not be possible since we only show this menu item if the about sheet exists. Nevertheless:
   if (aboutSheet === null) {
     SpreadsheetApp.getUi().alert(
@@ -44,6 +99,47 @@ export function menuValidateDatasetSpreadsheet() {
       result: `${passed ? "GOOD" : "BAD"}: ${message}`
     });
   };
+
+  // Data sheets validation
+
+  // At least one data sheet
+  if (dataSheetsMetadata.length === null) {
+    recordValidationResult(
+      "data-sheets",
+      false,
+      `There should be at least one "data-" sheet`
+    );
+  } else {
+    recordValidationResult(
+      "data-sheets",
+      true,
+      `There is at least one "data-" sheet present`
+    );
+
+    // At least one four header columns in each data sheet
+    dataSheetsMetadata.map((dataSheetMetadata: DataSheetMetadata) => {
+      const key = `data-sheet:${dataSheetMetadata.name}`;
+      if (dataSheetMetadata.headers.length < 4) {
+        recordValidationResult(
+          key,
+          false,
+          `The '${
+            dataSheetMetadata.name
+          }' data sheet should have at least 4 header columns`
+        );
+      } else {
+        recordValidationResult(
+          key,
+          true,
+          `The '${
+            dataSheetMetadata.name
+          }' data sheet has at least 4 header columns`
+        );
+      }
+    });
+  }
+
+  // About sheet validation + Validation of data sheets columns D forward
 
   const assertExistingNamedRange = name => {
     const namedRange = activeSpreadsheet.getRangeByName(name);
@@ -253,6 +349,36 @@ export function menuValidateDatasetSpreadsheet() {
         );
       }
 
+      // Then go over the "data-.." sheets to make sure the column headers (column D and forward, with indicator names) use references to the cells with "Indicator(s)" here, so they match perfectly when the data is fetched.
+      const headerIndex = i + 3;
+      const indicatorNameCell = indicatorTableRange.getCell(rowNumber, 2);
+      const expectedFormula = `=${aboutSheet.getSheetName()}!${indicatorNameCell.getA1Notation()}`;
+      dataSheetsMetadata.map((dataSheetMetadata: DataSheetMetadata) => {
+        const dataSheetSpecificKey = `${key}:${dataSheetMetadata.name}`;
+        const currentHeaderFormula =
+          dataSheetMetadata.headerFormulas[headerIndex];
+        const currentHeaderValue = dataSheetMetadata.headers[headerIndex];
+        if (expectedFormula === currentHeaderFormula) {
+          recordValidationResult(
+            dataSheetSpecificKey,
+            true,
+            `The indicator name cell of indicator ${rowNumber} is referenced in the '${
+              dataSheetMetadata.name
+            }' data sheet in column ${headerIndex + 1} as "${expectedFormula}"`
+          );
+        } else {
+          recordValidationResult(
+            dataSheetSpecificKey,
+            false,
+            `The indicator name cell of indicator ${rowNumber} should be referenced in the '${
+              dataSheetMetadata.name
+            }' data sheet in column ${headerIndex +
+              1} as "${expectedFormula}" but is currently "${currentHeaderFormula ||
+              currentHeaderValue}"`
+          );
+        }
+      });
+
       // Description
       // This description will be used in visualisations when a user want's to understand what the indicator is measuring.
       columnNumber = 2;
@@ -396,9 +522,6 @@ export function menuValidateDatasetSpreadsheet() {
         );
       }
     });
-
-    // Then go over the "data-.." sheets to make sure the column headers (column D and forward, with indicator names) use references to the cells with "Indicator(s)" here, so they match perfectly when the data is fetched.
-    // (No validation performed at the moment)
   }
 
   // Sources section
