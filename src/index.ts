@@ -66,7 +66,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  *
  * @param {A1:D} table_range_with_headers
  * @param {"four_regions"} aggregation_prop Aggregation property
- * @param {"countries_etc"} geo_set Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
  * @customfunction
  */
 (global as any).GM_AGGR = function(
@@ -209,8 +209,8 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  * Note: Automatically adds geo ids as aliases in geo lookup tables, so that "USA" matches "usa" even though no specific alias "usa" is mapped to "usa".
  *
  * @param {A1:A} column_range_with_headers
- * @param {"countries_etc"} geo_set Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
- * @param {TRUE} verbose Explains how a certain row is invalid instead of simply returning "[Invalid]" for the row
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
+ * @param {TRUE} verbose (Optional with default "FALSE") Explains how a certain row is invalid instead of simply returning "[Invalid]" for the row
  * @customfunction
  */
 (global as any).GM_ID = function(
@@ -240,7 +240,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  *
  * @param {"pop"} concept_id Concept id (eg. "pop") of which concept to import
  * @param {"year"} time_unit Time unit variant (eg. "year") of the concept to import
- * @param {"countries_etc"} geo_set Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 (global as any).GM_IMPORT = function(
@@ -276,8 +276,8 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  * Note: Automatically adds geo ids as aliases in geo lookup tables, so that "USA" matches "usa" even though no specific alias "usa" is mapped to "usa".
  *
  * @param {A1:A} column_range_with_headers
- * @param {"countries_etc"} geo_set Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
- * @param {TRUE} verbose Explains how a certain row is invalid instead of simply returning "[Invalid]" for the row
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
+ * @param {TRUE} verbose (Optional with default "FALSE") Explains how a certain row is invalid instead of simply returning "[Invalid]" for the row
  * @customfunction
  */
 (global as any).GM_NAME = function(

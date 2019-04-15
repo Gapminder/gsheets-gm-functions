@@ -31,7 +31,7 @@ Gapminder-specific custom functions for Google Spreadsheets.
 
 ▸ **GM_AGGR**(table_range_with_headers: *`string`[][]*, aggregation_prop: *`string`*, geo_set: *`string`*): `any`[][]
 
-*Defined in [GM_AGGR.ts:29](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_AGGR.ts#L29)*
+*Defined in [GM_AGGR.ts:30](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_AGGR.ts#L30)*
 
 Aggregates an input table by property and time, returning a table with the aggregated values of the input table.
 
@@ -48,7 +48,7 @@ The range must be four columns wide.
 | ------ | ------ | ------ |
 | table_range_with_headers | `string`[][] |  \- |
 | aggregation_prop | `string` |  Aggregation property |
-| geo_set | `string` |  Should be one of the sets listed in the gapminder geo ontology such as “countries\_etc” |
+| geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the sets listed in the gapminder geo ontology such as “countries\_etc” |
 
 **Returns:** `any`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
@@ -60,7 +60,7 @@ ___
 
 ▸ **GM_DATA**(column_or_table_range_with_headers: *`string`[][]*, property_or_concept_id: *`string`*, time_unit: *`string`*, geo_set: *`string`*, property_or_concept_data_table_range_with_headers: *`string`[][]*): `any`[][]
 
-*Defined in [GM_DATA.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_DATA.ts#L24)*
+*Defined in [GM_DATA.ts:25](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_DATA.ts#L25)*
 
 Inserts a property or concept column, including a header row, with a common Gapminder property or concept matched against the input column/table range.
 
@@ -90,7 +90,7 @@ ___
 
 ▸ **GM_DATASET_CATALOG_STATUS**(concept_id: *`string`*, time_unit: *`string`*, geo_set: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_DATASET_CATALOG_STATUS.ts:23](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_DATASET_CATALOG_STATUS.ts#L23)*
+*Defined in [GM_DATASET_CATALOG_STATUS.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_DATASET_CATALOG_STATUS.ts#L24)*
 
 Checks if the referenced data is available remotely for use by GM\_\* functions.
 
@@ -148,7 +148,7 @@ ___
 
 ▸ **GM_GEO_LOOKUP_TABLE**(geo_set: *`string`*): `string`[][]
 
-*Defined in [GM_GEO_LOOKUP_TABLE.ts:18](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_GEO_LOOKUP_TABLE.ts#L18)*
+*Defined in [GM_GEO_LOOKUP_TABLE.ts:19](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_GEO_LOOKUP_TABLE.ts#L19)*
 
 Inserts a table with Gapminder’s geo ids together with their aliases (all spellings we have seen before), including lower cased variants without diacritics and special characters to allow for somewhat fuzzy matching.
 
@@ -158,7 +158,7 @@ To be used as the source range for VLOOKUP where the dataset is too large for GM
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| geo_set | `string` |  Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
+| geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
@@ -170,7 +170,7 @@ ___
 
 ▸ **GM_GROWTH**(table_range_with_headers: *`string`[][]*, concept_id: *`string`*, time_unit: *`string`*, geo_set: *`string`*, concept_data_table_range_with_headers: *`string`[][]*): `string`[][]
 
-*Defined in [GM_GROWTH.ts:19](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_GROWTH.ts#L19)*
+*Defined in [GM_GROWTH.ts:20](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_GROWTH.ts#L20)*
 
 Inserts the growth per time unit of a common Gapminder concept column, including a header row, matched against the input table range.
 
@@ -196,7 +196,7 @@ ___
 
 ▸ **GM_ID**(column_range_with_headers: *`string`[][]*, geo_set: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_ID.ts:13](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_ID.ts#L13)*
+*Defined in [GM_ID.ts:14](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_ID.ts#L14)*
 
 Inserts a matching column, including a header row, with Gapminder’s geo ids matched against the input column range, based on all spellings we have seen before. It should be entered in the header cell under which you want the first first id to appear and it uses as input another range of cells, which should start with the header of the column with names of a geo\_set you want to identify. Note: Automatically adds geo ids as aliases in geo lookup tables, so that "USA" matches "usa" even though no specific alias "usa" is mapped to "usa".
 
@@ -205,8 +205,8 @@ Inserts a matching column, including a header row, with Gapminder’s geo ids ma
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | column_range_with_headers | `string`[][] |  \- |
-| geo_set | `string` |  Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
-| verbose | `boolean` |  Explains how a certain row is invalid instead of simply returning "\[Invalid\]" for the row |
+| geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
+| verbose | `boolean` |  (Optional with default "FALSE") Explains how a certain row is invalid instead of simply returning "\[Invalid\]" for the row |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
@@ -218,7 +218,7 @@ ___
 
 ▸ **GM_IMPORT**(concept_id: *`string`*, time_unit: *`string`*, geo_set: *`string`*): `string`[][]
 
-*Defined in [GM_IMPORT.ts:29](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_IMPORT.ts#L29)*
+*Defined in [GM_IMPORT.ts:30](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_IMPORT.ts#L30)*
 
 Imports a standard Gapminder concept table.
 
@@ -238,7 +238,7 @@ Finishes in 3-10 seconds: =QUERY('data:pop:year:countries\_etc'!A1:D)
 | ------ | ------ | ------ |
 | concept_id | `string` |  Concept id (eg. "pop") of which concept to import |
 | time_unit | `string` |  Time unit variant (eg. "year") of the concept to import |
-| geo_set | `string` |  Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
+| geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
@@ -278,7 +278,7 @@ ___
 
 ▸ **GM_NAME**(column_range_with_headers: *`string`[][]*, geo_set: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_NAME.ts:13](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_NAME.ts#L13)*
+*Defined in [GM_NAME.ts:14](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_NAME.ts#L14)*
 
 Inserts a matching column, including a header row, with Gapminder’s common name for the geo matched against the input column range, based on all spellings we have seen before. (Like GM\_ID but inserts Gapminder’s common name for the geo instead of its id.) Note: Automatically adds geo ids as aliases in geo lookup tables, so that "USA" matches "usa" even though no specific alias "usa" is mapped to "usa".
 
@@ -287,8 +287,8 @@ Inserts a matching column, including a header row, with Gapminder’s common nam
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | column_range_with_headers | `string`[][] |  \- |
-| geo_set | `string` |  Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
-| verbose | `boolean` |  Explains how a certain row is invalid instead of simply returning "\[Invalid\]" for the row |
+| geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
+| verbose | `boolean` |  (Optional with default "FALSE") Explains how a certain row is invalid instead of simply returning "\[Invalid\]" for the row |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
@@ -300,7 +300,7 @@ ___
 
 ▸ **GM_PER_CAP**(table_range_with_headers_and_concept_values: *`string`[][]*, time_unit: *`string`*, geo_set: *`string`*, population_concept_data_table_range_with_headers: *`string`[][]*): `string`[][]
 
-*Defined in [GM_PER_CAP.ts:18](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_PER_CAP.ts#L18)*
+*Defined in [GM_PER_CAP.ts:19](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.6.0/src/GM_PER_CAP.ts#L19)*
 
 Divides the concept-value column(s) of the input table range by the population of the geo\_set.
 

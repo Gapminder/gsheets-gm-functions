@@ -3,6 +3,7 @@ import { GM_IMPORT } from "./GM_IMPORT";
 import { getDataGeographiesListOfCountriesEtcLookupTable } from "./gsheetsData/dataGeographies";
 import { GmTable, GmTableRow } from "./gsheetsData/gmTableStructure";
 import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
+import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 
 /**
  * Divides the concept-value column(s) of the input table range by the population of the geo_set.
@@ -25,6 +26,10 @@ export function GM_PER_CAP(
   const inputTable = preProcessInputRangeWithHeaders(
     table_range_with_headers_and_concept_values
   );
+
+  // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
+  validateAndAliasTheGeoSetArgument(geo_set);
+
   const inputTableRows = inputTable.map(GmTable.structureRow);
   const inputTableHeaderRow = inputTableRows.slice().shift();
   const inputTableRowsWithoutHeaderRow = inputTableRows.slice(1);

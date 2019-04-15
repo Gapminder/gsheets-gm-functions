@@ -3,6 +3,7 @@ import { GM_IMPORT } from "./GM_IMPORT";
 import { getDataGeographiesListOfCountriesEtcLookupTable } from "./gsheetsData/dataGeographies";
 import { GmTable, GmTableRow } from "./gsheetsData/gmTableStructure";
 import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
+import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 
 /**
  * Inserts the growth per time unit of a common Gapminder concept column, including a header row, matched against the input table range.
@@ -30,6 +31,8 @@ export function GM_GROWTH(
   const inputTableRowsWithoutHeaderRowByGeoAndTime = GmTable.byGeoAndTime(
     inputTableRowsWithoutHeaderRow
   );
+  // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
+  validateAndAliasTheGeoSetArgument(geo_set);
   // Concept data
   const gmDataResult: any[][] = GM_DATA(
     table_range_with_headers,

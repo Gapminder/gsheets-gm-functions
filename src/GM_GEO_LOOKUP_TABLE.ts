@@ -5,6 +5,7 @@ import {
   geoAliasesAndSynonymsWorksheetDataToGeoLookupTable,
   getGeoAliasesAndSynonymsWorksheetData
 } from "./gsheetsData/geoAliasesAndSynonyms";
+import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 
 /**
  * Inserts a table with Gapminder’s geo ids together with their aliases (all spellings we have seen before), including lower cased
@@ -12,13 +13,13 @@ import {
  *
  * To be used as the source range for VLOOKUP where the dataset is too large for GM_ID or GM_NAME to be used directly.
  *
- * @param geo_set Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
+ * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_GEO_LOOKUP_TABLE(geo_set: string): string[][] {
-  if (!geo_set) {
-    geo_set = "countries_etc";
-  }
+  // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
+  validateAndAliasTheGeoSetArgument(geo_set);
+
   const geoAliasesAndSynonymsWorksheetData: GeoAliasesAndSynonymsWorksheetData = getGeoAliasesAndSynonymsWorksheetData(
     geo_set
   );

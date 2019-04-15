@@ -11,6 +11,7 @@ import {
 import { gapminderPropertyToConceptIdMap } from "./gsheetsData/hardcodedConstants";
 import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 import { pipe } from "./lib/pipe";
+import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 
 /**
  * Aggregates an input table by property and time, returning a table with the aggregated values of the input table.
@@ -23,7 +24,7 @@ import { pipe } from "./lib/pipe";
  *
  * @param table_range_with_headers
  * @param aggregation_prop Aggregation property
- * @param geo_set Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
+ * @param geo_set (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_AGGR(
@@ -33,6 +34,9 @@ export function GM_AGGR(
 ) {
   // Ensure expected input range contents
   const inputTable = preProcessInputRangeWithHeaders(table_range_with_headers);
+
+  // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
+  validateAndAliasTheGeoSetArgument(geo_set);
 
   // Add aggregation property value and name columns to input table
   const geoColumnWithHeaderRow = inputTable.map(row => [row[0]]);

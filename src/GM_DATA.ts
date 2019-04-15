@@ -2,6 +2,7 @@ import { GM_IMPORT } from "./GM_IMPORT";
 import { getDataGeographiesListOfCountriesEtcLookupTable } from "./gsheetsData/dataGeographies";
 import { GmTable, GmTableRow } from "./gsheetsData/gmTableStructure";
 import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
+import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 
 /**
  * Inserts a property or concept column, including a header row, with a common Gapminder property or concept matched against the input column/table range.
@@ -32,6 +33,9 @@ export function GM_DATA(
   const inputColumnOrTable = preProcessInputRangeWithHeaders(
     column_or_table_range_with_headers
   );
+
+  // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
+  validateAndAliasTheGeoSetArgument(geo_set);
 
   // Separate the input range header row
   const inputColumnOrTableHeaderRow = inputColumnOrTable.shift();

@@ -2,6 +2,7 @@ import { getConceptDataCatalogEntry } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 import { fetchWorksheetReferences } from "./gsheetsData/fetchWorksheetReferences";
 import { conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit } from "./gsheetsData/hardcodedConstants";
+import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 
 /**
  * Checks if the referenced data is available remotely for use by GM_* functions.
@@ -26,10 +27,14 @@ export function GM_DATASET_CATALOG_STATUS(
   geo_set: string,
   verbose: boolean
 ) {
+  // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
+  validateAndAliasTheGeoSetArgument(geo_set);
+
   // Default argument value
   if (verbose === undefined) {
     verbose = false;
   }
+
   try {
     const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
     const conceptDataCatalogEntry = getConceptDataCatalogEntry(

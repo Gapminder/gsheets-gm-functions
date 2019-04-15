@@ -3,6 +3,7 @@ import {
   getConceptDataWorksheetData
 } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
+import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 
 /**
  * Imports a standard Gapminder concept table.
@@ -23,7 +24,7 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
  *
  * @param concept_id Concept id (eg. "pop") of which concept to import
  * @param time_unit Time unit variant (eg. "year") of the concept to import
- * @param geo_set Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
+ * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_IMPORT(
@@ -31,6 +32,9 @@ export function GM_IMPORT(
   time_unit: string,
   geo_set: string
 ) {
+  // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
+  validateAndAliasTheGeoSetArgument(geo_set);
+
   const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
   const importedWorksheetData = getConceptDataWorksheetData(
     concept_id,
