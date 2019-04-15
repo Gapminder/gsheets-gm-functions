@@ -2,7 +2,7 @@ import { remove as removeDiacritics } from "diacritics";
 import { fetchWorksheetData } from "./fetchWorksheetData";
 import {
   geoAliasesAndSynonymsDocSpreadsheetId,
-  geoAliasesAndSynonymsDocWorksheetReferencesByGeopgraphy
+  geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet
 } from "./hardcodedConstants";
 import { ListGeoAliasesAndSynonyms } from "./types/listGeoAliasesAndSynonyms";
 
@@ -41,21 +41,21 @@ export interface GeoAliasesAndSynonymsLookupTable {
 /**
  * @hidden
  */
-export function getGeoAliasesAndSynonymsLookupTable(geography) {
-  const data = getGeoAliasesAndSynonymsWorksheetData(geography);
+export function getGeoAliasesAndSynonymsLookupTable(geo_set) {
+  const data = getGeoAliasesAndSynonymsWorksheetData(geo_set);
   return geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(data, null);
 }
 
 /**
  * @hidden
  */
-export function getGeoAliasesAndSynonymsWorksheetData(geography) {
-  if (!geoAliasesAndSynonymsDocWorksheetReferencesByGeopgraphy[geography]) {
-    throw new Error(`Unknown Gapminder geography: "${geography}"`);
+export function getGeoAliasesAndSynonymsWorksheetData(geo_set) {
+  if (!geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet[geo_set]) {
+    throw new Error(`Unknown Gapminder geo_set: "${geo_set}"`);
   }
   const worksheetDataResponse: ListGeoAliasesAndSynonyms.Response = fetchWorksheetData(
     geoAliasesAndSynonymsDocSpreadsheetId,
-    geoAliasesAndSynonymsDocWorksheetReferencesByGeopgraphy[geography]
+    geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet[geo_set]
   );
   return gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
     worksheetDataResponse
@@ -117,12 +117,12 @@ export function geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(
  */
 export function matchColumnValuesUsingGeoAliasesAndSynonyms(
   columnValues,
-  geography
+  geo_set
 ) {
-  if (!geography) {
-    geography = "countries_etc";
+  if (!geo_set) {
+    geo_set = "countries_etc";
   }
-  const lookupTable = getGeoAliasesAndSynonymsLookupTable(geography);
+  const lookupTable = getGeoAliasesAndSynonymsLookupTable(geo_set);
   return columnValues.map(
     (inputRow): GeoAliasesAndSynonymsDataRow | MissingGeoAliasDataRow => {
       const alias = inputRow[0];

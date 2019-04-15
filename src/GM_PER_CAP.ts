@@ -5,20 +5,20 @@ import { GmTable, GmTableRow } from "./gsheetsData/gmTableStructure";
 import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 
 /**
- * Divides the concept-value column(s) of the input table range by the population of the geography.
+ * Divides the concept-value column(s) of the input table range by the population of the geo_set.
  *
  * Note: Uses GM_DATA internally. Performance-related documentation about GM_DATA applies.
  *
  * @param table_range_with_headers_and_concept_values A table range including [geo,name,time,concept-values...]
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
- * @param geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param population_concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the population concept data to look up against. Can be included for performance reasons.
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_PER_CAP(
   table_range_with_headers_and_concept_values: string[][],
   time_unit: string,
-  geography: string,
+  geo_set: string,
   population_concept_data_table_range_with_headers: string[][]
 ) {
   // Ensure expected input range contents
@@ -33,7 +33,7 @@ export function GM_PER_CAP(
     table_range_with_headers_and_concept_values,
     "pop",
     time_unit,
-    geography,
+    geo_set,
     population_concept_data_table_range_with_headers
   );
   populationGmDataResult.shift();

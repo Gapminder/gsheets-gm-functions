@@ -66,15 +66,15 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  *
  * @param {A1:D} table_range_with_headers
  * @param {"four_regions"} aggregation_prop Aggregation property
- * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
+ * @param {"countries_etc"} geo_set Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
  * @customfunction
  */
 (global as any).GM_AGGR = function(
   table_range_with_headers: string[][],
   aggregation_prop: string,
-  geography: string
+  geo_set: string
 ) {
-  return GM_AGGR(table_range_with_headers, aggregation_prop, geography);
+  return GM_AGGR(table_range_with_headers, aggregation_prop, geo_set);
 };
 
 /**
@@ -91,7 +91,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  * @param {A1:D} column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
  * @param {"UN members since"} property_or_concept_id Either the property ("UN member since") or concept id ("pop") of which value to look up
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
- * @param {"countries_etc"} geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param {'data:pop:year:countries_etc'!A1:D} property_or_concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
@@ -99,14 +99,14 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
   column_or_table_range_with_headers: string[][],
   property_or_concept_id: string,
   time_unit: string,
-  geography: string,
+  geo_set: string,
   property_or_concept_data_table_range_with_headers: string[][]
 ) {
   return GM_DATA(
     column_or_table_range_with_headers,
     property_or_concept_id,
     time_unit,
-    geography,
+    geo_set,
     property_or_concept_data_table_range_with_headers
   );
 };
@@ -124,17 +124,17 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  *
  * @param {"pop"} concept_id The concept id ("pop") of which concept data to check status for
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for
- * @param {"countries_etc"} geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param {FALSE} verbose Explains how a certain dataset is invalid instead of simply returning "BAD" for the row
  * @customfunction
  */
 (global as any).GM_DATASET_CATALOG_STATUS = function(
   concept_id: string,
   time_unit: string,
-  geography: string,
+  geo_set: string,
   verbose: boolean
 ) {
-  return GM_DATASET_CATALOG_STATUS(concept_id, time_unit, geography, verbose);
+  return GM_DATASET_CATALOG_STATUS(concept_id, time_unit, geo_set, verbose);
 };
 
 /**
@@ -169,11 +169,11 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  *
  * To be used as the source range for VLOOKUP where the dataset is too large for GM_ID or GM_NAME to be used directly.
  *
- * @param {"countries_etc"} geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @customfunction
  */
-(global as any).GM_GEO_LOOKUP_TABLE = function(geography: string) {
-  return GM_GEO_LOOKUP_TABLE(geography);
+(global as any).GM_GEO_LOOKUP_TABLE = function(geo_set: string) {
+  return GM_GEO_LOOKUP_TABLE(geo_set);
 };
 
 /**
@@ -184,7 +184,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  * @param {A1:D} table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
  * @param {"pop"} concept_id The concept id ("pop") of which value to look up
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
- * @param {"countries_etc"} geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param {'data:pop:year:countries_etc'!A1:D} concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
@@ -192,33 +192,33 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
   table_range_with_headers: string[][],
   concept_id: string,
   time_unit: string,
-  geography: string,
+  geo_set: string,
   concept_data_table_range_with_headers: string[][]
 ) {
   return GM_GROWTH(
     table_range_with_headers,
     concept_id,
     time_unit,
-    geography,
+    geo_set,
     concept_data_table_range_with_headers
   );
 };
 
 /**
- * Inserts a matching column, including a header row, with Gapminder’s geo ids matched against the input column range, based on all spellings we have seen before. It should be entered in the header cell under which you want the first first id to appear and it uses as input another range of cells, which should start with the header of the column with names of a geography you want to identify.
+ * Inserts a matching column, including a header row, with Gapminder’s geo ids matched against the input column range, based on all spellings we have seen before. It should be entered in the header cell under which you want the first first id to appear and it uses as input another range of cells, which should start with the header of the column with names of a geo_set you want to identify.
  * Note: Automatically adds geo ids as aliases in geo lookup tables, so that "USA" matches "usa" even though no specific alias "usa" is mapped to "usa".
  *
  * @param {A1:A} column_range_with_headers
- * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param {"countries_etc"} geo_set Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param {TRUE} verbose Explains how a certain row is invalid instead of simply returning "[Invalid]" for the row
  * @customfunction
  */
 (global as any).GM_ID = function(
   column_range_with_headers: string[][],
-  geography: string,
+  geo_set: string,
   verbose: boolean
 ) {
-  return GM_ID(column_range_with_headers, geography, verbose);
+  return GM_ID(column_range_with_headers, geo_set, verbose);
 };
 
 /**
@@ -240,15 +240,15 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  *
  * @param {"pop"} concept_id Concept id (eg. "pop") of which concept to import
  * @param {"year"} time_unit Time unit variant (eg. "year") of the concept to import
- * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param {"countries_etc"} geo_set Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 (global as any).GM_IMPORT = function(
   concept_id: string,
   time_unit: string,
-  geography: string
+  geo_set: string
 ) {
-  return GM_IMPORT(concept_id, time_unit, geography);
+  return GM_IMPORT(concept_id, time_unit, geo_set);
 };
 
 /**
@@ -276,39 +276,39 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  * Note: Automatically adds geo ids as aliases in geo lookup tables, so that "USA" matches "usa" even though no specific alias "usa" is mapped to "usa".
  *
  * @param {A1:A} column_range_with_headers
- * @param {"countries_etc"} geography Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param {"countries_etc"} geo_set Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param {TRUE} verbose Explains how a certain row is invalid instead of simply returning "[Invalid]" for the row
  * @customfunction
  */
 (global as any).GM_NAME = function(
   column_range_with_headers: string[][],
-  geography: string,
+  geo_set: string,
   verbose: boolean
 ) {
-  return GM_NAME(column_range_with_headers, geography, verbose);
+  return GM_NAME(column_range_with_headers, geo_set, verbose);
 };
 
 /**
- * Divides the concept-value column(s) of the input table range by the population of the geography.
+ * Divides the concept-value column(s) of the input table range by the population of the geo_set.
  *
  * Note: Uses GM_DATA internally. Performance-related documentation about GM_DATA applies.
  *
  * @param {A1:D} table_range_with_headers_and_concept_values A table range including [geo,name,time,concept-values...]
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
- * @param {"countries_etc"} geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param {'data:pop:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the population concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
 (global as any).GM_PER_CAP = function(
   table_range_with_headers_and_concept_values: string[][],
   time_unit: string,
-  geography: string,
+  geo_set: string,
   population_concept_data_table_range_with_headers: string[][]
 ) {
   return GM_PER_CAP(
     table_range_with_headers_and_concept_values,
     time_unit,
-    geography,
+    geo_set,
     population_concept_data_table_range_with_headers
   );
 };

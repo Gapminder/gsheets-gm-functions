@@ -6,13 +6,13 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
  * Note: Automatically adds geo ids as aliases in geo lookup tables, so that "USA" matches "usa" even though no specific alias "usa" is mapped to "usa".
  *
  * @param column_range_with_headers
- * @param geography Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param geo_set Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param verbose Explains how a certain row is invalid instead of simply returning "[Invalid]" for the row
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_NAME(
   column_range_with_headers: string[][],
-  geography: string,
+  geo_set: string,
   verbose: boolean
 ) {
   // Ensure expected input range contents
@@ -30,7 +30,7 @@ export function GM_NAME(
 
   const matchedGeos = matchColumnValuesUsingGeoAliasesAndSynonyms(
     inputColumn,
-    geography
+    geo_set
   );
 
   return [["name"]].concat(

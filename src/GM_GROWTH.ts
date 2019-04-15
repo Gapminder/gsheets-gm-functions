@@ -12,7 +12,7 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
  * @param table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
  * @param concept_id Concept id (eg. "pop") of which concept to import
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
- * @param geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
@@ -20,7 +20,7 @@ export function GM_GROWTH(
   table_range_with_headers: string[][],
   concept_id: string,
   time_unit: string,
-  geography: string,
+  geo_set: string,
   concept_data_table_range_with_headers: string[][]
 ) {
   // Ensure expected input range contents
@@ -35,7 +35,7 @@ export function GM_GROWTH(
     table_range_with_headers,
     concept_id,
     time_unit,
-    geography,
+    geo_set,
     concept_data_table_range_with_headers
   );
   const gmDataHeaderRow: string[] = gmDataResult.slice().shift();

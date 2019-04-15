@@ -10,9 +10,9 @@ import { MinimalUtilities } from "./lib/MinimalUtilities";
  */
 const testGmGeoLookupTable: Macro<any> = (
   t: ExecutionContext,
-  { geography, expectedTopFiveRowsOfOutput }
+  { geo_set, expectedTopFiveRowsOfOutput }
 ) => {
-  const output = GM_GEO_LOOKUP_TABLE(geography);
+  const output = GM_GEO_LOOKUP_TABLE(geo_set);
   const topFiveRowsOfOutput = output.slice(0, 5);
   // t.log({ topFiveRowsOfOutput, expectedTopFiveRowsOfOutput });
   t.deepEqual(topFiveRowsOfOutput, expectedTopFiveRowsOfOutput);
@@ -21,7 +21,7 @@ const testGmGeoLookupTable: Macro<any> = (
 [
   /* tslint:disable:object-literal-sort-keys */
   {
-    geography: "world_4region",
+    geo_set: "world_4region",
     expectedTopFiveRowsOfOutput: [
       ["alias", "geo", "name"],
       ["Africa", "africa", "Africa"],

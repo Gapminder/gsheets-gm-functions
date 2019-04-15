@@ -14,7 +14,7 @@ const testGmGrowth: Macro<any> = (
     table_range_with_headers,
     concept_id,
     time_unit,
-    geography,
+    geo_set,
     concept_data_table_range_with_headers,
     expectedOutput
   }
@@ -23,7 +23,7 @@ const testGmGrowth: Macro<any> = (
     table_range_with_headers,
     concept_id,
     time_unit,
-    geography,
+    geo_set,
     concept_data_table_range_with_headers
   );
   // t.log({ output, expectedOutput });
@@ -44,7 +44,7 @@ const testGmGrowth: Macro<any> = (
     ],
     concept_id: "pop",
     time_unit: "year",
-    geography: "countries_etc",
+    geo_set: "countries_etc",
     concept_data_table_range_with_headers: [
       ["geo_id", "geo_name", "year", "population"],
       ["foo", "Foo", 1900, 100],

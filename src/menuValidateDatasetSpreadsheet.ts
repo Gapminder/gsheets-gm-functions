@@ -844,7 +844,7 @@ function validateDatasetSpreadsheet(
 
   // Catalog status table
   // This table uses GM_DATASET_CATALOG_STATUS to determine how available the dataset is to GM_* functions in general.
-  // Remove and add rows as necessary to cover all variations of time unit and geography that the dataset covers
+  // Remove and add rows as necessary to cover all variations of time unit and geo_set that the dataset covers
   // (No validation performed at the moment)
 
   // "If everything looks good, you can delete the yellow instruction column"

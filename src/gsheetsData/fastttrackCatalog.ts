@@ -10,7 +10,7 @@ import { ListFasttrackCatalogDataPoints } from "./types/listFasttrackCatalogData
  */
 export interface FasttrackCatalogDataPointsDataRow {
   /* tslint:disable:object-literal-sort-keys */
-  geography: string;
+  geo_set: string;
   time_unit: string;
   concept_id: string;
   dimensions: string;
@@ -57,7 +57,7 @@ function gsheetsDataApiFeedsListFasttrackCatalogDataPointsResponseToWorksheetDat
   const rows = r.feed.entry.map(currentValue => {
     return {
       /* tslint:disable:object-literal-sort-keys */
-      geography: currentValue.gsx$geography.$t,
+      geo_set: currentValue.gsx$geography.$t,
       time_unit: currentValue.gsx$timeunit.$t,
       concept_id: currentValue.gsx$conceptid.$t,
       dimensions: currentValue.gsx$dimensions.$t,

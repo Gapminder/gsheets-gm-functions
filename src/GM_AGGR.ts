@@ -23,13 +23,13 @@ import { pipe } from "./lib/pipe";
  *
  * @param table_range_with_headers
  * @param aggregation_prop Aggregation property
- * @param geography Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
+ * @param geo_set Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_AGGR(
   table_range_with_headers: string[][],
   aggregation_prop: string,
-  geography: string
+  geo_set: string
 ) {
   // Ensure expected input range contents
   const inputTable = preProcessInputRangeWithHeaders(table_range_with_headers);
@@ -40,7 +40,7 @@ export function GM_AGGR(
     geoColumnWithHeaderRow,
     aggregation_prop,
     undefined,
-    geography,
+    geo_set,
     undefined
   );
   const aggregationPropertyNameColumnWithHeaderRow = gapminderPropertyToConceptIdMap[

@@ -2,7 +2,7 @@ import test, { ExecutionContext, Macro } from "ava";
 import { MinimalUrlFetchApp } from "../lib/MinimalUrlFetchApp";
 import { fetchWorksheetReferences } from "./fetchWorksheetReferences";
 import {
-  conceptDataDocWorksheetReferencesByGeographyAndTimeUnit,
+  conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit,
   conceptDatasetTemplateSpreadsheetId
 } from "./hardcodedConstants";
 (global as any).UrlFetchApp = MinimalUrlFetchApp;
@@ -27,10 +27,9 @@ const testFetchWorksheetReferences: Macro<any> = (
         name: "ABOUT",
         position: 1
       },
-      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit.global.year,
-      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit.world_4region
-        .year,
-      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit.countries_etc.year
+      conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit.global.year,
+      conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit.world_4region.year,
+      conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit.countries_etc.year
     ]
   }
   /* tslint:enable:object-literal-sort-keys */

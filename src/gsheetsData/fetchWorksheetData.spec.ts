@@ -2,7 +2,7 @@ import test, { ExecutionContext, Macro } from "ava";
 import { MinimalUrlFetchApp } from "../lib/MinimalUrlFetchApp";
 import { fetchWorksheetData } from "./fetchWorksheetData";
 import {
-  conceptDataDocWorksheetReferencesByGeographyAndTimeUnit,
+  conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit,
   conceptDatasetTemplateSpreadsheetId
 } from "./hardcodedConstants";
 (global as any).UrlFetchApp = MinimalUrlFetchApp;
@@ -23,7 +23,7 @@ const testFetchWorksheetData: Macro<any> = (
   {
     spreadsheetId: conceptDatasetTemplateSpreadsheetId,
     worksheetReference:
-      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit.global.year
+      conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit.global.year
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {

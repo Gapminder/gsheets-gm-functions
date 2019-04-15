@@ -17,7 +17,7 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
  * @param column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
  * @param property_or_concept_id Either the property (eg. "UN member since") or concept id (eg. "pop") of which value to look up
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
- * @param geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param property_or_concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the property or concept data to look up against. Can be included for performance reasons.
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
@@ -25,7 +25,7 @@ export function GM_DATA(
   column_or_table_range_with_headers: string[][],
   property_or_concept_id: string,
   time_unit: string,
-  geography: string,
+  geo_set: string,
   property_or_concept_data_table_range_with_headers: string[][]
 ): any[][] {
   // Ensure expected input range contents
@@ -42,7 +42,7 @@ export function GM_DATA(
     return dataGeographiesListOfCountriesEtcPropertyLookup(
       inputColumnOrTableWithoutHeaderRow,
       property_or_concept_id,
-      geography,
+      geo_set,
       property_or_concept_data_table_range_with_headers
     );
   } else {
@@ -50,7 +50,7 @@ export function GM_DATA(
       inputColumnOrTableWithoutHeaderRow,
       property_or_concept_id,
       time_unit,
-      geography,
+      geo_set,
       property_or_concept_data_table_range_with_headers
     );
   }
@@ -62,13 +62,13 @@ export function GM_DATA(
 function dataGeographiesListOfCountriesEtcPropertyLookup(
   inputColumnWithoutHeaderRow,
   property,
-  geography,
+  geo_set,
   property_or_concept_data_table_range_with_headers
 ): any[][] {
-  if (!geography) {
-    geography = "countries_etc";
+  if (!geo_set) {
+    geo_set = "countries_etc";
   }
-  if (geography !== "countries_etc") {
+  if (geo_set !== "countries_etc") {
     throw new Error(
       "Lookups of properties using other key concepts than countries_etc is currently not supported"
     );
@@ -103,11 +103,11 @@ function conceptValueLookup(
   inputTableWithoutHeaderRow,
   concept_id,
   time_unit,
-  geography,
+  geo_set,
   property_or_concept_data_table_range_with_headers
 ): any[][] {
-  if (!geography) {
-    geography = "countries_etc";
+  if (!geo_set) {
+    geo_set = "countries_etc";
   }
   if (!time_unit) {
     time_unit = "year";
@@ -119,7 +119,7 @@ function conceptValueLookup(
     property_or_concept_data_table_range_with_headers = GM_IMPORT(
       concept_id,
       time_unit,
-      geography
+      geo_set
     );
   }
   const conceptData = preProcessInputRangeWithHeaders(

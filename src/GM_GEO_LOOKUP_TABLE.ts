@@ -12,15 +12,15 @@ import {
  *
  * To be used as the source range for VLOOKUP where the dataset is too large for GM_ID or GM_NAME to be used directly.
  *
- * @param geography Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param geo_set Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
-export function GM_GEO_LOOKUP_TABLE(geography: string): string[][] {
-  if (!geography) {
-    geography = "countries_etc";
+export function GM_GEO_LOOKUP_TABLE(geo_set: string): string[][] {
+  if (!geo_set) {
+    geo_set = "countries_etc";
   }
   const geoAliasesAndSynonymsWorksheetData: GeoAliasesAndSynonymsWorksheetData = getGeoAliasesAndSynonymsWorksheetData(
-    geography
+    geo_set
   );
   const fuzzyMatchLookupTable: GeoAliasesAndSynonymsLookupTable = geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(
     geoAliasesAndSynonymsWorksheetData,

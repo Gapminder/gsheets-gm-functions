@@ -11,7 +11,7 @@ export function menuRefreshDataDependencies() {
   const expectedFirstHeaders = [
     "concept_id",
     "time_unit",
-    "geography",
+    "geo_set",
     "catalog status"
   ];
 
@@ -70,7 +70,7 @@ export function menuRefreshDataDependencies() {
   dataDependencies.map((dataDependencyRow, index) => {
     const concept_id = dataDependencyRow[0];
     const time_unit = dataDependencyRow[1];
-    const geography = dataDependencyRow[2];
+    const geo_set = dataDependencyRow[2];
     const dataStatus = dataDependencyRow[3];
 
     // Do not attempt to import bad datasets
@@ -88,11 +88,11 @@ export function menuRefreshDataDependencies() {
     const conceptDataCatalogEntry = getConceptDataCatalogEntry(
       concept_id,
       time_unit,
-      geography,
+      geo_set,
       fasttrackCatalogDataPointsWorksheetData
     );
 
-    const destinationSheetName = `data:${concept_id}:${time_unit}:${geography}`;
+    const destinationSheetName = `data:${concept_id}:${time_unit}:${geo_set}`;
 
     // Import sheet from source document
     const sourceDoc = SpreadsheetApp.openById(conceptDataCatalogEntry.docId);

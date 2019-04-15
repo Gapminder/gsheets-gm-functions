@@ -13,7 +13,7 @@ const testGmDataPropertyLookup: Macro<any> = (
   {
     column_range_with_headers,
     value_property,
-    geography,
+    geo_set,
     time_unit,
     property_or_concept_data_table_range_with_headers,
     expectedOutput
@@ -23,7 +23,7 @@ const testGmDataPropertyLookup: Macro<any> = (
     column_range_with_headers,
     value_property,
     time_unit,
-    geography,
+    geo_set,
     property_or_concept_data_table_range_with_headers
   );
   // t.log({output, expectedOutput});
@@ -35,7 +35,7 @@ const testGmDataPropertyLookup: Macro<any> = (
   {
     column_range_with_headers: [["geo"], ["foo"], ["swe"]],
     value_property: "UN member since",
-    geography: "countries_etc",
+    geo_set: "countries_etc",
     expectedOutput: [["UN member since"], ["Unknown geo: foo"], ["19/11/1946"]]
   }
   /* tslint:enable:object-literal-sort-keys */
@@ -56,7 +56,7 @@ const testGmDataConceptLookup: Macro<any> = (
     table_range_with_headers,
     concept_id,
     time_unit,
-    geography,
+    geo_set,
     property_or_concept_data_table_range_with_headers,
     expectedOutput
   }
@@ -65,7 +65,7 @@ const testGmDataConceptLookup: Macro<any> = (
     table_range_with_headers,
     concept_id,
     time_unit,
-    geography,
+    geo_set,
     property_or_concept_data_table_range_with_headers
   );
   // t.log({output, expectedOutput});
@@ -82,7 +82,7 @@ const testGmDataConceptLookup: Macro<any> = (
     ],
     concept_id: "pop",
     time_unit: "year",
-    geography: "countries_etc",
+    geo_set: "countries_etc",
     property_or_concept_data_table_range_with_headers: [
       ["geo_id", "geo_name", "year", "population"],
       ["foo", "Foo", 1900, 100],
@@ -101,7 +101,7 @@ const testGmDataConceptLookup: Macro<any> = (
     ],
     concept_id: "pop",
     time_unit: "year",
-    geography: "countries_etc",
+    geo_set: "countries_etc",
     property_or_concept_data_table_range_with_headers: undefined,
     expectedOutput: [
       ["pop"],

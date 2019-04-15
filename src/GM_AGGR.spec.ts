@@ -8,9 +8,9 @@ import { MinimalUrlFetchApp } from "./lib/MinimalUrlFetchApp";
  */
 const testAggregation: Macro<any> = (
   t: ExecutionContext,
-  { table_range_with_headers, aggregation_prop, geography, expectedOutput }
+  { table_range_with_headers, aggregation_prop, geo_set, expectedOutput }
 ) => {
-  const output = GM_AGGR(table_range_with_headers, aggregation_prop, geography);
+  const output = GM_AGGR(table_range_with_headers, aggregation_prop, geo_set);
   // t.log({ table_range_with_headers });
   // t.log({ output });
   // t.log({ expectedOutput });
@@ -31,7 +31,7 @@ const testAggregation: Macro<any> = (
       ["foo", "Foo", "1900", "0", "100"]
     ],
     aggregation_prop: "four_regions",
-    geography: "countries_etc",
+    geo_set: "countries_etc",
     expectedOutput: [
       [
         "four_regions",
@@ -75,7 +75,7 @@ const testAggregation: Macro<any> = (
       ["bol", "Bolivia", 1913, 1, 41, 5, 666, 48, 6, 5]
     ],
     aggregation_prop: "four_regions",
-    geography: "countries_etc",
+    geo_set: "countries_etc",
     expectedOutput: [
       [
         "four_regions",
@@ -119,7 +119,7 @@ const testAggregation: Macro<any> = (
       ["foo", "Foo", "1900", "0", "100"]
     ],
     aggregation_prop: "World bank income group 2017",
-    geography: "countries_etc",
+    geo_set: "countries_etc",
     expectedOutput: [
       [
         "World bank income group 2017",
@@ -163,7 +163,7 @@ const testAggregation: Macro<any> = (
       ["bol", "Bolivia", 1913, 1, 41, 5, 666, 48, 6, 5]
     ],
     aggregation_prop: "World bank income group 2017",
-    geography: "countries_etc",
+    geo_set: "countries_etc",
     expectedOutput: [
       [
         "World bank income group 2017",

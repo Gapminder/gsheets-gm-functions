@@ -13,7 +13,7 @@ const testGmPerCap: Macro<any> = (
   {
     table_range_with_headers_and_concept_values,
     time_unit,
-    geography,
+    geo_set,
     population_concept_data_table_range_with_headers,
     expectedOutput
   }
@@ -21,7 +21,7 @@ const testGmPerCap: Macro<any> = (
   const output = GM_PER_CAP(
     table_range_with_headers_and_concept_values,
     time_unit,
-    geography,
+    geo_set,
     population_concept_data_table_range_with_headers
   );
   // t.log({ output, expectedOutput });
@@ -37,7 +37,7 @@ const testGmPerCap: Macro<any> = (
       ["zoo", "Zoo", "1901", "12500"]
     ],
     time_unit: "year",
-    geography: "countries_etc",
+    geo_set: "countries_etc",
     population_concept_data_table_range_with_headers: [
       ["geo_id", "geo_name", "year", "population"],
       ["foo", "Foo", 1900, 100],

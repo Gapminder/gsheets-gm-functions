@@ -34,8 +34,8 @@ export const geoAliasesAndSynonymsDocSpreadsheetId =
 /**
  * @hidden
  */
-export const geoAliasesAndSynonymsDocWorksheetReferencesByGeopgraphy: {
-  [geography: string]: WorksheetReference;
+export const geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet: {
+  [geo_set: string]: WorksheetReference;
 } = {
   global: {
     name: "a-global",
@@ -79,7 +79,7 @@ export const fasttrackCatalogDocDataPointsWorksheetReference: WorksheetReference
 /**
  * @hidden
  */
-export const geographyToFasttrackCatalogGeographyMap = {
+export const geoSetToFasttrackCatalogGeoSetMap = {
   global: "world",
   world_4region: "regions",
   countries_etc: "countries-etc"
@@ -88,8 +88,8 @@ export const geographyToFasttrackCatalogGeographyMap = {
 /**
  * @hidden
  */
-export const conceptDataDocWorksheetReferencesByGeographyAndTimeUnit: {
-  [geography: string]: { [time_unit: string]: WorksheetReference };
+export const conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit: {
+  [geo_set: string]: { [time_unit: string]: WorksheetReference };
 } = {
   global: {
     year: {

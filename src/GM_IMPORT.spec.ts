@@ -10,9 +10,9 @@ import { MinimalUtilities } from "./lib/MinimalUtilities";
  */
 const testGmImport: Macro<any> = (
   t: ExecutionContext,
-  { concept_id, time_unit, geography, expectedTopFiveRowsOfOutput }
+  { concept_id, time_unit, geo_set, expectedTopFiveRowsOfOutput }
 ) => {
-  const output = GM_IMPORT(concept_id, time_unit, geography);
+  const output = GM_IMPORT(concept_id, time_unit, geo_set);
   const topFiveRowsOfOutput = output.slice(0, 5);
   // t.log({ topFiveRowsOfOutput, expectedTopFiveRowsOfOutput });
   t.deepEqual(topFiveRowsOfOutput, expectedTopFiveRowsOfOutput);
@@ -23,7 +23,7 @@ const testGmImport: Macro<any> = (
   {
     concept_id: "pop",
     time_unit: "year",
-    geography: "global",
+    geo_set: "global",
     expectedTopFiveRowsOfOutput: [
       ["geo", "name", "year", "pop"],
       ["world", "World", "1800", "946,764,816"],

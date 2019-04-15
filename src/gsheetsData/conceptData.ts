@@ -3,8 +3,8 @@ import {
   FasttrackCatalogDataPointsWorksheetData
 } from "./fastttrackCatalog";
 import {
-  conceptDataDocWorksheetReferencesByGeographyAndTimeUnit,
-  geographyToFasttrackCatalogGeographyMap
+  conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit,
+  geoSetToFasttrackCatalogGeoSetMap
 } from "./hardcodedConstants";
 import { listConceptDataByGeographyAndTimeUnit } from "./types/listConceptDataByGeographyAndTimeUnit";
 
@@ -33,13 +33,13 @@ interface ConceptDataWorksheetData {
 export function getConceptDataWorksheetData(
   concept_id,
   time_unit,
-  geography,
+  geo_set,
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
 ) {
   const matchingConcept = getConceptDataCatalogEntry(
     concept_id,
     time_unit,
-    geography,
+    geo_set,
     fasttrackCatalogDataPointsWorksheetData
   );
   const worksheetCsvDataHTTPResponse = UrlFetchApp.fetch(
@@ -59,34 +59,30 @@ export function getConceptDataWorksheetData(
 export function getConceptDataCatalogEntry(
   concept_id,
   time_unit,
-  geography,
+  geo_set,
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
 ) {
   const matchingConcept = getMatchingConcept(
     concept_id,
     time_unit,
-    geography,
+    geo_set,
     fasttrackCatalogDataPointsWorksheetData
   );
-  if (!conceptDataDocWorksheetReferencesByGeographyAndTimeUnit[geography]) {
-    throw new Error(`Unsupported Gapminder geography: "${geography}"`);
+  if (!conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit[geo_set]) {
+    throw new Error(`Unsupported Gapminder geo_set: "${geo_set}"`);
   }
   if (
-    !conceptDataDocWorksheetReferencesByGeographyAndTimeUnit[geography][
-      time_unit
-    ]
+    !conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit[geo_set][time_unit]
   ) {
     throw new Error(
-      `Unsupported time_unit for geography "${geography}": "${time_unit}"`
+      `Unsupported time_unit for geo_set "${geo_set}": "${time_unit}"`
     );
   }
   return {
     csvLink: matchingConcept.csv_link,
     docId: matchingConcept.doc_id,
     worksheetReference:
-      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit[geography][
-        time_unit
-      ]
+      conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit[geo_set][time_unit]
   };
 }
 
@@ -96,20 +92,19 @@ export function getConceptDataCatalogEntry(
 function getMatchingConcept(
   concept_id,
   time_unit,
-  geography,
+  geo_set,
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
 ) {
-  if (!geography) {
-    geography = "countries_etc";
+  if (!geo_set) {
+    geo_set = "countries_etc";
   }
-  const fasttrackCatalogGeography =
-    geographyToFasttrackCatalogGeographyMap[geography];
+  const fasttrackCatalogGeography = geoSetToFasttrackCatalogGeoSetMap[geo_set];
   const matchingConcepts = fasttrackCatalogDataPointsWorksheetData.rows.filter(
     (row: FasttrackCatalogDataPointsDataRow) => {
       return (
         row.concept_id === concept_id &&
         row.time_unit === time_unit &&
-        row.geography === fasttrackCatalogGeography
+        row.geo_set === fasttrackCatalogGeography
       );
     }
   );

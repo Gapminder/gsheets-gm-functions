@@ -23,19 +23,19 @@ import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatal
  *
  * @param concept_id Concept id (eg. "pop") of which concept to import
  * @param time_unit Time unit variant (eg. "year") of the concept to import
- * @param geography Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param geo_set Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_IMPORT(
   concept_id: string,
   time_unit: string,
-  geography: string
+  geo_set: string
 ) {
   const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
   const importedWorksheetData = getConceptDataWorksheetData(
     concept_id,
     time_unit,
-    geography,
+    geo_set,
     fasttrackCatalogDataPointsWorksheetData
   );
   const importedData = importedWorksheetData.rows.map((row: ConceptDataRow) => {

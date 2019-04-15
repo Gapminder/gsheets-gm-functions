@@ -1,7 +1,7 @@
 import { getConceptDataCatalogEntry } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 import { fetchWorksheetReferences } from "./gsheetsData/fetchWorksheetReferences";
-import { conceptDataDocWorksheetReferencesByGeographyAndTimeUnit } from "./gsheetsData/hardcodedConstants";
+import { conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit } from "./gsheetsData/hardcodedConstants";
 
 /**
  * Checks if the referenced data is available remotely for use by GM_* functions.
@@ -16,14 +16,14 @@ import { conceptDataDocWorksheetReferencesByGeographyAndTimeUnit } from "./gshee
  *
  * @param concept_id The concept id ("pop") of which concept data to check status for
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for
- * @param geography (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as "countries_etc"
+ * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param verbose Explains how a certain dataset is invalid instead of simply returning "BAD" for the row
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_DATASET_CATALOG_STATUS(
   concept_id: string,
   time_unit: string,
-  geography: string,
+  geo_set: string,
   verbose: boolean
 ) {
   // Default argument value
@@ -35,20 +35,18 @@ export function GM_DATASET_CATALOG_STATUS(
     const conceptDataCatalogEntry = getConceptDataCatalogEntry(
       concept_id,
       time_unit,
-      geography,
+      geo_set,
       fasttrackCatalogDataPointsWorksheetData
     );
     if (!conceptDataCatalogEntry.csvLink) {
       throw new Error("No CSV Link");
     }
-    // Compare worksheets with the expected ones defined in conceptDataDocWorksheetReferencesByGeographyAndTimeUnit
+    // Compare worksheets with the expected ones defined in conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit
     const worksheetReferences = fetchWorksheetReferences(
       conceptDataCatalogEntry.docId
     );
     const expectedWorksheetReference =
-      conceptDataDocWorksheetReferencesByGeographyAndTimeUnit[geography][
-        time_unit
-      ];
+      conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit[geo_set][time_unit];
     if (
       worksheetReferences.filter(
         worksheetReference =>
