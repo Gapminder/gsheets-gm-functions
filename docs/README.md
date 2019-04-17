@@ -11,7 +11,6 @@ Gapminder-specific custom functions and related menu item actions for Google Spr
 * [GM_AGGR](#gm_aggr)
 * [GM_DATA](#gm_data)
 * [GM_DATASET_CATALOG_STATUS](#gm_dataset_catalog_status)
-* [GM_DATASET_VALIDATION](#gm_dataset_validation)
 * [GM_GEO_LOOKUP_TABLE](#gm_geo_lookup_table)
 * [GM_GROWTH](#gm_growth)
 * [GM_ID](#gm_id)
@@ -113,32 +112,6 @@ Note: The function results are not automatically re-evaluated as changes are mad
 | time_unit | `string` |  (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for |
 | geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 | verbose | `boolean` |  Explains how a certain dataset is invalid instead of simply returning "BAD" for the row |
-
-**Returns:** `string`[][]
-A two-dimensional array containing the cell/column contents described above in the summary.
-
-___
-<a id="gm_dataset_validation"></a>
-
-###  GM_DATASET_VALIDATION
-
-▸ **GM_DATASET_VALIDATION**(about_sheet_range_except_the_title_row: *`string`[][]*, data_for_world_by_year_sheet_range: *`string`[][]*, data_for_regions_by_year_sheet_range: *`string`[][]*, data_for_countries_etc_by_year_range_sheet_range: *`string`[][]*): `string`[][]
-
-*Defined in [GM_DATASET_VALIDATION.ts:16](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/GM_DATASET_VALIDATION.ts#L16)*
-
-Evaluates if the referenced dataset ranges are set up according to the standard format and complete:
-
-*   Checks the row header of the output sheets (the so called "data-countries-etc/world/region-by-year)
-*   Checks the about sheet (to see if it follows the requirements in col A of the template) Returns "GOOD" or "BAD: What is bad... ".
-
-**Parameters:**
-
-| Name | Type | Description |
-| ------ | ------ | ------ |
-| about_sheet_range_except_the_title_row | `string`[][] |  Local spreadsheet range referencing the ABOUT sheet contents except the header row (where this function is expected to be used). |
-| data_for_world_by_year_sheet_range | `string`[][] |  Local spreadsheet range referencing the "world-by-year" concept data sheet. |
-| data_for_regions_by_year_sheet_range | `string`[][] |  Local spreadsheet range referencing the "regions-by-year" concept data sheet. |
-| data_for_countries_etc_by_year_range_sheet_range | `string`[][] |  Local spreadsheet range referencing the "countries-etc-by-year" concept data sheet. |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.

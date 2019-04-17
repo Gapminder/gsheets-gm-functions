@@ -6,7 +6,6 @@
 import { GM_AGGR } from "./GM_AGGR";
 import { GM_DATA } from "./GM_DATA";
 import { GM_DATASET_CATALOG_STATUS } from "./GM_DATASET_CATALOG_STATUS";
-import { GM_DATASET_VALIDATION } from "./GM_DATASET_VALIDATION";
 import { GM_GEO_LOOKUP_TABLE } from "./GM_GEO_LOOKUP_TABLE";
 import { GM_GROWTH } from "./GM_GROWTH";
 import { GM_ID } from "./GM_ID";
@@ -135,32 +134,6 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
   verbose: boolean
 ) {
   return GM_DATASET_CATALOG_STATUS(concept_id, time_unit, geo_set, verbose);
-};
-
-/**
- * Evaluates if the referenced dataset is set up according to the standard format and complete:
- * - Checks the row header of the output sheets ( the so called "data-countries-etc/world/region-by year)
- * - Checks the about sheet (to see if it follows the requirements in col A)
- * Returns "GOOD" or "BAD: What is bad...".
- *
- * @param {"'ABOUT'!A2:J"} about_sheet_range_except_the_title_row Local spreadsheet range referencing the ABOUT sheet contents except the header row (where this function is expected to be used).
- * @param {"'data-for-world-by-year'!A:F"} data_for_world_by_year_sheet_range Local spreadsheet range referencing the "world-by-year" concept data sheet.
- * @param {"'data-for-regions-by-year'!A:F"} data_for_regions_by_year_sheet_range Local spreadsheet range referencing the "regions-by-year" concept data sheet.
- * @param {"'data-for-countries-etc-by-year'!A:F"} data_for_countries_etc_by_year_range_sheet_range Local spreadsheet range referencing the "countries-etc-by-year" concept data sheet.
- * @customfunction
- */
-(global as any).GM_DATASET_VALIDATION = function(
-  about_sheet_range_except_the_title_row: string[][],
-  data_for_world_by_year_sheet_range: string[][],
-  data_for_regions_by_year_sheet_range: string[][],
-  data_for_countries_etc_by_year_range_sheet_range: string[][]
-) {
-  return GM_DATASET_VALIDATION(
-    about_sheet_range_except_the_title_row,
-    data_for_world_by_year_sheet_range,
-    data_for_regions_by_year_sheet_range,
-    data_for_countries_etc_by_year_range_sheet_range
-  );
 };
 
 /**
