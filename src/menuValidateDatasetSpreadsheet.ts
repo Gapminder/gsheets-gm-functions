@@ -22,7 +22,16 @@ interface DataSheetMetadata {
 }
 
 /**
- * @hidden
+ * Menu item action for "Gapminder Data -> Validate this dataset spreadsheet"
+ *
+ * Validates if the dataset spreadsheet conforms to the comments found in
+ * [the template](https://docs.google.com/spreadsheets/d/1ObY2k1SDDEwMfeM5jhQW8hIMcEpo8Oo0qclLZ3L6ByA/edit)
+ * and writes the validation results in the Validation table at the bottom of the About sheet.
+ *
+ * Details:
+ * - Checks the row headers of the output sheets (the so called "data-countries-etc/world/region-by-year")
+ * - Checks the about sheet (to see if it follows the requirements in col A in the template)
+ * - Checks that filter mode is not turned on in data sheets (since it breaks the CSV endpoint)
  */
 export function menuValidateDatasetSpreadsheet() {
   const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();

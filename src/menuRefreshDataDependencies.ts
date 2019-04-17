@@ -2,7 +2,16 @@ import { getConceptDataCatalogEntry } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 
 /**
- * @hidden
+ * Menu item action for "Gapminder Data -> Import/refresh data dependencies"
+ *
+ * Imports data sets from the fasttrack catalog to the current spreadsheet,
+ * allowing GM_-functions to reference local data instead of importing data on-the-fly.
+ *
+ * Details:
+ * - Creates the data-dependencies spreadsheet if it doesn't exist
+ * - Verifies that the first headers of the data-dependencies spreadsheet are as expected
+ * - Does not attempt to import data with bad catalog status
+ * - Communicates import status as the import progresses
  */
 export function menuRefreshDataDependencies() {
   const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();

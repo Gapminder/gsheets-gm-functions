@@ -2,7 +2,7 @@
 Gsheets `GM_*` Functions
 ========================
 
-Gapminder-specific custom functions for Google Spreadsheets.
+Gapminder-specific custom functions and related menu item actions for Google Spreadsheets.
 
 ## Index
 
@@ -20,6 +20,8 @@ Gapminder-specific custom functions for Google Spreadsheets.
 * [GM_NAME](#gm_name)
 * [GM_PER_CAP](#gm_per_cap)
 * [GM_UNPIVOT](#gm_unpivot)
+* [menuRefreshDataDependencies](#menurefreshdatadependencies)
+* [menuValidateDatasetSpreadsheet](#menuvalidatedatasetspreadsheet)
 
 ---
 
@@ -339,6 +341,49 @@ Unpivots a standard pivoted Gapminder table \[geo, name, ...time-values-across-c
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
+
+___
+<a id="menurefreshdatadependencies"></a>
+
+###  menuRefreshDataDependencies
+
+▸ **menuRefreshDataDependencies**(): `void`
+
+*Defined in [menuRefreshDataDependencies.ts:21](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuRefreshDataDependencies.ts#L21)*
+
+Menu item action for "Gapminder Data -> Import/refresh data dependencies"
+
+Imports data sets from the fasttrack catalog to the current spreadsheet, allowing GM\_-functions to reference local data instead of importing data on-the-fly.
+
+Details:
+
+*   Creates the data-dependencies spreadsheet if it doesn't exist
+*   Verifies that the first headers of the data-dependencies spreadsheet are as expected
+*   Does not attempt to import data with bad catalog status
+*   Communicates import status as the import progresses
+
+**Returns:** `void`
+
+___
+<a id="menuvalidatedatasetspreadsheet"></a>
+
+###  menuValidateDatasetSpreadsheet
+
+▸ **menuValidateDatasetSpreadsheet**(): `void`
+
+*Defined in [menuValidateDatasetSpreadsheet.ts:36](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuValidateDatasetSpreadsheet.ts#L36)*
+
+Menu item action for "Gapminder Data -> Validate this dataset spreadsheet"
+
+Validates if the dataset spreadsheet conforms to the comments found in [the template](https://docs.google.com/spreadsheets/d/1ObY2k1SDDEwMfeM5jhQW8hIMcEpo8Oo0qclLZ3L6ByA/edit) and writes the validation results in the Validation table at the bottom of the About sheet.
+
+Details:
+
+*   Checks the row headers of the output sheets (the so called "data-countries-etc/world/region-by-year")
+*   Checks the about sheet (to see if it follows the requirements in col A in the template)
+*   Checks that filter mode is not turned on in data sheets (since it breaks the CSV endpoint)
+
+**Returns:** `void`
 
 ___
 
