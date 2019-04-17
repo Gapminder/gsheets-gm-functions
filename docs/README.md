@@ -156,7 +156,7 @@ Note: Uses GM\_DATA internally. Performance-related documentation about GM\_DATA
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | table_range_with_headers | `string`[][] |  A table range including \[geo,name,time\] to be used for a concept value lookup |
-| concept_id | `string` |  Concept id (eg. "pop") of which concept to import |
+| concept_id | `string` |  The concept id ("pop") of which value to look up |
 | time_unit | `string` |  (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against |
 | geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 | concept_data_table_range_with_headers | `string`[][] |  (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons. |
@@ -344,11 +344,11 @@ ___
 
 ▸ **menuValidateDatasetSpreadsheet**(): `void`
 
-*Defined in [menuValidateDatasetSpreadsheet.ts:36](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuValidateDatasetSpreadsheet.ts#L36)*
+*Defined in [menuValidateDatasetSpreadsheet.ts:37](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuValidateDatasetSpreadsheet.ts#L37)*
 
-Menu item action for "Gapminder Data -> Validate this dataset spreadsheet"
+Menu item action for "Gapminder Data -> Validate this dataset spreadsheet" (only shown if the spreadsheet contains an "ABOUT" sheet and a named range called "dataset\_id")
 
-Validates if the dataset spreadsheet conforms to the comments found in [the template](https://docs.google.com/spreadsheets/d/1ObY2k1SDDEwMfeM5jhQW8hIMcEpo8Oo0qclLZ3L6ByA/edit) and writes the validation results in the Validation table at the bottom of the About sheet.
+Validates if the current dataset spreadsheet conforms to the comments found in [the template](https://docs.google.com/spreadsheets/d/1ObY2k1SDDEwMfeM5jhQW8hIMcEpo8Oo0qclLZ3L6ByA/edit) and writes the validation results in the Validation table at the bottom of the About sheet.
 
 Details:
 

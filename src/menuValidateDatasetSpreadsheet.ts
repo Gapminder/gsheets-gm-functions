@@ -23,8 +23,9 @@ interface DataSheetMetadata {
 
 /**
  * Menu item action for "Gapminder Data -> Validate this dataset spreadsheet"
+ * (only shown if the spreadsheet contains an "ABOUT" sheet and a named range called "dataset_id")
  *
- * Validates if the dataset spreadsheet conforms to the comments found in
+ * Validates if the current dataset spreadsheet conforms to the comments found in
  * [the template](https://docs.google.com/spreadsheets/d/1ObY2k1SDDEwMfeM5jhQW8hIMcEpo8Oo0qclLZ3L6ByA/edit)
  * and writes the validation results in the Validation table at the bottom of the About sheet.
  *

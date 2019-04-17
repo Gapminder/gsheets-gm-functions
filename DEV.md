@@ -24,7 +24,3 @@ quotas related to custom functions
 Custom function runtime	30 sec / execution
 
 full list: https://developers.google.com/apps-script/guides/services/quotas
-
-## Notes
-
-The menu item "Validate this dataset spreadsheet" is only shown if the spreadsheet contains an "ABOUT" sheet and a named range called "dataset_id"
