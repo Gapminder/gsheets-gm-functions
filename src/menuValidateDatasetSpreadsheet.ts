@@ -14,7 +14,7 @@ interface ValidationResult {
 /**
  * @hidden
  */
-interface DataSheetMetadata {
+interface OutputSheetMetadata {
   headerFormulas: string[];
   headers: string[];
   name: string;
@@ -32,24 +32,28 @@ interface DataSheetMetadata {
  * Details:
  * - Checks the row headers of the output sheets (the so called "data-countries-etc/world/region-by-year")
  * - Checks the about sheet (to see if it follows the requirements in col A in the template)
- * - Checks that filter mode is not turned on in data sheets (since it breaks the CSV endpoint)
+ * - Checks that filter mode is not turned on in output sheets (since it breaks the CSV endpoint)
  */
 export function menuValidateDatasetSpreadsheet() {
   const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   const aboutSheet = activeSpreadsheet.getSheetByName("ABOUT");
-  const dataSheetsMetadata = getDataSheetsMetadata(activeSpreadsheet);
-  validateDatasetSpreadsheet(activeSpreadsheet, aboutSheet, dataSheetsMetadata);
+  const outputSheetsMetadata = getOutputSheetsMetadata(activeSpreadsheet);
+  validateDatasetSpreadsheet(
+    activeSpreadsheet,
+    aboutSheet,
+    outputSheetsMetadata
+  );
 }
 
 /**
  * @hidden
  */
-function getDataSheetsMetadata(
+function getOutputSheetsMetadata(
   activeSpreadsheet: Spreadsheet
-): DataSheetMetadata[] {
-  return getPresentDataSheets(activeSpreadsheet).map((dataSheet: Sheet) => {
-    const dataRange = dataSheet.getDataRange();
-    const headersRange = dataSheet.getRange(
+): OutputSheetMetadata[] {
+  return getPresentOutputSheets(activeSpreadsheet).map((outputSheet: Sheet) => {
+    const dataRange = outputSheet.getDataRange();
+    const headersRange = outputSheet.getRange(
       dataRange.getRow(),
       dataRange.getColumn(),
       1,
@@ -58,8 +62,8 @@ function getDataSheetsMetadata(
     return {
       headerFormulas: headersRange.getFormulas()[0],
       headers: headersRange.getValues()[0].map(v => String(v)),
-      name: dataSheet.getSheetName(),
-      sheet: dataSheet
+      name: outputSheet.getSheetName(),
+      sheet: outputSheet
     };
   });
 }
@@ -67,7 +71,7 @@ function getDataSheetsMetadata(
 /**
  * @hidden
  */
-function getPresentDataSheets(activeSpreadsheet: Spreadsheet): Sheet[] {
+function getPresentOutputSheets(activeSpreadsheet: Spreadsheet): Sheet[] {
   return activeSpreadsheet
     .getSheets()
     .filter((sheet: Sheet) => sheet.getSheetName().indexOf("data-") === 0);
@@ -79,7 +83,7 @@ function getPresentDataSheets(activeSpreadsheet: Spreadsheet): Sheet[] {
 function validateDatasetSpreadsheet(
   activeSpreadsheet: Spreadsheet,
   aboutSheet: Sheet,
-  dataSheetsMetadata: DataSheetMetadata[]
+  outputSheetsMetadata: OutputSheetMetadata[]
 ) {
   // Should not be possible since we only show this menu item if the about sheet exists. Nevertheless:
   if (aboutSheet === null) {
@@ -110,10 +114,10 @@ function validateDatasetSpreadsheet(
     });
   };
 
-  // Data sheets validation
+  // Output sheets validation
 
-  // At least one data sheet
-  if (dataSheetsMetadata.length === null) {
+  // At least one output sheet
+  if (outputSheetsMetadata.length === null) {
     recordValidationResult(
       "data-sheets",
       false,
@@ -126,49 +130,49 @@ function validateDatasetSpreadsheet(
       `There is at least one "data-" sheet present`
     );
 
-    // At least one four header columns in each data sheet
-    dataSheetsMetadata.map((dataSheetMetadata: DataSheetMetadata) => {
-      const key = `data-sheet:${dataSheetMetadata.name}`;
-      if (dataSheetMetadata.headers.length < 4) {
+    // At least one four header columns in each output sheet
+    outputSheetsMetadata.map((outputSheetMetadata: OutputSheetMetadata) => {
+      const key = `data-sheet:${outputSheetMetadata.name}`;
+      if (outputSheetMetadata.headers.length < 4) {
         recordValidationResult(
           key,
           false,
           `The '${
-            dataSheetMetadata.name
-          }' data sheet should have at least 4 header columns`
+            outputSheetMetadata.name
+          }' output sheet should have at least 4 header columns`
         );
       } else {
         recordValidationResult(
           key,
           true,
           `The '${
-            dataSheetMetadata.name
-          }' data sheet has at least 4 header columns`
+            outputSheetMetadata.name
+          }' output sheet has at least 4 header columns`
         );
       }
 
-      // No filter mode turned on in data sheets (since it breaks the CSV endpoint)
-      if (dataSheetMetadata.sheet.getFilter() !== null) {
+      // No filter mode turned on in output sheets (since it breaks the CSV endpoint)
+      if (outputSheetMetadata.sheet.getFilter() !== null) {
         recordValidationResult(
           key,
           false,
           `The '${
-            dataSheetMetadata.name
-          }' data sheet should not have filter mode turned on (since it breaks the CSV endpoint)`
+            outputSheetMetadata.name
+          }' output sheet should not have filter mode turned on (since it breaks the CSV endpoint)`
         );
       } else {
         recordValidationResult(
           key,
           true,
           `The '${
-            dataSheetMetadata.name
-          }' data sheet does not have filter mode turned on (since it breaks the CSV endpoint)`
+            outputSheetMetadata.name
+          }' output sheet does not have filter mode turned on (since it breaks the CSV endpoint)`
         );
       }
     });
   }
 
-  // About sheet validation + Validation of data sheets columns D forward
+  // About sheet validation + Validation of output sheets columns D forward
 
   const assertExistingNamedRange = name => {
     const namedRange = activeSpreadsheet.getRangeByName(name);
@@ -382,26 +386,27 @@ function validateDatasetSpreadsheet(
       const headerIndex = i + 3;
       const indicatorNameCell = indicatorTableRange.getCell(rowNumber, 2);
       const expectedFormula = `=${aboutSheet.getSheetName()}!${indicatorNameCell.getA1Notation()}`;
-      dataSheetsMetadata.map((dataSheetMetadata: DataSheetMetadata) => {
-        const dataSheetSpecificKey = `${key}:${dataSheetMetadata.name}`;
+      outputSheetsMetadata.map((outputSheetMetadata: OutputSheetMetadata) => {
+        const outputSheetSpecificKey = `${key}:${outputSheetMetadata.name}`;
         const currentHeaderFormula =
-          dataSheetMetadata.headerFormulas[headerIndex];
-        const currentHeaderValue = dataSheetMetadata.headers[headerIndex];
+          outputSheetMetadata.headerFormulas[headerIndex];
+        const currentHeaderValue = outputSheetMetadata.headers[headerIndex];
         if (expectedFormula === currentHeaderFormula) {
           recordValidationResult(
-            dataSheetSpecificKey,
+            outputSheetSpecificKey,
             true,
             `The indicator name cell of indicator ${rowNumber} is referenced in the '${
-              dataSheetMetadata.name
-            }' data sheet in column ${headerIndex + 1} as "${expectedFormula}"`
+              outputSheetMetadata.name
+            }' output sheet in column ${headerIndex +
+              1} as "${expectedFormula}"`
           );
         } else {
           recordValidationResult(
-            dataSheetSpecificKey,
+            outputSheetSpecificKey,
             false,
             `The indicator name cell of indicator ${rowNumber} should be referenced in the '${
-              dataSheetMetadata.name
-            }' data sheet in column ${headerIndex +
+              outputSheetMetadata.name
+            }' output sheet in column ${headerIndex +
               1} as "${expectedFormula}" but is currently "${currentHeaderFormula ||
               currentHeaderValue}"`
           );
