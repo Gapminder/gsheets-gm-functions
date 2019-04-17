@@ -6,9 +6,13 @@ import { GM_UNPIVOT } from "./GM_UNPIVOT";
  */
 const testGmUnpivot: Macro<any> = (
   t: ExecutionContext,
-  { table_range_with_headers, time_label, value_label, expectedOutput }
+  { input_table_range_with_headers, time_label, value_label, expectedOutput }
 ) => {
-  const output = GM_UNPIVOT(table_range_with_headers, time_label, value_label);
+  const output = GM_UNPIVOT(
+    input_table_range_with_headers,
+    time_label,
+    value_label
+  );
   // t.log({ output, expectedOutput });
   t.deepEqual(output, expectedOutput);
 };
@@ -16,7 +20,7 @@ const testGmUnpivot: Macro<any> = (
 [
   /* tslint:disable:object-literal-sort-keys */
   {
-    table_range_with_headers: [
+    input_table_range_with_headers: [
       ["geo", "name", "1800", "1801", "1802", "1803"],
       ["world", "World", "123", "456", "234", "345"],
       ["foo", "Foo", "456", "678", "567", "890"]

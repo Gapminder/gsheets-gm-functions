@@ -1,19 +1,24 @@
-import { GM_DATA } from "./GM_DATA";
+import { GM_DATA_SLOW } from "./GM_DATA_SLOW";
 import { GmTable, GmTableRow } from "./gsheetsData/gmTableStructure";
 import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
+import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 
 /**
  * Inserts the growth per time unit of a common Gapminder concept column, including a header row, matched against the input table range.
  *
- * Note: Uses GM_DATA internally
+ * Note: Uses GM_DATA_SLOW internally. Performance-related documentation about GM_DATA_SLOW applies.
  *
  * @param input_table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
- * @param concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
+ * @param concept_id The concept id ("pop") of which value to look up
+ * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
+ * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
-export function GM_GROWTH(
+export function GM_GROWTH_SLOW(
   input_table_range_with_headers: string[][],
-  concept_data_table_range_with_headers: string[][]
+  concept_id: string,
+  time_unit: string,
+  geo_set: string
 ) {
   // Ensure expected input range contents
   const inputTable = preProcessInputRangeWithHeaders(
@@ -24,10 +29,14 @@ export function GM_GROWTH(
   const inputTableRowsWithoutHeaderRowByGeoAndTime = GmTable.byGeoAndTime(
     inputTableRowsWithoutHeaderRow
   );
+  // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
+  validateAndAliasTheGeoSetArgument(geo_set);
   // Concept data
-  const gmDataResult: any[][] = GM_DATA(
+  const gmDataResult: any[][] = GM_DATA_SLOW(
     input_table_range_with_headers,
-    concept_data_table_range_with_headers
+    concept_id,
+    time_unit,
+    geo_set
   );
   const gmDataHeaderRow: string[] = gmDataResult.slice().shift();
   // Replace GM_DATA concept data with the growth over time unit in each geo

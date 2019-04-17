@@ -1,5 +1,5 @@
 import test, { ExecutionContext, Macro } from "ava";
-import { GM_IMPORT } from "./GM_IMPORT";
+import { GM_IMPORT_SLOW } from "./GM_IMPORT_SLOW";
 import { MinimalUrlFetchApp } from "./lib/MinimalUrlFetchApp";
 import { MinimalUtilities } from "./lib/MinimalUtilities";
 (global as any).UrlFetchApp = MinimalUrlFetchApp;
@@ -8,11 +8,11 @@ import { MinimalUtilities } from "./lib/MinimalUtilities";
 /**
  * @hidden
  */
-const testGmImport: Macro<any> = (
+const testGmImportSlow: Macro<any> = (
   t: ExecutionContext,
   { concept_id, time_unit, geo_set, expectedTopFiveRowsOfOutput }
 ) => {
-  const output = GM_IMPORT(concept_id, time_unit, geo_set);
+  const output = GM_IMPORT_SLOW(concept_id, time_unit, geo_set);
   const topFiveRowsOfOutput = output.slice(0, 5);
   // t.log({ topFiveRowsOfOutput, expectedTopFiveRowsOfOutput });
   t.deepEqual(topFiveRowsOfOutput, expectedTopFiveRowsOfOutput);
@@ -35,5 +35,5 @@ const testGmImport: Macro<any> = (
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {
   // Skipping until the concept data is available again in the fasttrack catalog
-  test.skip("testGmImport - " + index, testGmImport, testData);
+  test.skip("testGmImportSlow - " + index, testGmImportSlow, testData);
 });

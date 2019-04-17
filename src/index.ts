@@ -3,16 +3,20 @@
  * Note: Global functions must be exposed to the (global as any) object, or it will not be picked up by gas-webpack-plugin.
  */
 
-import { GM_AGGR } from "./GM_AGGR";
 import { GM_DATA } from "./GM_DATA";
+import { GM_DATA_SLOW } from "./GM_DATA_SLOW";
 import { GM_DATASET_CATALOG_STATUS } from "./GM_DATASET_CATALOG_STATUS";
 import { GM_GEO_LOOKUP_TABLE } from "./GM_GEO_LOOKUP_TABLE";
 import { GM_GROWTH } from "./GM_GROWTH";
+import { GM_GROWTH_SLOW } from "./GM_GROWTH_SLOW";
 import { GM_ID } from "./GM_ID";
-import { GM_IMPORT } from "./GM_IMPORT";
+import { GM_IMPORT_SLOW } from "./GM_IMPORT_SLOW";
 import { GM_INTERPOLATE } from "./GM_INTERPOLATE";
 import { GM_NAME } from "./GM_NAME";
 import { GM_PER_CAP } from "./GM_PER_CAP";
+import { GM_PER_CAP_SLOW } from "./GM_PER_CAP_SLOW";
+import { GM_PROP } from "./GM_PROP";
+import { GM_PROP_AGGR } from "./GM_PROP_AGGR";
 import { GM_UNPIVOT } from "./GM_UNPIVOT";
 import { menuRefreshDataDependencies } from "./menuRefreshDataDependencies";
 import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet";
@@ -55,25 +59,22 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
 // 3. Gsheets jsdoc requires @customfunction to be present
 
 /**
- * Aggregates an input table by id and time, returning a table with the aggregated values of the input table.
+ * Inserts a concept column, including a header row, with a common Gapminder concept matched against the input column/table range.
  *
- * The range must be four columns wide.
- *  - Column 1: geo_ids
- *  - Column 2: geo_names (isn’t part of the calculation)
- *  - Column 3: time
- *  - Column 4+: values to be aggregated
+ * Requires that the corresponding concept data is first imported using the "Gapminder Data -> Import/refresh data dependencies".
  *
- * @param {A1:D} table_range_with_headers
- * @param {"four_regions"} aggregation_prop Aggregation property
- * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
+ * @param {A1:D} input_table_range_with_headers The input table range including [geo,name,time] for a concept value lookup
+ * @param {'data:pop:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Required for performance reasons.
  * @customfunction
  */
-(global as any).GM_AGGR = function(
-  table_range_with_headers: string[][],
-  aggregation_prop: string,
-  geo_set: string
+(global as any).GM_DATA = function(
+  input_table_range_with_headers: string[][],
+  concept_data_table_range_with_headers: string[][]
 ) {
-  return GM_AGGR(table_range_with_headers, aggregation_prop, geo_set);
+  return GM_DATA(
+    input_table_range_with_headers,
+    concept_data_table_range_with_headers
+  );
 };
 
 /**
@@ -91,22 +92,19 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  * @param {"UN members since"} property_or_concept_id Either the property ("UN member since") or concept id ("pop") of which value to look up
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
  * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
- * @param {'data:pop:year:countries_etc'!A1:D} property_or_concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
-(global as any).GM_DATA = function(
+(global as any).GM_DATA_SLOW = function(
   column_or_table_range_with_headers: string[][],
   property_or_concept_id: string,
   time_unit: string,
-  geo_set: string,
-  property_or_concept_data_table_range_with_headers: string[][]
+  geo_set: string
 ) {
-  return GM_DATA(
+  return GM_DATA_SLOW(
     column_or_table_range_with_headers,
     property_or_concept_id,
     time_unit,
-    geo_set,
-    property_or_concept_data_table_range_with_headers
+    geo_set
   );
 };
 
@@ -152,28 +150,44 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
 /**
  * Inserts the growth per time unit of a common Gapminder concept column, including a header row, matched against the input table range.
  *
- * Note: Uses GM_DATA internally. Performance-related documentation about GM_DATA applies.
+ * Note: Uses GM_DATA internally
  *
- * @param {A1:D} table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
- * @param {"pop"} concept_id The concept id ("pop") of which value to look up
- * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
- * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
- * @param {'data:pop:year:countries_etc'!A1:D} concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
+ * @param {A1:D} input_table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
+ * @param {'data:pop:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
 (global as any).GM_GROWTH = function(
-  table_range_with_headers: string[][],
-  concept_id: string,
-  time_unit: string,
-  geo_set: string,
+  input_table_range_with_headers: string[][],
   concept_data_table_range_with_headers: string[][]
 ) {
   return GM_GROWTH(
-    table_range_with_headers,
+    input_table_range_with_headers,
+    concept_data_table_range_with_headers
+  );
+};
+
+/**
+ * Inserts the growth per time unit of a common Gapminder concept column, including a header row, matched against the input table range.
+ *
+ * Note: Uses GM_DATA_SLOW internally. Performance-related documentation about GM_DATA_SLOW applies.
+ *
+ * @param {A1:D} input_table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
+ * @param {"pop"} concept_id The concept id ("pop") of which value to look up
+ * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
+ * @customfunction
+ */
+(global as any).GM_GROWTH_SLOW = function(
+  input_table_range_with_headers: string[][],
+  concept_id: string,
+  time_unit: string,
+  geo_set: string
+) {
+  return GM_GROWTH_SLOW(
+    input_table_range_with_headers,
     concept_id,
     time_unit,
-    geo_set,
-    concept_data_table_range_with_headers
+    geo_set
   );
 };
 
@@ -197,31 +211,35 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
 /**
  * Imports a standard Gapminder concept table.
  *
- * Note that using data dependencies in combination with the QUERY() function instead of GM_IMPORT() is the only performant way to include concept data in a spreadsheet.
+ * Note that using data dependencies in combination with the QUERY() function instead of GM_IMPORT_SLOW() is the only performant way to include concept data in a spreadsheet.
  *
  * Takes 2-4 seconds:
- * =GM_IMPORT("pop", "year", "global")
+ *
+ *     =GM_IMPORT_SLOW("pop", "year", "global")
  *
  * Almost instant:
- * =QUERY('data:pop:year:global'!A1:D)
  *
- * Always yields "Error: Result too large" since the "countries_etc" version of the dataset is rather large:
- * =GM_IMPORT("pop", "year", "countries_etc")
+ *     =QUERY('data:pop:year:global'!A1:D)
+ *
+ * The following always yields "Error: Result too large" since the "countries_etc" version of the dataset is rather large:
+ *
+ *     =GM_IMPORT_SLOW("pop", "year", "countries_etc")
  *
  * Finishes in 3-10 seconds:
- * =QUERY('data:pop:year:countries_etc'!A1:D)
+ *
+ *     =QUERY('data:pop:year:countries_etc'!A1:D)
  *
  * @param {"pop"} concept_id Concept id (eg. "pop") of which concept to import
  * @param {"year"} time_unit Time unit variant (eg. "year") of the concept to import
  * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
-(global as any).GM_IMPORT = function(
+(global as any).GM_IMPORT_SLOW = function(
   concept_id: string,
   time_unit: string,
   geo_set: string
 ) {
-  return GM_IMPORT(concept_id, time_unit, geo_set);
+  return GM_IMPORT_SLOW(concept_id, time_unit, geo_set);
 };
 
 /**
@@ -233,15 +251,15 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  *  - Column 3: time
  *  - Column 4+: values to be interpolated
  *
- * @param {A1:D} table_range_with_headers
+ * @param {A1:D} input_table_range_with_headers
  * @param {"linear"} method Optional. linear (default), growth, flat_forward, flat_backward
  * @customfunction
  */
 (global as any).GM_INTERPOLATE = function(
-  table_range_with_headers: string[][],
+  input_table_range_with_headers: string[][],
   method: string
 ) {
-  return GM_INTERPOLATE(table_range_with_headers, method);
+  return GM_INTERPOLATE(input_table_range_with_headers, method);
 };
 
 /**
@@ -264,40 +282,104 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
 /**
  * Divides the concept-value column(s) of the input table range by the population of the geo_set.
  *
- * Note: Uses GM_DATA internally. Performance-related documentation about GM_DATA applies.
+ * Note: Uses GM_DATA_SLOW internally. Performance-related documentation about GM_DATA_SLOW applies.
  *
- * @param {A1:D} table_range_with_headers_and_concept_values A table range including [geo,name,time,concept-values...]
- * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
- * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
- * @param {'data:pop:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the population concept data to look up against. Can be included for performance reasons.
+ * @param {A1:D} input_table_range_with_headers_and_concept_values A table range including [geo,name,time,concept-values...]
+ * @param {'data:pop:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
 (global as any).GM_PER_CAP = function(
-  table_range_with_headers_and_concept_values: string[][],
-  time_unit: string,
-  geo_set: string,
+  input_table_range_with_headers_and_concept_values: string[][],
   population_concept_data_table_range_with_headers: string[][]
 ) {
   return GM_PER_CAP(
-    table_range_with_headers_and_concept_values,
-    time_unit,
-    geo_set,
+    input_table_range_with_headers_and_concept_values,
     population_concept_data_table_range_with_headers
+  );
+};
+
+/**
+ * Divides the concept-value column(s) of the input table range by the population of the geo_set.
+ *
+ * Note: Uses GM_DATA_SLOW internally. Performance-related documentation about GM_DATA_SLOW applies.
+ *
+ * @param {A1:D} input_table_range_with_headers_and_concept_values A table range including [geo,name,time,concept-values...]
+ * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
+ * @customfunction
+ */
+(global as any).GM_PER_CAP_SLOW = function(
+  input_table_range_with_headers_and_concept_values: string[][],
+  time_unit: string,
+  geo_set: string
+) {
+  return GM_PER_CAP_SLOW(
+    input_table_range_with_headers_and_concept_values,
+    time_unit,
+    geo_set
+  );
+};
+
+/**
+ * Inserts a property column, including a header row, with a common Gapminder property matched against the input column/table range.
+ *
+ * @param column_range_with_headers A column range for a property lookup column
+ * @param {"UN members since"} property_id The property (eg. "UN member since") or concept id (eg. "pop") of which value to look up
+ * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
+ * @param {'data:pop:year:countries_etc'!A1:D} property_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Can be included for performance reasons.
+ * @customfunction
+ */
+(global as any).GM_PROP = function(
+  column_range_with_headers: string[][],
+  property_id: string,
+  property_data_table_range_with_headers: string[][]
+) {
+  return GM_PROP(
+    column_range_with_headers,
+    property_id,
+    property_data_table_range_with_headers
+  );
+};
+
+/**
+ * Aggregates an input table by id and time, returning a table with the aggregated values of the input table.
+ *
+ * The range must be four columns wide.
+ *  - Column 1: geo_ids
+ *  - Column 2: geo_names (isn’t part of the calculation)
+ *  - Column 3: time
+ *  - Column 4+: values to be aggregated
+ *
+ * @param {A1:D} input_table_range_with_headers
+ * @param {"four_regions"} aggregation_prop Aggregation property
+ * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
+ * @customfunction
+ */
+(global as any).GM_PROP_AGGR = function(
+  input_table_range_with_headers: string[][],
+  aggregation_prop: string,
+  property_data_table_range_with_headers: string[][]
+) {
+  return GM_PROP_AGGR(
+    input_table_range_with_headers,
+    aggregation_prop,
+    property_data_table_range_with_headers
   );
 };
 
 /**
  * Unpivots a standard pivoted Gapminder table [geo, name, ...time-values-across-columns], converting the data column headers into time units and the column values as concept values.
  *
- * @param {A1:D} table_range_with_headers The table range to unpivot
+ * @param {A1:D} input_table_range_with_headers The table range to unpivot
  * @param {"year"} time_label (Optional with default "time") the header label to use for the time column
  * @param {"Income level"} value_label (Optional with default "value") the header label to use for the value column
  * @customfunction
  */
 (global as any).GM_UNPIVOT = function(
-  table_range_with_headers: string[][],
+  input_table_range_with_headers: string[][],
   time_label: string,
   value_label: string
 ) {
-  return GM_UNPIVOT(table_range_with_headers, time_label, value_label);
+  return GM_UNPIVOT(input_table_range_with_headers, time_label, value_label);
 };

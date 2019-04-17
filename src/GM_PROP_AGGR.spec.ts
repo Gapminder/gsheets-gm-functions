@@ -1,5 +1,5 @@
 import test, { ExecutionContext, Macro } from "ava";
-import { GM_AGGR } from "./GM_AGGR";
+import { GM_PROP_AGGR } from "./GM_PROP_AGGR";
 import { MinimalUrlFetchApp } from "./lib/MinimalUrlFetchApp";
 (global as any).UrlFetchApp = MinimalUrlFetchApp;
 
@@ -8,10 +8,14 @@ import { MinimalUrlFetchApp } from "./lib/MinimalUrlFetchApp";
  */
 const testAggregation: Macro<any> = (
   t: ExecutionContext,
-  { table_range_with_headers, aggregation_prop, geo_set, expectedOutput }
+  { input_table_range_with_headers, aggregation_prop, geo_set, expectedOutput }
 ) => {
-  const output = GM_AGGR(table_range_with_headers, aggregation_prop, geo_set);
-  // t.log({ table_range_with_headers });
+  const output = GM_PROP_AGGR(
+    input_table_range_with_headers,
+    aggregation_prop,
+    undefined
+  );
+  // t.log({ input_table_range_with_headers });
   // t.log({ output });
   // t.log({ expectedOutput });
   t.deepEqual(output, expectedOutput);
@@ -20,7 +24,7 @@ const testAggregation: Macro<any> = (
 [
   /* tslint:disable:object-literal-sort-keys */
   {
-    table_range_with_headers: [
+    input_table_range_with_headers: [
       [
         "geo_id",
         "geo_name",
@@ -31,7 +35,6 @@ const testAggregation: Macro<any> = (
       ["foo", "Foo", "1900", "0", "100"]
     ],
     aggregation_prop: "four_regions",
-    geo_set: "countries_etc",
     expectedOutput: [
       [
         "four_regions",
@@ -44,7 +47,7 @@ const testAggregation: Macro<any> = (
     ]
   },
   {
-    table_range_with_headers: [
+    input_table_range_with_headers: [
       [
         "geo",
         "name",
@@ -75,7 +78,6 @@ const testAggregation: Macro<any> = (
       ["bol", "Bolivia", 1913, 1, 41, 5, 666, 48, 6, 5]
     ],
     aggregation_prop: "four_regions",
-    geo_set: "countries_etc",
     expectedOutput: [
       [
         "four_regions",
@@ -108,7 +110,7 @@ const testAggregation: Macro<any> = (
     ]
   },
   {
-    table_range_with_headers: [
+    input_table_range_with_headers: [
       [
         "geo_id",
         "geo_name",
@@ -119,7 +121,6 @@ const testAggregation: Macro<any> = (
       ["foo", "Foo", "1900", "0", "100"]
     ],
     aggregation_prop: "World bank income group 2017",
-    geo_set: "countries_etc",
     expectedOutput: [
       [
         "World bank income group 2017",
@@ -132,7 +133,7 @@ const testAggregation: Macro<any> = (
     ]
   },
   {
-    table_range_with_headers: [
+    input_table_range_with_headers: [
       [
         "geo",
         "name",
@@ -163,7 +164,6 @@ const testAggregation: Macro<any> = (
       ["bol", "Bolivia", 1913, 1, 41, 5, 666, 48, 6, 5]
     ],
     aggregation_prop: "World bank income group 2017",
-    geo_set: "countries_etc",
     expectedOutput: [
       [
         "World bank income group 2017",

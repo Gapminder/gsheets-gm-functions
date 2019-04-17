@@ -17,16 +17,18 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
  *  - Column 3: time
  *  - Column 4+: values to be interpolated
  *
- * @param table_range_with_headers
+ * @param input_table_range_with_headers
  * @param method Optional. linear (default), growth, flat_forward, flat_backward
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_INTERPOLATE(
-  table_range_with_headers: string[][],
+  input_table_range_with_headers: string[][],
   method: string
 ) {
   // Ensure expected input range contents
-  const inputTable = preProcessInputRangeWithHeaders(table_range_with_headers);
+  const inputTable = preProcessInputRangeWithHeaders(
+    input_table_range_with_headers
+  );
   let interpolation;
   if (!method) {
     method = "linear";

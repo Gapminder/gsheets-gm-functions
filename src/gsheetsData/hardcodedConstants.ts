@@ -15,7 +15,7 @@ export interface WorksheetReference {
 /**
  * @hidden
  */
-export const gapminderPropertyToConceptIdMap = {
+export const gapminderPropertyToGeoSetMap = {
   four_regions: "world_4region"
 };
 

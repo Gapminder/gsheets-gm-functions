@@ -1,65 +1,56 @@
 import { exponential, linear } from "everpolate";
 import groupBy from "lodash/fp/groupBy";
 import mapValues from "lodash/fp/mapValues";
-import { GM_DATA } from "./GM_DATA";
 import { GM_NAME } from "./GM_NAME";
+import { GM_PROP } from "./GM_PROP";
 import {
   GmTable,
   GmTableRow,
   GmTableRowsByGeoAndTime
 } from "./gsheetsData/gmTableStructure";
-import { gapminderPropertyToConceptIdMap } from "./gsheetsData/hardcodedConstants";
+import { gapminderPropertyToGeoSetMap } from "./gsheetsData/hardcodedConstants";
 import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 import { pipe } from "./lib/pipe";
-import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 
 /**
  * Aggregates an input table by property and time, returning a table with the aggregated values of the input table.
  *
- * The range must be four columns wide.
+ * The input table must be at least four columns wide.
  *  - Column 1: geo_ids
  *  - Column 2: geo_names (isn’t part of the calculation)
  *  - Column 3: time
  *  - Column 4+: values to be aggregated
  *
- * @param table_range_with_headers
- * @param aggregation_prop Aggregation property
- * @param geo_set (Optional with default "countries_etc") Should be one of the sets listed in the gapminder geo ontology such as “countries_etc”
+ * @param input_table_range_with_headers
+ * @param aggregation_property_id Aggregation property
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
-export function GM_AGGR(
-  table_range_with_headers: string[][],
-  aggregation_prop: string,
-  geo_set: string
+export function GM_PROP_AGGR(
+  input_table_range_with_headers: string[][],
+  aggregation_property_id: string,
+  property_data_table_range_with_headers: string[][]
 ) {
   // Ensure expected input range contents
-  const inputTable = preProcessInputRangeWithHeaders(table_range_with_headers);
-
-  // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
-  validateAndAliasTheGeoSetArgument(geo_set);
+  const inputTable = preProcessInputRangeWithHeaders(
+    input_table_range_with_headers
+  );
 
   // Add aggregation property value and name columns to input table
   const geoColumnWithHeaderRow = inputTable.map(row => [row[0]]);
-  const aggregationPropertyColumnWithHeaderRow = GM_DATA(
+  const aggregationPropertyColumnWithHeaderRow = GM_PROP(
     geoColumnWithHeaderRow,
-    aggregation_prop,
-    undefined,
-    geo_set,
-    undefined
+    aggregation_property_id,
+    property_data_table_range_with_headers
   );
-  const aggregationPropertyNameColumnWithHeaderRow = gapminderPropertyToConceptIdMap[
-    aggregation_prop
-  ]
-    ? GM_NAME(
-        aggregationPropertyColumnWithHeaderRow,
-        gapminderPropertyToConceptIdMap[aggregation_prop],
-        true
-      )
+  const aggregationGeoSet =
+    gapminderPropertyToGeoSetMap[aggregation_property_id];
+  const aggregationPropertyNameColumnWithHeaderRow = aggregationGeoSet
+    ? GM_NAME(aggregationPropertyColumnWithHeaderRow, aggregationGeoSet, true)
     : aggregationPropertyColumnWithHeaderRow;
   const aggregationTableWithHeaders = inputTable.map((row, index) => {
     if (aggregationPropertyColumnWithHeaderRow[index] === undefined) {
       throw new Error(
-        `The aggregationPropertyColumnWithHeaderRow at index ${index} is undefined`
+        `The aggregation_data_column_with_header at index ${index} is undefined`
       );
     }
     if (aggregationPropertyNameColumnWithHeaderRow[index] === undefined) {

@@ -1,5 +1,5 @@
 import test, { ExecutionContext, Macro } from "ava";
-import { GM_DATA } from "./GM_DATA";
+import { GM_DATA_SLOW } from "./GM_DATA_SLOW";
 import { MinimalUrlFetchApp } from "./lib/MinimalUrlFetchApp";
 import { MinimalUtilities } from "./lib/MinimalUtilities";
 (global as any).UrlFetchApp = MinimalUrlFetchApp;
@@ -8,20 +8,21 @@ import { MinimalUtilities } from "./lib/MinimalUtilities";
 /**
  * @hidden
  */
-const testGmData: Macro<any> = (
+const testGmDataSlow: Macro<any> = (
   t: ExecutionContext,
   {
     input_table_range_with_headers,
     concept_id,
     time_unit,
     geo_set,
-    property_or_concept_data_table_range_with_headers,
     expectedOutput
   }
 ) => {
-  const output = GM_DATA(
+  const output = GM_DATA_SLOW(
     input_table_range_with_headers,
-    property_or_concept_data_table_range_with_headers
+    concept_id,
+    time_unit,
+    geo_set
   );
   // t.log({output, expectedOutput});
   t.deepEqual(output, expectedOutput);
@@ -33,18 +34,20 @@ const testGmData: Macro<any> = (
     input_table_range_with_headers: [
       ["geo_id", "geo_name", "year"],
       ["foo", "Foo", "1900"],
-      ["zoo", "Zoo", "1901"]
+      ["zoo", "Zoo", "1901"],
+      ["swe", "Sweden", "1950"]
     ],
-    property_or_concept_data_table_range_with_headers: [
-      ["geo_id", "geo_name", "year", "population"],
-      ["foo", "Foo", 1900, 100],
-      ["foo", "Foo", 1901, 150],
-      ["zoo", "Zoo", 1900, 200],
-      ["zoo", "Zoo", 1901, 250]
-    ],
-    expectedOutput: [["population"], [100], [250]]
+    concept_id: "pop",
+    time_unit: "year",
+    geo_set: "countries_etc",
+    expectedOutput: [
+      ["pop"],
+      ["Unknown geo: foo"],
+      ["Unknown geo: zoo"],
+      ["7009912"]
+    ]
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {
-  test("testGmData - " + index, testGmData, testData);
+  test("testGmDataSlow - " + index, testGmDataSlow, testData);
 });

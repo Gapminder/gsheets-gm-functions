@@ -11,7 +11,7 @@ import { MinimalUtilities } from "./lib/MinimalUtilities";
 const testGmGrowth: Macro<any> = (
   t: ExecutionContext,
   {
-    table_range_with_headers,
+    input_table_range_with_headers,
     concept_id,
     time_unit,
     geo_set,
@@ -20,10 +20,7 @@ const testGmGrowth: Macro<any> = (
   }
 ) => {
   const output = GM_GROWTH(
-    table_range_with_headers,
-    concept_id,
-    time_unit,
-    geo_set,
+    input_table_range_with_headers,
     concept_data_table_range_with_headers
   );
   // t.log({ output, expectedOutput });
@@ -33,7 +30,7 @@ const testGmGrowth: Macro<any> = (
 [
   /* tslint:disable:object-literal-sort-keys */
   {
-    table_range_with_headers: [
+    input_table_range_with_headers: [
       ["geo_id", "geo_name", "year"],
       ["foo", "Foo", "1900"],
       ["foo", "Foo", "1901"],
@@ -42,9 +39,6 @@ const testGmGrowth: Macro<any> = (
       ["bar", "Bar", "1901"],
       ["bar", "Bar", "1902"]
     ],
-    concept_id: "pop",
-    time_unit: "year",
-    geo_set: "countries_etc",
     concept_data_table_range_with_headers: [
       ["geo_id", "geo_name", "year", "population"],
       ["foo", "Foo", 1900, 100],
@@ -55,7 +49,7 @@ const testGmGrowth: Macro<any> = (
       ["bar", "Bar", 1902, 210]
     ],
     expectedOutput: [
-      ["pop"],
+      ["population"],
       [undefined],
       [0.5],
       [0.33333333333333326],

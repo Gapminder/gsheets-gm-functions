@@ -6,9 +6,9 @@ import { GM_INTERPOLATE } from "./GM_INTERPOLATE";
  */
 const testInterpolation: Macro<any> = (
   t: ExecutionContext,
-  { table_range_with_headers, method, expectedOutput }
+  { input_table_range_with_headers, method, expectedOutput }
 ) => {
-  const output = GM_INTERPOLATE(table_range_with_headers, method);
+  const output = GM_INTERPOLATE(input_table_range_with_headers, method);
   // t.log({output, expectedOutput});
   t.deepEqual(output, expectedOutput);
 };
@@ -16,7 +16,7 @@ const testInterpolation: Macro<any> = (
 [
   /* tslint:disable:object-literal-sort-keys */
   {
-    table_range_with_headers: [
+    input_table_range_with_headers: [
       [
         "geo_id",
         "geo_name",
@@ -39,7 +39,7 @@ const testInterpolation: Macro<any> = (
     ]
   },
   {
-    table_range_with_headers: [
+    input_table_range_with_headers: [
       [
         "geo_id",
         "geo_name",
@@ -68,7 +68,7 @@ const testInterpolation: Macro<any> = (
     ]
   },
   {
-    table_range_with_headers: [
+    input_table_range_with_headers: [
       [
         "geo_id",
         "geo_name",
@@ -91,7 +91,7 @@ const testInterpolation: Macro<any> = (
     ]
   },
   {
-    table_range_with_headers: [
+    input_table_range_with_headers: [
       [
         "geo_id",
         "geo_name",

@@ -11,17 +11,13 @@ import { MinimalUtilities } from "./lib/MinimalUtilities";
 const testGmPerCap: Macro<any> = (
   t: ExecutionContext,
   {
-    table_range_with_headers_and_concept_values,
-    time_unit,
-    geo_set,
+    input_table_range_with_headers_and_concept_values,
     population_concept_data_table_range_with_headers,
     expectedOutput
   }
 ) => {
   const output = GM_PER_CAP(
-    table_range_with_headers_and_concept_values,
-    time_unit,
-    geo_set,
+    input_table_range_with_headers_and_concept_values,
     population_concept_data_table_range_with_headers
   );
   // t.log({ output, expectedOutput });
@@ -31,13 +27,11 @@ const testGmPerCap: Macro<any> = (
 [
   /* tslint:disable:object-literal-sort-keys */
   {
-    table_range_with_headers_and_concept_values: [
+    input_table_range_with_headers_and_concept_values: [
       ["geo_id", "geo_name", "year", "foo"],
       ["foo", "Foo", "1900", "10000"],
       ["zoo", "Zoo", "1901", "12500"]
     ],
-    time_unit: "year",
-    geo_set: "countries_etc",
     population_concept_data_table_range_with_headers: [
       ["geo_id", "geo_name", "year", "population"],
       ["foo", "Foo", 1900, 100],
