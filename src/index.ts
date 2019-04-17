@@ -181,7 +181,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet
  *
  * Note: Uses GM_DATA internally. Performance-related documentation about GM_DATA applies.
  *
- * @param {A1:D} table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
+ * @param {A1:D} table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
  * @param {"pop"} concept_id The concept id ("pop") of which value to look up
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
  * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet

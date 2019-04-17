@@ -11,7 +11,7 @@ import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoS
  * Note: Uses GM_DATA internally. Performance-related documentation about GM_DATA applies.
  *
  * @param table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
- * @param concept_id Concept id (eg. "pop") of which concept to import
+ * @param concept_id The concept id ("pop") of which value to look up
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
  * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param concept_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
