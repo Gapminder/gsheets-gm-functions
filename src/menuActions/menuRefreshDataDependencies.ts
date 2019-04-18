@@ -1,6 +1,6 @@
-import { getConceptDataCatalogEntry } from "./gsheetsData/conceptData";
-import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
-import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
+import { getConceptDataCatalogEntry } from "../gsheetsData/conceptData";
+import { getFasttrackCatalogDataPointsList } from "../gsheetsData/fastttrackCatalog";
+import { validateAndAliasTheGeoSetArgument } from "../lib/validateAndAliasTheGeoSetArgument";
 
 /**
  * Menu item action for "Gapminder Data -> Import/refresh data dependencies"

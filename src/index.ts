@@ -18,8 +18,8 @@ import { GM_PER_CAP_SLOW } from "./GM_PER_CAP_SLOW";
 import { GM_PROP } from "./GM_PROP";
 import { GM_PROP_AGGR } from "./GM_PROP_AGGR";
 import { GM_UNPIVOT } from "./GM_UNPIVOT";
-import { menuRefreshDataDependencies } from "./menuRefreshDataDependencies";
-import { menuValidateDatasetSpreadsheet } from "./menuValidateDatasetSpreadsheet";
+import { menuRefreshDataDependencies } from "./menuActions/menuRefreshDataDependencies";
+import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatasetSpreadsheet";
 
 /* tslint:disable:only-arrow-functions */
 

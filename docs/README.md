@@ -414,7 +414,7 @@ ___
 
 ▸ **menuRefreshDataDependencies**(): `void`
 
-*Defined in [menuRefreshDataDependencies.ts:22](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuRefreshDataDependencies.ts#L22)*
+*Defined in [menuActions/menuRefreshDataDependencies.ts:17](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuActions/menuRefreshDataDependencies.ts#L17)*
 
 Menu item action for "Gapminder Data -> Import/refresh data dependencies"
 
@@ -436,7 +436,7 @@ ___
 
 ▸ **menuValidateDatasetSpreadsheet**(): `void`
 
-*Defined in [menuValidateDatasetSpreadsheet.ts:37](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuValidateDatasetSpreadsheet.ts#L37)*
+*Defined in [menuActions/menuValidateDatasetSpreadsheet.ts:37](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuActions/menuValidateDatasetSpreadsheet.ts#L37)*
 
 Menu item action for "Gapminder Data -> Validate this dataset spreadsheet" (only shown if the spreadsheet contains an "ABOUT" sheet and a named range called "dataset\_id")
 
