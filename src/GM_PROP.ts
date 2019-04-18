@@ -4,19 +4,19 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 /**
  * Inserts a property column, including a header row, with a common Gapminder property matched against the input column/table range.
  *
- * @param column_range_with_headers A column range for a property lookup column
+ * @param input_column_range_with_headers A column range for a property lookup column
  * @param property_id The property (eg. "UN member since") to look up
  * @param property_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the property data to look up against. Can be included for performance reasons.
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_PROP(
-  column_range_with_headers: string[][],
+  input_column_range_with_headers: string[][],
   property_id: string,
   property_data_table_range_with_headers: string[][]
 ): any[][] {
   // Ensure expected input range contents
   const inputColumn = preProcessInputRangeWithHeaders(
-    column_range_with_headers
+    input_column_range_with_headers
   );
 
   // Separate the input range header row

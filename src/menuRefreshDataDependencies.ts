@@ -1,5 +1,6 @@
 import { getConceptDataCatalogEntry } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
+import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 
 /**
  * Menu item action for "Gapminder Data -> Import/refresh data dependencies"
@@ -82,11 +83,22 @@ export function menuRefreshDataDependencies() {
     const geo_set = dataDependencyRow[2];
     const dataStatus = dataDependencyRow[3];
 
+    try {
+      validateAndAliasTheGeoSetArgument(geo_set);
+    } catch (err) {
+      writeStatus(index, {
+        lastChecked: null,
+        notes: "Not imported: " + err.message,
+        sourceDataRows: null
+      });
+      return;
+    }
+
     // Do not attempt to import bad datasets
     if (dataStatus.toString().substr(0, 3) === "BAD") {
       writeStatus(index, {
         lastChecked: null,
-        notes: "Not imported since catalog status is marked as BAD",
+        notes: "Not checked/imported since catalog status is marked as BAD",
         sourceDataRows: null
       });
       return;

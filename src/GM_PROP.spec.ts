@@ -11,14 +11,14 @@ import { MinimalUtilities } from "./lib/MinimalUtilities";
 const testGmProp: Macro<any> = (
   t: ExecutionContext,
   {
-    column_range_with_headers,
+    input_column_range_with_headers,
     property_id,
     property_or_concept_data_table_range_with_headers,
     expectedOutput
   }
 ) => {
   const output = GM_PROP(
-    column_range_with_headers,
+    input_column_range_with_headers,
     property_id,
     property_or_concept_data_table_range_with_headers
   );
@@ -29,7 +29,7 @@ const testGmProp: Macro<any> = (
 [
   /* tslint:disable:object-literal-sort-keys */
   {
-    column_range_with_headers: [["geo"], ["foo"], ["swe"]],
+    input_column_range_with_headers: [["geo"], ["foo"], ["swe"]],
     property_id: "UN member since",
     geo_set: "countries_etc",
     expectedOutput: [["UN member since"], ["Unknown geo: foo"], ["19/11/1946"]]

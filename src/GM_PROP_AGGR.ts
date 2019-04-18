@@ -1,4 +1,3 @@
-import { exponential, linear } from "everpolate";
 import groupBy from "lodash/fp/groupBy";
 import mapValues from "lodash/fp/mapValues";
 import { GM_NAME } from "./GM_NAME";

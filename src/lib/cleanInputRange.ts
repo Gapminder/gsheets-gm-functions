@@ -11,8 +11,15 @@ import { pipe } from "./pipe";
 export function preProcessInputRangeWithHeaders(
   inputRangeWithHeaders: string[][]
 ): string[][] {
+  // Verify that the input param is indeed an array
+  if (!Array.isArray(inputRangeWithHeaders)) {
+    throw Error(
+      "The input range is invalid. Type: " + typeof inputRangeWithHeaders
+    );
+  }
+
   // Clone the input param to prevent side effects
-  const inputColumnOrTableWithHeaders = inputRangeWithHeaders.concat([]);
+  const inputColumnOrTableWithHeaders = inputRangeWithHeaders.slice();
 
   // Filter away completely empty rows at the end of the input range
   // (allows input range to be specified as complete columns without negative effects)

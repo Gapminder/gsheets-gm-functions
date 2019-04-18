@@ -22,7 +22,7 @@ import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoS
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_DATASET_CATALOG_STATUS(
-  dataset_reference: string,
+  concept_id: string,
   time_unit: string,
   geo_set: string,
   verbose: boolean
@@ -36,10 +36,9 @@ export function GM_DATASET_CATALOG_STATUS(
   }
 
   try {
-    if (dataset_reference === "") {
-      throw new Error("");
+    if (concept_id === "") {
+      throw new Error("The concept id argument is empty");
     }
-    const concept_id = dataset_reference;
     const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
     const conceptDataCatalogEntry = getConceptDataCatalogEntry(
       concept_id,

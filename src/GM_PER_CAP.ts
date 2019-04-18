@@ -5,7 +5,7 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 /**
  * Divides the concept-value column(s) of the input table range by the population of the geo_set.
  *
- * Note: Uses GM_DATA_SLOW internally. Performance-related documentation about GM_DATA_SLOW applies.
+ * Note: Uses GM_DATA internally
  *
  * @param input_table_range_with_headers_and_concept_values A table range including [geo,name,time,concept-values...]
  * @param population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Can be included for performance reasons.

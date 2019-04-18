@@ -4,7 +4,7 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 /**
  * Inserts a concept column, including a header row, with a common Gapminder concept matched against the input column/table range.
  *
- * Requires that the corresponding concept data is first imported using the "Gapminder Data -> Import/refresh data dependencies".
+ * Note: Requires that the concept data to match against is first imported using the "Gapminder Data -> Import/refresh data dependencies".
  *
  * @param input_table_range_with_headers The input table range including [geo,name,time] for a concept value lookup
  * @param concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Required for performance reasons.
