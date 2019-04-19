@@ -23,6 +23,7 @@ Gapminder-specific custom functions and related menu item actions for Google Spr
 * [GM_PROP](#gm_prop)
 * [GM_PROP_AGGR](#gm_prop_aggr)
 * [GM_UNPIVOT](#gm_unpivot)
+* [menuRefreshDataCatalog](#menurefreshdatacatalog)
 * [menuRefreshDataDependencies](#menurefreshdatadependencies)
 * [menuValidateDatasetSpreadsheet](#menuvalidatedatasetspreadsheet)
 
@@ -408,13 +409,33 @@ Unpivots a standard pivoted Gapminder table \[geo, name, ...time-values-across-c
 A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
+<a id="menurefreshdatacatalog"></a>
+
+###  menuRefreshDataCatalog
+
+▸ **menuRefreshDataCatalog**(): `void`
+
+*Defined in [menuActions/menuRefreshDataCatalog.ts:19](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuActions/menuRefreshDataCatalog.ts#L19)*
+
+Menu item action for "Gapminder Data -> Refresh data catalog"
+
+Imports the data catalog from the fasttrack catalog to the current spreadsheet, setting the relevant selectable options in the data-dependencies spreadsheet.
+
+Details:
+
+*   Creates the data-dependencies spreadsheet if it doesn't exist
+*   Verifies that the first headers of the data-dependencies spreadsheet are as expected
+
+**Returns:** `void`
+
+___
 <a id="menurefreshdatadependencies"></a>
 
 ###  menuRefreshDataDependencies
 
 ▸ **menuRefreshDataDependencies**(): `void`
 
-*Defined in [menuActions/menuRefreshDataDependencies.ts:17](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuActions/menuRefreshDataDependencies.ts#L17)*
+*Defined in [menuActions/menuRefreshDataDependencies.ts:23](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuActions/menuRefreshDataDependencies.ts#L23)*
 
 Menu item action for "Gapminder Data -> Import/refresh data dependencies"
 

@@ -18,6 +18,7 @@ import { GM_PER_CAP_SLOW } from "./GM_PER_CAP_SLOW";
 import { GM_PROP } from "./GM_PROP";
 import { GM_PROP_AGGR } from "./GM_PROP_AGGR";
 import { GM_UNPIVOT } from "./GM_UNPIVOT";
+import { menuRefreshDataCatalog } from "./menuActions/menuRefreshDataCatalog";
 import { menuRefreshDataDependencies } from "./menuActions/menuRefreshDataDependencies";
 import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatasetSpreadsheet";
 
@@ -32,6 +33,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
     `Import/refresh data dependencies`,
     "menuRefreshDataDependencies"
   );
+  menu.addItem(`Refresh data catalog`, "menuRefreshDataCatalog");
   const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   const aboutSheet = activeSpreadsheet.getSheetByName("ABOUT");
   const namedRanges = activeSpreadsheet.getNamedRanges();
@@ -46,6 +48,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
 };
 
 (global as any).menuRefreshDataDependencies = menuRefreshDataDependencies;
+(global as any).menuRefreshDataCatalog = menuRefreshDataCatalog;
 (global as any).menuValidateDatasetSpreadsheet = menuValidateDatasetSpreadsheet;
 
 // Expose custom functions

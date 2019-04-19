@@ -102,3 +102,62 @@ export function assertCorrectDataDependenciesSheetHeaders(
   }
   return true;
 }
+
+/**
+ * @hidden
+ */
+export function implementDataDependenciesSheetStylesFormulasAndValidations(
+  sheet,
+  fasttrackCatalogDataPointsWorksheetData
+) {
+  const getColumnValuesRange = ($sheet: Sheet, header) => {
+    const columnIndex = ensuredColumnIndex(header);
+    return $sheet.getRange(2, columnIndex + 1, $sheet.getMaxRows() - 1, 1);
+  };
+
+  const setSelectableOptionsForColumnValues = (
+    $sheet: Sheet,
+    header,
+    values
+  ) => {
+    const columnValuesRange = getColumnValuesRange($sheet, header);
+    const currentDataValidation = columnValuesRange.getDataValidation();
+    if (
+      currentDataValidation.getCriteriaType() !==
+        SpreadsheetApp.DataValidationCriteria.VALUE_IN_LIST ||
+      JSON.stringify(currentDataValidation.getCriteriaValues()) !==
+        JSON.stringify(values)
+    ) {
+      console.log(
+        "setSelectableOptionsForColumnValues",
+        JSON.stringify(currentDataValidation.getCriteriaValues()),
+        JSON.stringify(values)
+      );
+      columnValuesRange.setDataValidation(
+        SpreadsheetApp.newDataValidation()
+          .requireValueInList(values)
+          .build()
+      );
+    }
+  };
+
+  // Update selectable options based on catalog data
+  const fasttrackCatalogConceptIds = fasttrackCatalogDataPointsWorksheetData.rows.map(
+    (row: FasttrackCatalogDataPointsDataRow) => {
+      return `fasttrack:${row.concept_id}`;
+    }
+  );
+  setSelectableOptionsForColumnValues(
+    sheet,
+    "Dataset reference",
+    fasttrackCatalogConceptIds
+  );
+
+  // Update selectable options based on hardcoded values
+  setSelectableOptionsForColumnValues(sheet, "Time unit", ["year", "decade"]);
+  setSelectableOptionsForColumnValues(
+    sheet,
+    "Geo set",
+    Object.keys(geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet)
+  );
+}
