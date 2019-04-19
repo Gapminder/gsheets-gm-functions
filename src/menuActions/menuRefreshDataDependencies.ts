@@ -74,6 +74,11 @@ export function menuRefreshDataDependencies() {
     const geo_set = dataDependencyRow[2];
     const dataStatus = dataDependencyRow[3];
 
+    // Skip empty rows
+    if (dataset_reference === "") {
+      return;
+    }
+
     const parsedDatasetReference = dataset_reference.split("@");
     const concept_id = parsedDatasetReference[0];
 
