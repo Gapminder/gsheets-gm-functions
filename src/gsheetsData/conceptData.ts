@@ -1,4 +1,4 @@
-import { ConceptDataRow } from "../lib/conceptDataRow";
+import { ConceptDataWorksheetData } from "../lib/conceptData";
 import {
   FasttrackCatalogDataPointsDataRow,
   FasttrackCatalogDataPointsWorksheetData
@@ -11,19 +11,12 @@ import {
 /**
  * @hidden
  */
-interface ConceptDataWorksheetData {
-  rows: ConceptDataRow[];
-}
-
-/**
- * @hidden
- */
-export function getConceptDataWorksheetData(
+export function getFasttrackCatalogConceptDataWorksheetData(
   concept_id,
   time_unit,
   geo_set,
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
-) {
+): ConceptDataWorksheetData {
   const matchingConcept = getConceptDataFasttrackCatalogEntry(
     concept_id,
     time_unit,
@@ -36,7 +29,9 @@ export function getConceptDataWorksheetData(
   const worksheetCsvData = Utilities.parseCsv(
     worksheetCsvDataHTTPResponse.getContentText()
   );
-  return listConceptDataCsvDataToWorksheetData(worksheetCsvData);
+  return listFasttrackCatalogConceptDataCsvDataToWorksheetData(
+    worksheetCsvData
+  );
 }
 
 /**
@@ -110,13 +105,13 @@ function getMatchingFasttrackCatalogConcept(
 /**
  * @hidden
  */
-function listConceptDataCsvDataToWorksheetData(
-  worksheetCsvData
+function listFasttrackCatalogConceptDataCsvDataToWorksheetData(
+  csvData
 ): ConceptDataWorksheetData {
-  // Drop header row
-  worksheetCsvData.shift();
-  // Interpret the remaining rows based on position
-  const rows = worksheetCsvData.map(csvDataRow => {
+  // Separate the header row from the data rows
+  const headers = csvData[0];
+  // Interpret the data rows based on position
+  const rows = csvData.map(csvDataRow => {
     return {
       geo: csvDataRow[0],
       name: csvDataRow[1],
@@ -125,6 +120,7 @@ function listConceptDataCsvDataToWorksheetData(
     };
   });
   return {
+    headers,
     rows
   };
 }

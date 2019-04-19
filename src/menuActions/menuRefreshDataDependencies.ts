@@ -1,6 +1,6 @@
 import { getConceptDataFasttrackCatalogEntry } from "../gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "../gsheetsData/fastttrackCatalog";
-import { ConceptDataRow } from "../lib/conceptDataRow";
+import { ConceptDataRow, ConceptDataWorksheetData } from "../lib/conceptData";
 import { validateAndAliasTheGeoSetArgument } from "../lib/validateAndAliasTheGeoSetArgument";
 import { validateConceptIdArgument } from "../lib/validateConceptIdArgument";
 import { getOpenNumbersConceptData } from "../openNumbersData/conceptData";
@@ -145,24 +145,26 @@ export function menuRefreshDataDependencies() {
       case "open-numbers-wdi":
       case "open-numbers/ddf--open_numbers--world_development_indicators":
         {
-          const openNumbersConceptData: ConceptDataRow[] = getOpenNumbersConceptData(
+          const openNumbersConceptData: ConceptDataWorksheetData = getOpenNumbersConceptData(
             concept_id,
             time_unit,
             geo_set,
             openNumbersCatalogConceptListing
           );
 
-          importValues = openNumbersConceptData.map(
-            (conceptDataRow: ConceptDataRow) => {
-              return [
-                conceptDataRow.geo,
-                conceptDataRow.name,
-                conceptDataRow.time,
-                conceptDataRow.value
-              ];
-            }
+          importValues = [openNumbersConceptData.headers].concat(
+            openNumbersConceptData.rows.map(
+              (conceptDataRow: ConceptDataRow) => {
+                return [
+                  conceptDataRow.geo,
+                  conceptDataRow.name,
+                  conceptDataRow.time,
+                  conceptDataRow.value
+                ];
+              }
+            )
           );
-          sourceDataRows = openNumbersConceptData.length;
+          sourceDataRows = importValues.length;
           sourceDataColumns = 4;
         }
         break;

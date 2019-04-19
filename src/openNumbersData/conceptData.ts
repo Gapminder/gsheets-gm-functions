@@ -1,6 +1,5 @@
-import { ConceptDataRow } from "../lib/conceptDataRow";
+import { ConceptDataWorksheetData } from "../lib/conceptData";
 import { OpenNumbersDatasetConceptListingDataRow } from "./opennumbersCatalog";
-// import { listConceptDataByGeographyAndTimeUnit } from "./types/listConceptDataByGeographyAndTimeUnit";
 
 /**
  * @hidden
@@ -19,7 +18,7 @@ export function getOpenNumbersConceptData(
   );
   const csvDataHTTPResponse = UrlFetchApp.fetch(matchingConcept.csvLink);
   const csvData = Utilities.parseCsv(csvDataHTTPResponse.getContentText());
-  return listConceptDataCsvDataToConceptDataRows(csvData);
+  return listOpenNumbersDatasetConceptDataCsvDataToWorksheetData(csvData);
 }
 
 /**
@@ -79,11 +78,13 @@ function getMatchingOpenNumbersDatasetConcept(
 /**
  * @hidden
  */
-function listConceptDataCsvDataToConceptDataRows(csvData): ConceptDataRow[] {
-  // Drop header row
-  csvData.shift();
-  // Interpret the remaining rows based on position
-  return csvData.map(csvDataRow => {
+function listOpenNumbersDatasetConceptDataCsvDataToWorksheetData(
+  csvData
+): ConceptDataWorksheetData {
+  // Separate the header row from the data rows
+  const headers = [csvData[0][0], "name", csvData[0][1], csvData[0][2]];
+  // Interpret the data rows based on position
+  const rows = csvData.slice(1).map(csvDataRow => {
     return {
       geo: csvDataRow[0],
       name: undefined,
@@ -91,4 +92,8 @@ function listConceptDataCsvDataToConceptDataRows(csvData): ConceptDataRow[] {
       value: csvDataRow[2]
     };
   });
+  return {
+    headers,
+    rows
+  };
 }

@@ -1,6 +1,6 @@
-import { getConceptDataWorksheetData } from "./gsheetsData/conceptData";
+import { getFasttrackCatalogConceptDataWorksheetData } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
-import { ConceptDataRow } from "./lib/conceptDataRow";
+import { ConceptDataRow } from "./lib/conceptData";
 import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 
 /**
@@ -34,7 +34,7 @@ export function GM_IMPORT_SLOW(
   validateAndAliasTheGeoSetArgument(geo_set);
 
   const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
-  const importedWorksheetData = getConceptDataWorksheetData(
+  const importedWorksheetData = getFasttrackCatalogConceptDataWorksheetData(
     concept_id,
     time_unit,
     geo_set,

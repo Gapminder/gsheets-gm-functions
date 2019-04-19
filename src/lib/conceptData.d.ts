@@ -11,3 +11,11 @@ export interface ConceptDataRow {
   value: string;
   /* tslint:enable:object-literal-sort-keys */
 }
+
+/**
+ * @hidden
+ */
+interface ConceptDataWorksheetData {
+  headers: string[];
+  rows: ConceptDataRow[];
+}
