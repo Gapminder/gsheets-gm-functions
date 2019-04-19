@@ -122,19 +122,24 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  *
  * Note: The function results are not automatically re-evaluated as changes are made to the source documents or the catalog. You can trigger a manual update by deleting the cell and undoing the deletion immediately.
  *
- * @param {"pop"} concept_id The concept id ("pop") of which concept data to check status for
+ * @param {"pop"} dataset_reference The dataset reference in the form of {concept id}@{catalog} (eg "pop@fasttrack", or "pop@opennumbers") of which concept data to check status for
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for
  * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param {FALSE} verbose Explains how a certain dataset is invalid instead of simply returning "BAD" for the row
  * @customfunction
  */
 (global as any).GM_DATASET_CATALOG_STATUS = function(
-  concept_id: string,
+  dataset_reference: string,
   time_unit: string,
   geo_set: string,
   verbose: boolean
 ) {
-  return GM_DATASET_CATALOG_STATUS(concept_id, time_unit, geo_set, verbose);
+  return GM_DATASET_CATALOG_STATUS(
+    dataset_reference,
+    time_unit,
+    geo_set,
+    verbose
+  );
 };
 
 /**

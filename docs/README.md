@@ -58,7 +58,7 @@ ___
 
 ###  GM_DATASET_CATALOG_STATUS
 
-▸ **GM_DATASET_CATALOG_STATUS**(concept_id: *`string`*, time_unit: *`string`*, geo_set: *`string`*, verbose: *`boolean`*): `string`[][]
+▸ **GM_DATASET_CATALOG_STATUS**(dataset_reference: *`string`*, time_unit: *`string`*, geo_set: *`string`*, verbose: *`boolean`*): `string`[][]
 
 *Defined in [GM_DATASET_CATALOG_STATUS.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/GM_DATASET_CATALOG_STATUS.ts#L24)*
 
@@ -77,7 +77,7 @@ Note: The function results are not automatically re-evaluated as changes are mad
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| concept_id | `string` |  The concept id ("pop") of which concept data to check status for |
+| dataset_reference | `string` |  The dataset reference in the form of {concept id}@{catalog} (eg "pop@fasttrack", or "pop@opennumbers") of which concept data to check status for |
 | time_unit | `string` |  (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for |
 | geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 | verbose | `boolean` |  Explains how a certain dataset is invalid instead of simply returning "BAD" for the row |

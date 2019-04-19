@@ -15,14 +15,14 @@ import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoS
  *
  * Note: The function results are not automatically re-evaluated as changes are made to the source documents or the catalog. You can trigger a manual update by deleting the cell and undoing the deletion immediately.
  *
- * @param concept_id The concept id ("pop") of which concept data to check status for
+ * @param dataset_reference The dataset reference in the form of {concept id}@{catalog} (eg "pop@fasttrack", or "pop@opennumbers") of which concept data to check status for
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for
  * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param verbose Explains how a certain dataset is invalid instead of simply returning "BAD" for the row
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_DATASET_CATALOG_STATUS(
-  concept_id: string,
+  dataset_reference: string,
   time_unit: string,
   geo_set: string,
   verbose: boolean
@@ -36,9 +36,11 @@ export function GM_DATASET_CATALOG_STATUS(
   }
 
   try {
-    if (concept_id === "") {
-      throw new Error("The concept id argument is empty");
+    if (dataset_reference === "") {
+      throw new Error("The dataset reference argument is empty");
     }
+    const parsedDatasetReference = dataset_reference.split("@");
+    const concept_id = parsedDatasetReference[0];
     const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
     const conceptDataCatalogEntry = getConceptDataCatalogEntry(
       concept_id,
