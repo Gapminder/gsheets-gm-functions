@@ -1,4 +1,4 @@
-import { getConceptDataCatalogEntry } from "../gsheetsData/conceptData";
+import { getConceptDataFasttrackCatalogEntry } from "../gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "../gsheetsData/fastttrackCatalog";
 import { validateAndAliasTheGeoSetArgument } from "../lib/validateAndAliasTheGeoSetArgument";
 import {
@@ -80,7 +80,7 @@ export function menuRefreshDataDependencies() {
     const parsedDatasetReference = dataset_reference.split("@");
     const concept_id = parsedDatasetReference[0];
 
-    const conceptDataCatalogEntry = getConceptDataCatalogEntry(
+    const conceptDataFasttrackCatalogEntry = getConceptDataFasttrackCatalogEntry(
       concept_id,
       time_unit,
       geo_set,
@@ -90,15 +90,17 @@ export function menuRefreshDataDependencies() {
     const destinationSheetName = `data:${concept_id}:${time_unit}:${geo_set}`;
 
     // Import sheet from source document
-    const sourceDoc = SpreadsheetApp.openById(conceptDataCatalogEntry.docId);
+    const sourceDoc = SpreadsheetApp.openById(
+      conceptDataFasttrackCatalogEntry.docId
+    );
     const sourceSheet = sourceDoc.getSheetByName(
-      conceptDataCatalogEntry.worksheetReference.name
+      conceptDataFasttrackCatalogEntry.worksheetReference.name
     );
     if (!sourceSheet) {
       writeStatus(sheet, index, {
         lastChecked: null,
         notes: `Not imported since the source sheet "${
-          conceptDataCatalogEntry.worksheetReference.name
+          conceptDataFasttrackCatalogEntry.worksheetReference.name
         }" was not available`,
         sourceDataRows: null
       });

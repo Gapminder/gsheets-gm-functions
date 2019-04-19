@@ -36,7 +36,7 @@ export function getConceptDataWorksheetData(
   geo_set,
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
 ) {
-  const matchingConcept = getConceptDataCatalogEntry(
+  const matchingConcept = getConceptDataFasttrackCatalogEntry(
     concept_id,
     time_unit,
     geo_set,
@@ -56,13 +56,13 @@ export function getConceptDataWorksheetData(
 /**
  * @hidden
  */
-export function getConceptDataCatalogEntry(
+export function getConceptDataFasttrackCatalogEntry(
   concept_id,
   time_unit,
   geo_set,
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
 ) {
-  const matchingConcept = getMatchingConcept(
+  const matchingConcept = getMatchingFasttrackCatalogConcept(
     concept_id,
     time_unit,
     geo_set,
@@ -89,7 +89,7 @@ export function getConceptDataCatalogEntry(
 /**
  * @hidden
  */
-function getMatchingConcept(
+function getMatchingFasttrackCatalogConcept(
   concept_id,
   time_unit,
   geo_set,

@@ -1,4 +1,4 @@
-import { getConceptDataCatalogEntry } from "./gsheetsData/conceptData";
+import { getConceptDataFasttrackCatalogEntry } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 import { fetchWorksheetReferences } from "./gsheetsData/fetchWorksheetReferences";
 import { conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit } from "./gsheetsData/hardcodedConstants";
@@ -42,18 +42,18 @@ export function GM_DATASET_CATALOG_STATUS(
     const parsedDatasetReference = dataset_reference.split("@");
     const concept_id = parsedDatasetReference[0];
     const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
-    const conceptDataCatalogEntry = getConceptDataCatalogEntry(
+    const conceptDataFasttrackCatalogEntry = getConceptDataFasttrackCatalogEntry(
       concept_id,
       time_unit,
       geo_set,
       fasttrackCatalogDataPointsWorksheetData
     );
-    if (!conceptDataCatalogEntry.csvLink) {
+    if (!conceptDataFasttrackCatalogEntry.csvLink) {
       throw new Error("No CSV Link");
     }
     // Compare worksheets with the expected ones defined in conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit
     const worksheetReferences = fetchWorksheetReferences(
-      conceptDataCatalogEntry.docId
+      conceptDataFasttrackCatalogEntry.docId
     );
     const expectedWorksheetReference =
       conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit[geo_set][time_unit];
@@ -67,7 +67,7 @@ export function GM_DATASET_CATALOG_STATUS(
         `A published "${
           expectedWorksheetReference.name
         }" worksheet was not found in the concept dataset source spreadsheet ("${
-          conceptDataCatalogEntry.docId
+          conceptDataFasttrackCatalogEntry.docId
         }"). Currently published worksheets are currently "${worksheetReferences
           .map(worksheetReference => worksheetReference.name)
           .join(", ")}"`
