@@ -144,7 +144,7 @@ export function implementDataDependenciesSheetStylesFormulasAndValidations(
   // Update selectable options based on catalog data
   const fasttrackCatalogConceptIds = fasttrackCatalogDataPointsWorksheetData.rows.map(
     (row: FasttrackCatalogDataPointsDataRow) => {
-      return `fasttrack:${row.concept_id}`;
+      return `${row.concept_id}@fasttrack`;
     }
   );
   setSelectableOptionsForColumnValues(
