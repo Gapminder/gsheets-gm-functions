@@ -435,7 +435,7 @@ ___
 
 ▸ **menuRefreshDataDependencies**(): `void`
 
-*Defined in [menuActions/menuRefreshDataDependencies.ts:23](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuActions/menuRefreshDataDependencies.ts#L23)*
+*Defined in [menuActions/menuRefreshDataDependencies.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuActions/menuRefreshDataDependencies.ts#L24)*
 
 Menu item action for "Gapminder Data -> Import/refresh data dependencies"
 

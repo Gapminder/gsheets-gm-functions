@@ -5,6 +5,7 @@ import {
   assertCorrectDataDependenciesSheetHeaders,
   createDataDependenciesSheet,
   getDataDependenciesWithHeaderRow,
+  implementDataDependenciesSheetStylesFormulasAndValidations,
   writeStatus
 } from "./dataDependenciesCommon";
 
@@ -38,6 +39,12 @@ export function menuRefreshDataDependencies() {
   }
 
   const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
+
+  // Refresh data catalog
+  implementDataDependenciesSheetStylesFormulasAndValidations(
+    sheet,
+    fasttrackCatalogDataPointsWorksheetData
+  );
 
   // Read current data dependencies
   const dataDependencies = dataDependenciesWithHeaderRow.slice(1);
