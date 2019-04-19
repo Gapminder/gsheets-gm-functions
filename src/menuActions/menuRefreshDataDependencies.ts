@@ -1,11 +1,17 @@
 import { getConceptDataFasttrackCatalogEntry } from "../gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "../gsheetsData/fastttrackCatalog";
+import { ConceptDataRow } from "../lib/conceptDataRow";
 import { validateAndAliasTheGeoSetArgument } from "../lib/validateAndAliasTheGeoSetArgument";
+import { validateConceptIdArgument } from "../lib/validateConceptIdArgument";
+import { getOpenNumbersConceptData } from "../openNumbersData/conceptData";
+import { getOpenNumbersDatasetConceptListing } from "../openNumbersData/opennumbersCatalog";
 import {
   assertCorrectDataDependenciesSheetHeaders,
+  createDataCatalogSheet,
   createDataDependenciesSheet,
   getDataDependenciesWithHeaderRow,
-  implementDataDependenciesSheetStylesFormulasAndValidations,
+  implementDataDependenciesValidations,
+  refreshDataCatalogSheet,
   writeStatus
 } from "./dataDependenciesCommon";
 
@@ -16,20 +22,28 @@ import {
  * allowing GM_-functions to reference local data instead of importing data on-the-fly.
  *
  * Details:
- * - Creates the data-dependencies spreadsheet if it doesn't exist
+ * - Creates the data-dependencies and data-catalog spreadsheets if they don't exist
  * - Verifies that the first headers of the data-dependencies spreadsheet are as expected
  * - Does not attempt to import data with bad catalog status
  * - Communicates import status as the import progresses
  */
 export function menuRefreshDataDependencies() {
   const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = activeSpreadsheet.getSheetByName("data-dependencies");
-
-  if (sheet === null) {
-    sheet = createDataDependenciesSheet(activeSpreadsheet);
+  let dataDependenciesSheet = activeSpreadsheet.getSheetByName(
+    "data-dependencies"
+  );
+  if (dataDependenciesSheet === null) {
+    dataDependenciesSheet = createDataDependenciesSheet(activeSpreadsheet);
   }
 
-  const dataDependenciesWithHeaderRow = getDataDependenciesWithHeaderRow(sheet);
+  let dataCatalogSheet = activeSpreadsheet.getSheetByName("data-catalog");
+  if (dataCatalogSheet === null) {
+    dataCatalogSheet = createDataCatalogSheet(activeSpreadsheet);
+  }
+
+  const dataDependenciesWithHeaderRow = getDataDependenciesWithHeaderRow(
+    dataDependenciesSheet
+  );
 
   // Verify that the first headers are as expected
   if (
@@ -38,13 +52,17 @@ export function menuRefreshDataDependencies() {
     return;
   }
 
-  const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
-
   // Refresh data catalog
-  implementDataDependenciesSheetStylesFormulasAndValidations(
-    sheet,
-    fasttrackCatalogDataPointsWorksheetData
+  const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
+  const openNumbersCatalogConceptListing = getOpenNumbersDatasetConceptListing(
+    "ddf--open_numbers--world_development_indicators"
   );
+  refreshDataCatalogSheet(
+    dataCatalogSheet,
+    fasttrackCatalogDataPointsWorksheetData,
+    openNumbersCatalogConceptListing
+  );
+  implementDataDependenciesValidations(dataDependenciesSheet, dataCatalogSheet);
 
   // Read current data dependencies
   const dataDependencies = dataDependenciesWithHeaderRow.slice(1);
@@ -56,10 +74,14 @@ export function menuRefreshDataDependencies() {
     const geo_set = dataDependencyRow[2];
     const dataStatus = dataDependencyRow[3];
 
+    const parsedDatasetReference = dataset_reference.split("@");
+    const concept_id = parsedDatasetReference[0];
+
     try {
+      validateConceptIdArgument(concept_id);
       validateAndAliasTheGeoSetArgument(geo_set);
     } catch (err) {
-      writeStatus(sheet, index, {
+      writeStatus(dataDependenciesSheet, index, {
         lastChecked: null,
         notes: "Not imported: " + err.message,
         sourceDataRows: null
@@ -69,7 +91,7 @@ export function menuRefreshDataDependencies() {
 
     // Do not attempt to import bad datasets
     if (dataStatus.toString().substr(0, 3) === "BAD") {
-      writeStatus(sheet, index, {
+      writeStatus(dataDependenciesSheet, index, {
         lastChecked: null,
         notes: "Not checked/imported since catalog status is marked as BAD",
         sourceDataRows: null
@@ -77,34 +99,81 @@ export function menuRefreshDataDependencies() {
       return;
     }
 
-    const parsedDatasetReference = dataset_reference.split("@");
-    const concept_id = parsedDatasetReference[0];
+    const destinationSheetName = `data:${dataset_reference}:${time_unit}:${geo_set}`;
 
-    const conceptDataFasttrackCatalogEntry = getConceptDataFasttrackCatalogEntry(
-      concept_id,
-      time_unit,
-      geo_set,
-      fasttrackCatalogDataPointsWorksheetData
-    );
+    // Read values to import
+    const catalog = parsedDatasetReference[1];
+    let importValues;
+    let sourceDataRows;
+    let sourceDataColumns;
+    switch (catalog) {
+      case undefined:
+      case "":
+      case "fasttrack":
+        {
+          const conceptDataFasttrackCatalogEntry = getConceptDataFasttrackCatalogEntry(
+            concept_id,
+            time_unit,
+            geo_set,
+            fasttrackCatalogDataPointsWorksheetData
+          );
 
-    const destinationSheetName = `data:${concept_id}:${time_unit}:${geo_set}`;
+          // Import sheet from source document
+          const sourceDoc = SpreadsheetApp.openById(
+            conceptDataFasttrackCatalogEntry.docId
+          );
+          const sourceSheet = sourceDoc.getSheetByName(
+            conceptDataFasttrackCatalogEntry.worksheetReference.name
+          );
+          if (!sourceSheet) {
+            writeStatus(dataDependenciesSheet, index, {
+              lastChecked: null,
+              notes: `Not imported since the source sheet "${
+                conceptDataFasttrackCatalogEntry.worksheetReference.name
+              }" was not available`,
+              sourceDataRows: null
+            });
+            return;
+          }
 
-    // Import sheet from source document
-    const sourceDoc = SpreadsheetApp.openById(
-      conceptDataFasttrackCatalogEntry.docId
-    );
-    const sourceSheet = sourceDoc.getSheetByName(
-      conceptDataFasttrackCatalogEntry.worksheetReference.name
-    );
-    if (!sourceSheet) {
-      writeStatus(sheet, index, {
-        lastChecked: null,
-        notes: `Not imported since the source sheet "${
-          conceptDataFasttrackCatalogEntry.worksheetReference.name
-        }" was not available`,
-        sourceDataRows: null
-      });
-      return;
+          const sourceDataRange = sourceSheet.getDataRange();
+          importValues = sourceDataRange.getValues();
+          sourceDataRows = sourceDataRange.getNumRows();
+          sourceDataColumns = sourceDataRange.getNumColumns();
+        }
+        break;
+      case "open-numbers-wdi":
+      case "open-numbers/ddf--open_numbers--world_development_indicators":
+        {
+          const openNumbersConceptData: ConceptDataRow[] = getOpenNumbersConceptData(
+            concept_id,
+            time_unit,
+            geo_set,
+            openNumbersCatalogConceptListing
+          );
+
+          importValues = openNumbersConceptData.map(
+            (conceptDataRow: ConceptDataRow) => {
+              return [
+                conceptDataRow.geo,
+                conceptDataRow.name,
+                conceptDataRow.time,
+                conceptDataRow.value
+              ];
+            }
+          );
+          sourceDataRows = openNumbersConceptData.length;
+          sourceDataColumns = 4;
+        }
+        break;
+      default: {
+        writeStatus(dataDependenciesSheet, index, {
+          lastChecked: null,
+          notes: `Not imported - unknown catalog: "${catalog}"`,
+          sourceDataRows: null
+        });
+        return;
+      }
     }
 
     // Make sure that the destination sheet exists
@@ -118,17 +187,11 @@ export function menuRefreshDataDependencies() {
     }
 
     const lastChecked = new Date();
-    writeStatus(sheet, index, {
+    writeStatus(dataDependenciesSheet, index, {
       lastChecked,
       notes: "About to import...",
       sourceDataRows: null
     });
-
-    // Read values to import
-    const sourceDataRange = sourceSheet.getDataRange();
-    const importValues = sourceDataRange.getValues();
-    const sourceDataRows = sourceDataRange.getNumRows();
-    const sourceDataColumns = sourceDataRange.getNumColumns();
 
     // Remove excess rows and columns in case the import data range is smaller than the previously imported data range
     // This prevents stale data from lingering around after the import
@@ -157,7 +220,7 @@ export function menuRefreshDataDependencies() {
         sourceDataColumns - destinationSheet.getMaxColumns()
       );
     }
-    writeStatus(sheet, index, {
+    writeStatus(dataDependenciesSheet, index, {
       lastChecked,
       notes:
         "[Importing...] Adjusted destination sheet rows and columns to accommodate the new data",
@@ -173,7 +236,7 @@ export function menuRefreshDataDependencies() {
         destinationSheet.getMaxColumns()
       )
       .setValues(importValues);
-    writeStatus(sheet, index, {
+    writeStatus(dataDependenciesSheet, index, {
       lastChecked,
       notes: "Imported the data successfully",
       sourceDataRows

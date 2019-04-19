@@ -1,3 +1,4 @@
+import { ConceptDataRow } from "../lib/conceptDataRow";
 import {
   FasttrackCatalogDataPointsDataRow,
   FasttrackCatalogDataPointsWorksheetData
@@ -6,19 +7,6 @@ import {
   conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit,
   geoSetToFasttrackCatalogGeoSetMap
 } from "./hardcodedConstants";
-import { listConceptDataByGeographyAndTimeUnit } from "./types/listConceptDataByGeographyAndTimeUnit";
-
-/**
- * @hidden
- */
-export interface ConceptDataRow {
-  /* tslint:disable:object-literal-sort-keys */
-  geo: string;
-  name: string;
-  time: string;
-  value: string;
-  /* tslint:enable:object-literal-sort-keys */
-}
 
 /**
  * @hidden
@@ -48,9 +36,7 @@ export function getConceptDataWorksheetData(
   const worksheetCsvData = Utilities.parseCsv(
     worksheetCsvDataHTTPResponse.getContentText()
   );
-  return listConceptDataByGeographyAndTimeUnitWorksheetCsvDataToWorksheetData(
-    worksheetCsvData
-  );
+  return listConceptDataCsvDataToWorksheetData(worksheetCsvData);
 }
 
 /**
@@ -124,7 +110,7 @@ function getMatchingFasttrackCatalogConcept(
 /**
  * @hidden
  */
-function listConceptDataByGeographyAndTimeUnitWorksheetCsvDataToWorksheetData(
+function listConceptDataCsvDataToWorksheetData(
   worksheetCsvData
 ): ConceptDataWorksheetData {
   // Drop header row

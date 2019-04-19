@@ -1,8 +1,6 @@
-import {
-  ConceptDataRow,
-  getConceptDataWorksheetData
-} from "./gsheetsData/conceptData";
+import { getConceptDataWorksheetData } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
+import { ConceptDataRow } from "./lib/conceptDataRow";
 import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 
 /**

@@ -1,14 +1,16 @@
 import {
   FasttrackCatalogDataPointsDataRow,
+  FasttrackCatalogDataPointsWorksheetData,
   getFasttrackCatalogDataPointsList
 } from "../gsheetsData/fastttrackCatalog";
 import { geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet } from "../gsheetsData/hardcodedConstants";
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
+import { OpenNumbersDatasetConceptListingDataRow } from "../openNumbersData/opennumbersCatalog";
 
 /**
  * @hidden
  */
-export const expectedFirstHeaders = [
+const dataDependenciesHeaders = [
   "Dataset reference",
   "Time unit",
   "Geo set",
@@ -21,8 +23,18 @@ export const expectedFirstHeaders = [
 /**
  * @hidden
  */
+const dataCatalogHeaders = [
+  "Dataset reference",
+  "Concept ID",
+  "Concept Name",
+  "CSV"
+];
+
+/**
+ * @hidden
+ */
 export const ensuredColumnIndex = (header: string) => {
-  const index = expectedFirstHeaders.indexOf(header);
+  const index = dataDependenciesHeaders.indexOf(header);
   if (index < 0) {
     throw new Error(`Header not found: '${header}'`);
   }
@@ -58,12 +70,30 @@ export function createDataDependenciesSheet(spreadsheet) {
     "data-dependencies",
     spreadsheet.getNumSheets()
   );
-  const headersRange = sheet.getRange(1, 1, 1, expectedFirstHeaders.length);
-  headersRange.setValues([expectedFirstHeaders]);
+  const headersRange = sheet.getRange(1, 1, 1, dataDependenciesHeaders.length);
+  headersRange.setValues([dataDependenciesHeaders]);
   headersRange.setFontWeight("bold");
   sheet.setFrozenRows(1);
   SpreadsheetApp.getUi().alert(
     "No sheet named 'data-dependencies' was found. It has now been added. Please add your data dependencies to the sheet and run this again."
+  );
+  return sheet;
+}
+
+/**
+ * @hidden
+ */
+export function createDataCatalogSheet(spreadsheet) {
+  const sheet = spreadsheet.insertSheet(
+    "data-catalog",
+    spreadsheet.getNumSheets()
+  );
+  const headersRange = sheet.getRange(1, 1, 1, dataCatalogHeaders.length);
+  headersRange.setValues([dataCatalogHeaders]);
+  headersRange.setFontWeight("bold");
+  sheet.setFrozenRows(1);
+  SpreadsheetApp.getUi().alert(
+    "No sheet named 'data-catalog' was found. It has now been added."
   );
   return sheet;
 }
@@ -76,7 +106,7 @@ export function getDataDependenciesWithHeaderRow(sheet: Sheet) {
     1,
     1,
     sheet.getDataRange().getNumRows(),
-    expectedFirstHeaders.length
+    dataDependenciesHeaders.length
   );
 
   return dataDependenciesWithHeaderRowRange.getValues();
@@ -89,11 +119,13 @@ export function assertCorrectDataDependenciesSheetHeaders(
   dataDependenciesWithHeaderRow
 ) {
   const headerRow = dataDependenciesWithHeaderRow.slice(0, 1);
-  const firstHeaders = headerRow[0].slice(0, expectedFirstHeaders.length);
-  if (JSON.stringify(firstHeaders) !== JSON.stringify(expectedFirstHeaders)) {
+  const firstHeaders = headerRow[0].slice(0, dataDependenciesHeaders.length);
+  if (
+    JSON.stringify(firstHeaders) !== JSON.stringify(dataDependenciesHeaders)
+  ) {
     SpreadsheetApp.getUi().alert(
       `The first column headers in 'data-dependencies' must be ${JSON.stringify(
-        expectedFirstHeaders
+        dataDependenciesHeaders
       )} but are currently ${JSON.stringify(
         firstHeaders
       )}. Please adjust and try again`
@@ -106,21 +138,58 @@ export function assertCorrectDataDependenciesSheetHeaders(
 /**
  * @hidden
  */
-export function implementDataDependenciesSheetStylesFormulasAndValidations(
+export function refreshDataCatalogSheet(
   sheet,
-  fasttrackCatalogDataPointsWorksheetData
+  fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData,
+  openNumbersCatalogConceptListing: OpenNumbersDatasetConceptListingDataRow[]
 ) {
-  const getColumnValuesRange = ($sheet: Sheet, header) => {
+  const fasttrackCatalogValues = fasttrackCatalogDataPointsWorksheetData.rows.map(
+    (row: FasttrackCatalogDataPointsDataRow) => {
+      return [
+        `${row.concept_id}@fasttrack`,
+        row.concept_id,
+        row.concept_name,
+        row.csv_link
+      ];
+    }
+  );
+  const opennumbersCatalogValues = openNumbersCatalogConceptListing.map(
+    (row: OpenNumbersDatasetConceptListingDataRow) => {
+      return [
+        `${row.concept_id}@open-numbers-wdi`,
+        row.concept_id,
+        row.concept_name,
+        row.csv_link
+      ];
+    }
+  );
+  const dataCatalogValues = [dataCatalogHeaders].concat(
+    fasttrackCatalogValues,
+    opennumbersCatalogValues
+  );
+  sheet
+    .getRange(1, 1, dataCatalogValues.length, dataCatalogHeaders.length)
+    .setValues(dataCatalogValues);
+}
+
+/**
+ * @hidden
+ */
+export function implementDataDependenciesValidations(
+  dataDependenciesSheet: Sheet,
+  dataCatalogSheet: Sheet
+) {
+  const getColumnValuesRange = (sheet: Sheet, header) => {
     const columnIndex = ensuredColumnIndex(header);
-    return $sheet.getRange(2, columnIndex + 1, $sheet.getMaxRows() - 1, 1);
+    return sheet.getRange(2, columnIndex + 1, sheet.getMaxRows() - 1, 1);
   };
 
   const setSelectableOptionsForColumnValues = (
-    $sheet: Sheet,
+    sheet: Sheet,
     header,
     values
   ) => {
-    const columnValuesRange = getColumnValuesRange($sheet, header);
+    const columnValuesRange = getColumnValuesRange(sheet, header);
     const currentDataValidation = columnValuesRange.getDataValidation();
     if (
       currentDataValidation.getCriteriaType() !==
@@ -138,21 +207,27 @@ export function implementDataDependenciesSheetStylesFormulasAndValidations(
   };
 
   // Update selectable options based on catalog data
-  const fasttrackCatalogConceptIds = fasttrackCatalogDataPointsWorksheetData.rows.map(
-    (row: FasttrackCatalogDataPointsDataRow) => {
-      return `${row.concept_id}@fasttrack`;
-    }
+  const dataDependenciesSheetDataReferencesRange = getColumnValuesRange(
+    dataDependenciesSheet,
+    "Dataset reference"
   );
-  setSelectableOptionsForColumnValues(
-    sheet,
-    "Dataset reference",
-    fasttrackCatalogConceptIds
+  const dataCatalogSheetDataReferencesRange = getColumnValuesRange(
+    dataCatalogSheet,
+    "Dataset reference"
+  );
+  dataDependenciesSheetDataReferencesRange.setDataValidation(
+    SpreadsheetApp.newDataValidation()
+      .requireValueInRange(dataCatalogSheetDataReferencesRange)
+      .build()
   );
 
   // Update selectable options based on hardcoded values
-  setSelectableOptionsForColumnValues(sheet, "Time unit", ["year", "decade"]);
+  setSelectableOptionsForColumnValues(dataDependenciesSheet, "Time unit", [
+    "year",
+    "decade"
+  ]);
   setSelectableOptionsForColumnValues(
-    sheet,
+    dataDependenciesSheet,
     "Geo set",
     Object.keys(geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet)
   );

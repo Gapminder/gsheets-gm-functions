@@ -60,7 +60,7 @@ ___
 
 ▸ **GM_DATASET_CATALOG_STATUS**(dataset_reference: *`string`*, time_unit: *`string`*, geo_set: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_DATASET_CATALOG_STATUS.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/GM_DATASET_CATALOG_STATUS.ts#L24)*
+*Defined in [GM_DATASET_CATALOG_STATUS.ts:27](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/GM_DATASET_CATALOG_STATUS.ts#L27)*
 
 Checks if the referenced data is available remotely for use by GM\_\* functions.
 
@@ -213,7 +213,7 @@ ___
 
 ▸ **GM_IMPORT_SLOW**(concept_id: *`string`*, time_unit: *`string`*, geo_set: *`string`*): `string`[][]
 
-*Defined in [GM_IMPORT_SLOW.ts:30](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/GM_IMPORT_SLOW.ts#L30)*
+*Defined in [GM_IMPORT_SLOW.ts:28](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/GM_IMPORT_SLOW.ts#L28)*
 
 Imports a standard Gapminder concept table.
 
@@ -415,7 +415,7 @@ ___
 
 ▸ **menuRefreshDataCatalog**(): `void`
 
-*Defined in [menuActions/menuRefreshDataCatalog.ts:19](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuActions/menuRefreshDataCatalog.ts#L19)*
+*Defined in [menuActions/menuRefreshDataCatalog.ts:22](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuActions/menuRefreshDataCatalog.ts#L22)*
 
 Menu item action for "Gapminder Data -> Refresh data catalog"
 
@@ -423,7 +423,7 @@ Imports the data catalog from the fasttrack catalog to the current spreadsheet, 
 
 Details:
 
-*   Creates the data-dependencies spreadsheet if it doesn't exist
+*   Creates the data-dependencies and data-catalog spreadsheets if they don't exist
 *   Verifies that the first headers of the data-dependencies spreadsheet are as expected
 
 **Returns:** `void`
@@ -435,7 +435,7 @@ ___
 
 ▸ **menuRefreshDataDependencies**(): `void`
 
-*Defined in [menuActions/menuRefreshDataDependencies.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuActions/menuRefreshDataDependencies.ts#L24)*
+*Defined in [menuActions/menuRefreshDataDependencies.ts:30](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.7.0/src/menuActions/menuRefreshDataDependencies.ts#L30)*
 
 Menu item action for "Gapminder Data -> Import/refresh data dependencies"
 
@@ -443,7 +443,7 @@ Imports data sets from the fasttrack catalog to the current spreadsheet, allowin
 
 Details:
 
-*   Creates the data-dependencies spreadsheet if it doesn't exist
+*   Creates the data-dependencies and data-catalog spreadsheets if they don't exist
 *   Verifies that the first headers of the data-dependencies spreadsheet are as expected
 *   Does not attempt to import data with bad catalog status
 *   Communicates import status as the import progresses
