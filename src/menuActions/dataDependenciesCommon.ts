@@ -125,14 +125,10 @@ export function implementDataDependenciesSheetStylesFormulasAndValidations(
     if (
       currentDataValidation.getCriteriaType() !==
         SpreadsheetApp.DataValidationCriteria.VALUE_IN_LIST ||
-      JSON.stringify(currentDataValidation.getCriteriaValues()) !==
+      !currentDataValidation.getCriteriaValues() ||
+      JSON.stringify(currentDataValidation.getCriteriaValues()[0]) !==
         JSON.stringify(values)
     ) {
-      console.log(
-        "setSelectableOptionsForColumnValues",
-        JSON.stringify(currentDataValidation.getCriteriaValues()),
-        JSON.stringify(values)
-      );
       columnValuesRange.setDataValidation(
         SpreadsheetApp.newDataValidation()
           .requireValueInList(values)
