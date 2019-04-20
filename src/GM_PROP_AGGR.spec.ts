@@ -8,12 +8,11 @@ import { MinimalUrlFetchApp } from "./lib/MinimalUrlFetchApp";
  */
 const testPropAggr: Macro<any> = (
   t: ExecutionContext,
-  { input_table_range_with_headers, aggregation_prop, geo_set, expectedOutput }
+  { input_table_range_with_headers, aggregation_property_id, expectedOutput }
 ) => {
   const output = GM_PROP_AGGR(
     input_table_range_with_headers,
-    aggregation_prop,
-    undefined
+    aggregation_property_id
   );
   // t.log({ input_table_range_with_headers });
   // t.log({ output });
@@ -34,7 +33,7 @@ const testPropAggr: Macro<any> = (
       ],
       ["foo", "Foo", "1900", "0", "100"]
     ],
-    aggregation_prop: "four_regions",
+    aggregation_property_id: "four_regions",
     expectedOutput: [
       [
         "four_regions",
@@ -77,7 +76,7 @@ const testPropAggr: Macro<any> = (
       ["btn", "Bhutan", 1912, 1, 1200, 66, 90000, 8, 90000, 30000],
       ["bol", "Bolivia", 1913, 1, 41, 5, 666, 48, 6, 5]
     ],
-    aggregation_prop: "four_regions",
+    aggregation_property_id: "four_regions",
     expectedOutput: [
       [
         "four_regions",
@@ -120,7 +119,7 @@ const testPropAggr: Macro<any> = (
       ],
       ["foo", "Foo", "1900", "0", "100"]
     ],
-    aggregation_prop: "World bank income group 2017",
+    aggregation_property_id: "World bank income group 2017",
     expectedOutput: [
       [
         "World bank income group 2017",
@@ -163,7 +162,7 @@ const testPropAggr: Macro<any> = (
       ["btn", "Bhutan", 1912, 1, 1200, 66, 90000, 8, 90000, 30000],
       ["bol", "Bolivia", 1913, 1, 41, 5, 666, 48, 6, 5]
     ],
-    aggregation_prop: "World bank income group 2017",
+    aggregation_property_id: "World bank income group 2017",
     expectedOutput: [
       [
         "World bank income group 2017",

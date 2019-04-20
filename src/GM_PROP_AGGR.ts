@@ -13,15 +13,15 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
  *  - Column 3: time
  *  - Column 4+: values to be aggregated
  *
+ * Note: Uses GM_PROP internally
+ *
  * @param input_table_range_with_headers
  * @param aggregation_property_id Aggregation property
- * @param property_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the property data to look up against. Can be included for performance reasons.
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_PROP_AGGR(
   input_table_range_with_headers: string[][],
-  aggregation_property_id: string,
-  property_data_table_range_with_headers: string[][]
+  aggregation_property_id: string
 ) {
   // Ensure expected input range contents
   const inputTable = preProcessInputRangeWithHeaders(
@@ -32,8 +32,7 @@ export function GM_PROP_AGGR(
   const geoColumnWithHeaderRow = inputTable.map(row => [row[0]]);
   const aggregationPropertyColumnWithHeaderRow = GM_PROP(
     geoColumnWithHeaderRow,
-    aggregation_property_id,
-    property_data_table_range_with_headers
+    aggregation_property_id
   );
   const aggregationGeoSet =
     gapminderPropertyToGeoSetMap[aggregation_property_id];

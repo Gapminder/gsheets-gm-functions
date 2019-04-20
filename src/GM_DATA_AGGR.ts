@@ -11,6 +11,8 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
  *  - Column 3: time
  *  - Column 4+: values to be aggregated
  *
+ * Note: Uses GM_DATA internally
+ *
  * @param input_table_range_with_headers
  * @param concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Required for performance reasons.
  * @return A two-dimensional array containing the cell/column contents described above in the summary.

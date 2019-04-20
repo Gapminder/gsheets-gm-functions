@@ -10,18 +10,9 @@ import { MinimalUtilities } from "./lib/MinimalUtilities";
  */
 const testGmProp: Macro<any> = (
   t: ExecutionContext,
-  {
-    input_column_range_with_headers,
-    property_id,
-    property_or_concept_data_table_range_with_headers,
-    expectedOutput
-  }
+  { input_column_range_with_headers, property_id, expectedOutput }
 ) => {
-  const output = GM_PROP(
-    input_column_range_with_headers,
-    property_id,
-    property_or_concept_data_table_range_with_headers
-  );
+  const output = GM_PROP(input_column_range_with_headers, property_id);
   // t.log({output, expectedOutput});
   t.deepEqual(output, expectedOutput);
 };

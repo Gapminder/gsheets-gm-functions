@@ -93,7 +93,7 @@ ___
 
 ▸ **GM_DATA_AGGR**(input_table_range_with_headers: *`string`[][]*, concept_data_table_range_with_headers: *`string`[][]*): `any`[][]
 
-*Defined in [GM_DATA_AGGR.ts:18](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_DATA_AGGR.ts#L18)*
+*Defined in [GM_DATA_AGGR.ts:20](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_DATA_AGGR.ts#L20)*
 
 Aggregates an input table by a time-dependent indicator and time, returning a table with the aggregated values of the input table.
 
@@ -103,6 +103,8 @@ The input table must be at least four columns wide.
 *   Column 2: geo\_names (isn’t part of the calculation)
 *   Column 3: time
 *   Column 4+: values to be aggregated
+
+Note: Uses GM\_DATA internally
 
 **Parameters:**
 
@@ -335,7 +337,7 @@ Note: Uses GM\_DATA internally
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | input_table_range_with_headers_and_concept_values | `string`[][] |  A table range including \[geo,name,time,concept-values...\] |
-| population_concept_data_table_range_with_headers | `string`[][] |  Local spreadsheet range of the population concept data to look up against. Can be included for performance reasons. |
+| population_concept_data_table_range_with_headers | `string`[][] |  Local spreadsheet range of the population concept data to look up against. Required for performance reasons. |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
@@ -369,9 +371,9 @@ ___
 
 ###  GM_PROP
 
-▸ **GM_PROP**(input_column_range_with_headers: *`string`[][]*, property_id: *`string`*, property_data_table_range_with_headers: *`string`[][]*): `any`[][]
+▸ **GM_PROP**(input_column_range_with_headers: *`string`[][]*, property_id: *`string`*): `any`[][]
 
-*Defined in [GM_PROP.ts:12](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_PROP.ts#L12)*
+*Defined in [GM_PROP.ts:11](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_PROP.ts#L11)*
 
 Inserts a property column, including a header row, with a common Gapminder property matched against the input column/table range.
 
@@ -381,7 +383,6 @@ Inserts a property column, including a header row, with a common Gapminder prope
 | ------ | ------ | ------ |
 | input_column_range_with_headers | `string`[][] |  A column range for a property lookup column |
 | property_id | `string` |  The property (eg. "UN member since") to look up |
-| property_data_table_range_with_headers | `string`[][] |  (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the property data to look up against. Can be included for performance reasons. |
 
 **Returns:** `any`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
@@ -391,9 +392,9 @@ ___
 
 ###  GM_PROP_AGGR
 
-▸ **GM_PROP_AGGR**(input_table_range_with_headers: *`string`[][]*, aggregation_property_id: *`string`*, property_data_table_range_with_headers: *`string`[][]*): `any`[][]
+▸ **GM_PROP_AGGR**(input_table_range_with_headers: *`string`[][]*, aggregation_property_id: *`string`*): `any`[][]
 
-*Defined in [GM_PROP_AGGR.ts:21](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_PROP_AGGR.ts#L21)*
+*Defined in [GM_PROP_AGGR.ts:22](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_PROP_AGGR.ts#L22)*
 
 Aggregates an input table by a time-independent property and time, returning a table with the aggregated values of the input table.
 
@@ -404,13 +405,14 @@ The input table must be at least four columns wide.
 *   Column 3: time
 *   Column 4+: values to be aggregated
 
+Note: Uses GM\_PROP internally
+
 **Parameters:**
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | input_table_range_with_headers | `string`[][] |  \- |
 | aggregation_property_id | `string` |  Aggregation property |
-| property_data_table_range_with_headers | `string`[][] |  (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the property data to look up against. Can be included for performance reasons. |
 
 **Returns:** `any`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.

@@ -19,6 +19,7 @@ import { GM_PER_CAP_SLOW } from "./GM_PER_CAP_SLOW";
 import { GM_PROP } from "./GM_PROP";
 import { GM_PROP_AGGR } from "./GM_PROP_AGGR";
 import { GM_UNPIVOT } from "./GM_UNPIVOT";
+import { GM_WEIGHTED_AVERAGE } from "./GM_WEIGHTED_AVERAGE";
 import { menuRefreshDataCatalog } from "./menuActions/menuRefreshDataCatalog";
 import { menuRefreshDataDependencies } from "./menuActions/menuRefreshDataDependencies";
 import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatasetSpreadsheet";
@@ -89,6 +90,8 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  *  - Column 2: geo_names (isn’t part of the calculation)
  *  - Column 3: time
  *  - Column 4+: values to be aggregated
+ *
+ * Note: Uses GM_DATA internally
  *
  * @param {A1:D} input_table_range_with_headers The input table range including [geo,name,time] for a concept value lookup
  * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Required for performance reasons.
@@ -313,7 +316,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note: Uses GM_DATA internally
  *
  * @param {A1:D} input_table_range_with_headers_and_concept_values A table range including [geo,name,time,concept-values...]
- * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Can be included for performance reasons.
+ * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Required for performance reasons.
  * @customfunction
  */
 (global as any).GM_PER_CAP = function(
@@ -352,20 +355,14 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Inserts a property column, including a header row, with a common Gapminder property matched against the input column/table range.
  *
  * @param input_column_range_with_headers A column range for a property lookup column
- * @param {"UN members since"} property_id The property (eg. "UN member since") or concept id (eg. "pop") of which value to look up
- * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} property_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Can be included for performance reasons.
+ * @param {"UN members since"} property_id The property (eg. "UN member since") to look up
  * @customfunction
  */
 (global as any).GM_PROP = function(
   input_column_range_with_headers: string[][],
-  property_id: string,
-  property_data_table_range_with_headers: string[][]
+  property_id: string
 ) {
-  return GM_PROP(
-    input_column_range_with_headers,
-    property_id,
-    property_data_table_range_with_headers
-  );
+  return GM_PROP(input_column_range_with_headers, property_id);
 };
 
 /**
@@ -377,21 +374,17 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  *  - Column 3: time
  *  - Column 4+: values to be aggregated
  *
+ * Note: Uses GM_PROP internally
+ *
  * @param {A1:D} input_table_range_with_headers
- * @param {"four_regions"} aggregation_property_id Aggregation property
- * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} property_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Can be included for performance reasons.
+ * @param {"four_regions"} aggregation_property_id The property (eg. "four_regions") to aggregate by
  * @customfunction
  */
 (global as any).GM_PROP_AGGR = function(
   input_table_range_with_headers: string[][],
-  aggregation_property_id: string,
-  property_data_table_range_with_headers: string[][]
+  aggregation_property_id: string
 ) {
-  return GM_PROP_AGGR(
-    input_table_range_with_headers,
-    aggregation_property_id,
-    property_data_table_range_with_headers
-  );
+  return GM_PROP_AGGR(input_table_range_with_headers, aggregation_property_id);
 };
 
 /**
@@ -408,4 +401,30 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
   value_label: string
 ) {
   return GM_UNPIVOT(input_table_range_with_headers, time_label, value_label);
+};
+
+/**
+ * Aggregates an input table by a time-independent property and time, returning a table with the population-weighted average values of the input table.
+ *
+ * The input table must be at least four columns wide.
+ *  - Column 1: geo_ids
+ *  - Column 2: geo_names (isn’t part of the calculation)
+ *  - Column 3: time
+ *  - Column 4+: values to be aggregated
+ *
+ * @param {A1:D} input_table_range_with_headers
+ * @param {"four_regions"} aggregation_property_id Aggregation property
+ * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Required for performance reasons.
+ * @customfunction
+ */
+(global as any).GM_WEIGHTED_AVERAGE = function(
+  input_table_range_with_headers: string[][],
+  aggregation_property_id: string,
+  population_concept_data_table_range_with_headers: string
+) {
+  return GM_WEIGHTED_AVERAGE(
+    input_table_range_with_headers,
+    aggregation_property_id,
+    population_concept_data_table_range_with_headers
+  );
 };
