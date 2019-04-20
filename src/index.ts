@@ -345,7 +345,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
 };
 
 /**
- * Aggregates an input table by property and time, returning a table with the aggregated values of the input table.
+ * Aggregates an input table by a time-independent property and time, returning a table with the aggregated values of the input table.
  *
  * The input table must be at least four columns wide.
  *  - Column 1: geo_ids
@@ -355,16 +355,17 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  *
  * @param {A1:D} input_table_range_with_headers
  * @param {"four_regions"} aggregation_property_id Aggregation property
+ * @param {'data:pop:year:countries_etc'!A1:D} property_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
 (global as any).GM_PROP_AGGR = function(
   input_table_range_with_headers: string[][],
-  aggregation_prop: string,
+  aggregation_property_id: string,
   property_data_table_range_with_headers: string[][]
 ) {
   return GM_PROP_AGGR(
     input_table_range_with_headers,
-    aggregation_prop,
+    aggregation_property_id,
     property_data_table_range_with_headers
   );
 };

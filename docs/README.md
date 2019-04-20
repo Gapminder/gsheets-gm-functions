@@ -364,9 +364,9 @@ ___
 
 ▸ **GM_PROP_AGGR**(input_table_range_with_headers: *`string`[][]*, aggregation_property_id: *`string`*, property_data_table_range_with_headers: *`string`[][]*): `any`[][]
 
-*Defined in [GM_PROP_AGGR.ts:27](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_PROP_AGGR.ts#L27)*
+*Defined in [GM_PROP_AGGR.ts:28](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_PROP_AGGR.ts#L28)*
 
-Aggregates an input table by property and time, returning a table with the aggregated values of the input table.
+Aggregates an input table by a time-independent property and time, returning a table with the aggregated values of the input table.
 
 The input table must be at least four columns wide.
 
@@ -381,7 +381,7 @@ The input table must be at least four columns wide.
 | ------ | ------ | ------ |
 | input_table_range_with_headers | `string`[][] |  \- |
 | aggregation_property_id | `string` |  Aggregation property |
-| property_data_table_range_with_headers | `string`[][] |
+| property_data_table_range_with_headers | `string`[][] |  (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the property data to look up against. Can be included for performance reasons. |
 
 **Returns:** `any`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.

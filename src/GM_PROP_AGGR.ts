@@ -12,7 +12,7 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 import { pipe } from "./lib/pipe";
 
 /**
- * Aggregates an input table by property and time, returning a table with the aggregated values of the input table.
+ * Aggregates an input table by a time-independent property and time, returning a table with the aggregated values of the input table.
  *
  * The input table must be at least four columns wide.
  *  - Column 1: geo_ids
@@ -22,6 +22,7 @@ import { pipe } from "./lib/pipe";
  *
  * @param input_table_range_with_headers
  * @param aggregation_property_id Aggregation property
+ * @param property_data_table_range_with_headers (Optional with defaulting to importing the corresponding data on-the-fly) Local spreadsheet range of the property data to look up against. Can be included for performance reasons.
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_PROP_AGGR(
