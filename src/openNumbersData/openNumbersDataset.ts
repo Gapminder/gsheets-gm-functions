@@ -29,24 +29,24 @@ interface OpenNumbersDatasetDataPointsLookupTable {
  * @hidden
  */
 export function getOpenNumbersDatasetConceptListing(repository) {
-  const openNumbersCatalogConceptListingCsvHTTPResponse = UrlFetchApp.fetch(
+  const openNumbersDatasetConceptListingCsvHTTPResponse = UrlFetchApp.fetch(
     `https://raw.githubusercontent.com/open-numbers/${repository}/master/ddf--concepts--continuous.csv`
   );
-  const openNumbersCatalogConceptListingParsedCsv = Utilities.parseCsv(
-    openNumbersCatalogConceptListingCsvHTTPResponse.getContentText()
+  const openNumbersDatasetConceptListingParsedCsv = Utilities.parseCsv(
+    openNumbersDatasetConceptListingCsvHTTPResponse.getContentText()
   );
-  return openNumbersCatalogConceptListingParsedCsvToOpenNumbersDatasetConceptListing(
+  return openNumbersDatasetConceptListingParsedCsvToOpenNumbersDatasetConceptListing(
     repository,
-    openNumbersCatalogConceptListingParsedCsv
+    openNumbersDatasetConceptListingParsedCsv
   );
 }
 
 /**
  * @hidden
  */
-function openNumbersCatalogConceptListingParsedCsvToOpenNumbersDatasetConceptListing(
+function openNumbersDatasetConceptListingParsedCsvToOpenNumbersDatasetConceptListing(
   repository: string,
-  openNumbersCatalogConceptListingParsedCsv: string[][]
+  openNumbersDatasetConceptListingParsedCsv: string[][]
 ): OpenNumbersDatasetConceptListingDataRow[] {
   const expectedHeaders = [
     "concept",
@@ -71,7 +71,7 @@ function openNumbersCatalogConceptListingParsedCsvToOpenNumbersDatasetConceptLis
     "topic",
     "unit_of_measure"
   ];
-  const headers = openNumbersCatalogConceptListingParsedCsv[0];
+  const headers = openNumbersDatasetConceptListingParsedCsv[0];
 
   if (JSON.stringify(expectedHeaders) !== JSON.stringify(headers)) {
     throw new Error(
@@ -91,7 +91,7 @@ function openNumbersCatalogConceptListingParsedCsvToOpenNumbersDatasetConceptLis
     return index;
   };
 
-  const parsedCsvRows = openNumbersCatalogConceptListingParsedCsv.slice(1);
+  const parsedCsvRows = openNumbersDatasetConceptListingParsedCsv.slice(1);
   return parsedCsvRows.map(
     (parsedCsvRow): OpenNumbersDatasetConceptListingDataRow => {
       const concept_id = parsedCsvRow[ensuredColumnIndex("concept")];

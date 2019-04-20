@@ -5,7 +5,7 @@ import {
 } from "../gsheetsData/fastttrackCatalog";
 import { geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet } from "../gsheetsData/hardcodedConstants";
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
-import { OpenNumbersDatasetConceptListingDataRow } from "../openNumbersData/opennumbersCatalog";
+import { OpenNumbersDatasetConceptListingDataRow } from "../openNumbersData/openNumbersDataset";
 
 /**
  * @hidden
@@ -141,7 +141,7 @@ export function assertCorrectDataDependenciesSheetHeaders(
 export function refreshDataCatalogSheet(
   sheet,
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData,
-  openNumbersCatalogConceptListing: OpenNumbersDatasetConceptListingDataRow[]
+  openNumbersWorldDevelopmentIndicatorsDatasetConceptListing: OpenNumbersDatasetConceptListingDataRow[]
 ) {
   const fasttrackCatalogValues = fasttrackCatalogDataPointsWorksheetData.rows.map(
     (row: FasttrackCatalogDataPointsDataRow) => {
@@ -153,7 +153,7 @@ export function refreshDataCatalogSheet(
       ];
     }
   );
-  const opennumbersCatalogValues = openNumbersCatalogConceptListing.map(
+  const openNumbersDatasetValues = openNumbersWorldDevelopmentIndicatorsDatasetConceptListing.map(
     (row: OpenNumbersDatasetConceptListingDataRow) => {
       return [
         `${row.concept_id}@open-numbers-wdi`,
@@ -165,7 +165,7 @@ export function refreshDataCatalogSheet(
   );
   const dataCatalogValues = [dataCatalogHeaders].concat(
     fasttrackCatalogValues,
-    opennumbersCatalogValues
+    openNumbersDatasetValues
   );
   sheet
     .getRange(1, 1, dataCatalogValues.length, dataCatalogHeaders.length)

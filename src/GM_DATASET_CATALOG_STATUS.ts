@@ -5,7 +5,7 @@ import { conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit } from "./gsheetsD
 import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 import { validateConceptIdArgument } from "./lib/validateConceptIdArgument";
 import { getOpenNumbersDatasetConceptDataEntry } from "./openNumbersData/conceptData";
-import { getOpenNumbersDatasetConceptListing } from "./openNumbersData/opennumbersCatalog";
+import { getOpenNumbersDatasetConceptListing } from "./openNumbersData/openNumbersDataset";
 
 /**
  * Checks if the referenced data is available remotely for use by GM_* functions.
@@ -125,14 +125,14 @@ function validateOpenNumbersDatasetStatus(
   time_unit: string,
   geo_set: string
 ) {
-  const openNumbersCatalogConceptListing = getOpenNumbersDatasetConceptListing(
+  const openNumbersDatasetConceptListing = getOpenNumbersDatasetConceptListing(
     repository
   );
   const conceptDataOpenNumbersDatasetEntry = getOpenNumbersDatasetConceptDataEntry(
     concept_id,
     time_unit,
     geo_set,
-    openNumbersCatalogConceptListing
+    openNumbersDatasetConceptListing
   );
   if (!conceptDataOpenNumbersDatasetEntry.csvLink) {
     throw new Error("No CSV Link");

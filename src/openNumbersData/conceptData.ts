@@ -1,5 +1,5 @@
 import { ConceptDataWorksheetData } from "../lib/conceptData";
-import { OpenNumbersDatasetConceptListingDataRow } from "./opennumbersCatalog";
+import { OpenNumbersDatasetConceptListingDataRow } from "./openNumbersDataset";
 
 /**
  * @hidden
@@ -8,13 +8,13 @@ export function getOpenNumbersConceptData(
   concept_id,
   time_unit,
   geo_set,
-  openNumbersCatalogConceptListing: OpenNumbersDatasetConceptListingDataRow[]
+  openNumbersDatasetConceptListing: OpenNumbersDatasetConceptListingDataRow[]
 ) {
   const matchingConcept = getOpenNumbersDatasetConceptDataEntry(
     concept_id,
     time_unit,
     geo_set,
-    openNumbersCatalogConceptListing
+    openNumbersDatasetConceptListing
   );
   const csvDataHTTPResponse = UrlFetchApp.fetch(matchingConcept.csvLink);
   const csvData = Utilities.parseCsv(csvDataHTTPResponse.getContentText());
@@ -28,13 +28,13 @@ export function getOpenNumbersDatasetConceptDataEntry(
   concept_id,
   time_unit,
   geo_set,
-  openNumbersCatalogConceptListing: OpenNumbersDatasetConceptListingDataRow[]
+  openNumbersDatasetConceptListing: OpenNumbersDatasetConceptListingDataRow[]
 ) {
   const matchingConcept = getMatchingOpenNumbersDatasetConcept(
     concept_id,
     time_unit,
     geo_set,
-    openNumbersCatalogConceptListing
+    openNumbersDatasetConceptListing
   );
   return {
     csvLink: matchingConcept.csv_link
@@ -48,12 +48,12 @@ function getMatchingOpenNumbersDatasetConcept(
   concept_id,
   time_unit,
   geo_set,
-  openNumbersCatalogConceptListing: OpenNumbersDatasetConceptListingDataRow[]
+  openNumbersDatasetConceptListing: OpenNumbersDatasetConceptListingDataRow[]
 ) {
   if (!geo_set) {
     geo_set = "countries_etc";
   }
-  const matchingConcepts = openNumbersCatalogConceptListing.filter(
+  const matchingConcepts = openNumbersDatasetConceptListing.filter(
     (row: OpenNumbersDatasetConceptListingDataRow) => {
       return (
         row.concept_id === concept_id &&

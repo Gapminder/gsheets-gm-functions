@@ -1,5 +1,5 @@
 import { getFasttrackCatalogDataPointsList } from "../gsheetsData/fastttrackCatalog";
-import { getOpenNumbersDatasetConceptListing } from "../openNumbersData/opennumbersCatalog";
+import { getOpenNumbersDatasetConceptListing } from "../openNumbersData/openNumbersDataset";
 import {
   assertCorrectDataDependenciesSheetHeaders,
   createDataCatalogSheet,
@@ -46,13 +46,13 @@ export function menuRefreshDataCatalog() {
 
   // Refresh data catalog
   const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
-  const openNumbersCatalogConceptListing = getOpenNumbersDatasetConceptListing(
+  const openNumbersWorldDevelopmentIndicatorsDatasetConceptListing = getOpenNumbersDatasetConceptListing(
     "ddf--open_numbers--world_development_indicators"
   );
   refreshDataCatalogSheet(
     dataCatalogSheet,
     fasttrackCatalogDataPointsWorksheetData,
-    openNumbersCatalogConceptListing
+    openNumbersWorldDevelopmentIndicatorsDatasetConceptListing
   );
   implementDataDependenciesValidations(dataDependenciesSheet, dataCatalogSheet);
 

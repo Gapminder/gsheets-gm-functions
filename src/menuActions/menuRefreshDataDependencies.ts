@@ -4,7 +4,7 @@ import { ConceptDataRow, ConceptDataWorksheetData } from "../lib/conceptData";
 import { validateAndAliasTheGeoSetArgument } from "../lib/validateAndAliasTheGeoSetArgument";
 import { validateConceptIdArgument } from "../lib/validateConceptIdArgument";
 import { getOpenNumbersConceptData } from "../openNumbersData/conceptData";
-import { getOpenNumbersDatasetConceptListing } from "../openNumbersData/opennumbersCatalog";
+import { getOpenNumbersDatasetConceptListing } from "../openNumbersData/openNumbersDataset";
 import {
   assertCorrectDataDependenciesSheetHeaders,
   createDataCatalogSheet,
@@ -54,13 +54,13 @@ export function menuRefreshDataDependencies() {
 
   // Refresh data catalog
   const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
-  const openNumbersCatalogConceptListing = getOpenNumbersDatasetConceptListing(
+  const openNumbersWorldDevelopmentIndicatorsDatasetConceptListing = getOpenNumbersDatasetConceptListing(
     "ddf--open_numbers--world_development_indicators"
   );
   refreshDataCatalogSheet(
     dataCatalogSheet,
     fasttrackCatalogDataPointsWorksheetData,
-    openNumbersCatalogConceptListing
+    openNumbersWorldDevelopmentIndicatorsDatasetConceptListing
   );
   implementDataDependenciesValidations(dataDependenciesSheet, dataCatalogSheet);
 
@@ -154,7 +154,7 @@ export function menuRefreshDataDependencies() {
             concept_id,
             time_unit,
             geo_set,
-            openNumbersCatalogConceptListing
+            openNumbersWorldDevelopmentIndicatorsDatasetConceptListing
           );
 
           importValues = [openNumbersConceptData.headers].concat(
