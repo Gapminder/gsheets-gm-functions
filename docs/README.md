@@ -24,6 +24,7 @@ Gapminder-specific custom functions and related menu item actions for Google Spr
 * [GM_PROP](#gm_prop)
 * [GM_PROP_AGGR](#gm_prop_aggr)
 * [GM_UNPIVOT](#gm_unpivot)
+* [GM_WEIGHTED_AVERAGE](#gm_weighted_average)
 * [menuRefreshDataCatalog](#menurefreshdatacatalog)
 * [menuRefreshDataDependencies](#menurefreshdatadependencies)
 * [menuValidateDatasetSpreadsheet](#menuvalidatedatasetspreadsheet)
@@ -437,6 +438,35 @@ Unpivots a standard pivoted Gapminder table \[geo, name, ...time-values-across-c
 | value_label | `string` |  (Optional with default "value") the header label to use for the value column |
 
 **Returns:** `string`[][]
+A two-dimensional array containing the cell/column contents described above in the summary.
+
+___
+<a id="gm_weighted_average"></a>
+
+###  GM_WEIGHTED_AVERAGE
+
+▸ **GM_WEIGHTED_AVERAGE**(input_table_range_with_headers: *`string`[][]*, aggregation_property_id: *`string`*, population_concept_data_table_range_with_headers: *`string`*): `void`
+
+*Defined in GM_WEIGHTED_AVERAGE.ts:20*
+
+Aggregates an input table by a time-independent property and time, returning a table with the population-weighted average values of the input table.
+
+The input table must be at least four columns wide.
+
+*   Column 1: geo\_ids
+*   Column 2: geo\_names (isn’t part of the calculation)
+*   Column 3: time
+*   Column 4+: values to be aggregated
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| input_table_range_with_headers | `string`[][] |  \- |
+| aggregation_property_id | `string` |  Aggregation property |
+| population_concept_data_table_range_with_headers | `string` |  Local spreadsheet range of the population concept data to look up against. Required for performance reasons. |
+
+**Returns:** `void`
 A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
