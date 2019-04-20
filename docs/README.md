@@ -10,6 +10,7 @@ Gapminder-specific custom functions and related menu item actions for Google Spr
 
 * [GM_DATA](#gm_data)
 * [GM_DATASET_CATALOG_STATUS](#gm_dataset_catalog_status)
+* [GM_DATA_AGGR](#gm_data_aggr)
 * [GM_DATA_SLOW](#gm_data_slow)
 * [GM_GEO_LOOKUP_TABLE](#gm_geo_lookup_table)
 * [GM_GROWTH](#gm_growth)
@@ -83,6 +84,34 @@ Note: The function results are not automatically re-evaluated as changes are mad
 | verbose | `boolean` |  Explains how a certain dataset is invalid instead of simply returning "BAD" for the row |
 
 **Returns:** `string`[][]
+A two-dimensional array containing the cell/column contents described above in the summary.
+
+___
+<a id="gm_data_aggr"></a>
+
+###  GM_DATA_AGGR
+
+▸ **GM_DATA_AGGR**(input_table_range_with_headers: *`string`[][]*, concept_data_table_range_with_headers: *`string`[][]*): `any`[][]
+
+*Defined in [GM_DATA_AGGR.ts:18](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_DATA_AGGR.ts#L18)*
+
+Aggregates an input table by a time-dependent indicator and time, returning a table with the aggregated values of the input table.
+
+The input table must be at least four columns wide.
+
+*   Column 1: geo\_ids
+*   Column 2: geo\_names (isn’t part of the calculation)
+*   Column 3: time
+*   Column 4+: values to be aggregated
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| input_table_range_with_headers | `string`[][] |  \- |
+| concept_data_table_range_with_headers | `string`[][] |  Local spreadsheet range of the concept data to look up against. Required for performance reasons. |
+
+**Returns:** `any`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
@@ -364,7 +393,7 @@ ___
 
 ▸ **GM_PROP_AGGR**(input_table_range_with_headers: *`string`[][]*, aggregation_property_id: *`string`*, property_data_table_range_with_headers: *`string`[][]*): `any`[][]
 
-*Defined in [GM_PROP_AGGR.ts:28](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_PROP_AGGR.ts#L28)*
+*Defined in [GM_PROP_AGGR.ts:21](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_PROP_AGGR.ts#L21)*
 
 Aggregates an input table by a time-independent property and time, returning a table with the aggregated values of the input table.
 

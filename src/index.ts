@@ -4,6 +4,7 @@
  */
 
 import { GM_DATA } from "./GM_DATA";
+import { GM_DATA_AGGR } from "./GM_DATA_AGGR";
 import { GM_DATA_SLOW } from "./GM_DATA_SLOW";
 import { GM_DATASET_CATALOG_STATUS } from "./GM_DATASET_CATALOG_STATUS";
 import { GM_GEO_LOOKUP_TABLE } from "./GM_GEO_LOOKUP_TABLE";
@@ -75,6 +76,29 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
   concept_data_table_range_with_headers: string[][]
 ) {
   return GM_DATA(
+    input_table_range_with_headers,
+    concept_data_table_range_with_headers
+  );
+};
+
+/**
+ * Aggregates an input table by a time-dependent indicator and time, returning a table with the aggregated values of the input table.
+ *
+ * The input table must be at least four columns wide.
+ *  - Column 1: geo_ids
+ *  - Column 2: geo_names (isn’t part of the calculation)
+ *  - Column 3: time
+ *  - Column 4+: values to be aggregated
+ *
+ * @param {A1:D} input_table_range_with_headers The input table range including [geo,name,time] for a concept value lookup
+ * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Required for performance reasons.
+ * @return A two-dimensional array containing the cell/column contents described above in the summary.
+ */
+(global as any).GM_DATA_AGGR = function(
+  input_table_range_with_headers: string[][],
+  concept_data_table_range_with_headers: string[][]
+) {
+  return GM_DATA_AGGR(
     input_table_range_with_headers,
     concept_data_table_range_with_headers
   );

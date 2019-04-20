@@ -12,16 +12,13 @@ const testGmData: Macro<any> = (
   t: ExecutionContext,
   {
     input_table_range_with_headers,
-    concept_id,
-    time_unit,
-    geo_set,
-    property_or_concept_data_table_range_with_headers,
+    concept_data_table_range_with_headers,
     expectedOutput
   }
 ) => {
   const output = GM_DATA(
     input_table_range_with_headers,
-    property_or_concept_data_table_range_with_headers
+    concept_data_table_range_with_headers
   );
   // t.log({output, expectedOutput});
   t.deepEqual(output, expectedOutput);
@@ -35,7 +32,7 @@ const testGmData: Macro<any> = (
       ["foo", "Foo", "1900"],
       ["zoo", "Zoo", "1901"]
     ],
-    property_or_concept_data_table_range_with_headers: [
+    concept_data_table_range_with_headers: [
       ["geo_id", "geo_name", "year", "population"],
       ["foo", "Foo", 1900, 100],
       ["foo", "Foo", 1901, 150],

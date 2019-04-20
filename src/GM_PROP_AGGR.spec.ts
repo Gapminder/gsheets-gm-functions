@@ -6,7 +6,7 @@ import { MinimalUrlFetchApp } from "./lib/MinimalUrlFetchApp";
 /**
  * @hidden
  */
-const testAggregation: Macro<any> = (
+const testPropAggr: Macro<any> = (
   t: ExecutionContext,
   { input_table_range_with_headers, aggregation_prop, geo_set, expectedOutput }
 ) => {
@@ -293,5 +293,5 @@ const testAggregation: Macro<any> = (
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {
-  test("testAggregation - " + index, testAggregation, testData);
+  test("testPropAggr - " + index, testPropAggr, testData);
 });
