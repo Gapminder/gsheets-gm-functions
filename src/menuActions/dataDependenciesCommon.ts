@@ -48,7 +48,8 @@ export function writeStatus(
   index,
   { lastChecked, notes, importRangeRows }
 ) {
-  const importRangeDataRows = importRangeRows - 1; // Minus the header row
+  const importRangeDataRows =
+    importRangeRows !== null ? importRangeRows - 1 : null;
   const dataRowsColumnIndex = ensuredColumnIndex("Data rows");
   const updatedRowValues = [importRangeDataRows, lastChecked, notes];
   const dataDependencyRow = 2 + index;
