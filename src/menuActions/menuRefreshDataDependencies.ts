@@ -184,6 +184,16 @@ export function menuRefreshDataDependencies() {
 
     const lastChecked = new Date();
 
+    // Do not import empty data sets
+    if (importRangeRows <= 1) {
+      writeStatus(dataDependenciesSheet, index, {
+        importRangeRows,
+        lastChecked,
+        notes: `Not imported since no data rows to import were found`
+      });
+      return;
+    }
+
     // Make sure that the destination sheet exists
     const destination = activeSpreadsheet;
     let destinationSheet = destination.getSheetByName(destinationSheetName);
