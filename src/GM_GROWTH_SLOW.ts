@@ -30,13 +30,13 @@ export function GM_GROWTH_SLOW(
     inputTableRowsWithoutHeaderRow
   );
   // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
-  validateAndAliasTheGeoSetArgument(geo_set);
+  const validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(geo_set);
   // Concept data
   const gmDataResult: any[][] = GM_DATA_SLOW(
     input_table_range_with_headers,
     concept_id,
     time_unit,
-    geo_set
+    validatedGeoSetArgument
   );
   const gmDataHeaderRow: string[] = gmDataResult.slice().shift();
   // Replace GM_DATA concept data with the growth over time unit in each geo

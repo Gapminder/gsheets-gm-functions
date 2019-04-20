@@ -9,13 +9,14 @@ export function validateAndAliasTheGeoSetArgument(geo_set) {
   if (!geo_set) {
     geo_set = "countries_etc";
   }
-  for (const geoSet of geoSets) {
-    const fasttrackCatalogGeoSet = geoSetToFasttrackCatalogGeoSetMap[geoSet];
-    if (fasttrackCatalogGeoSet && geo_set === fasttrackCatalogGeoSet) {
-      geo_set = geoSet;
+  for (const supportedGeoSet of geoSets) {
+    const alias = geoSetToFasttrackCatalogGeoSetMap[supportedGeoSet];
+    if (alias && alias === geo_set) {
+      return supportedGeoSet;
     }
   }
   if (!geoSets.includes(geo_set)) {
     throw new Error(`Unsupported Gapminder geo_set: "${geo_set}"`);
   }
+  return geo_set;
 }

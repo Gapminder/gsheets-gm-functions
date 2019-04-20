@@ -76,7 +76,7 @@ export function getDataGeographiesListOfCountriesEtcLookupTable() {
 export function getDataGeographiesGeoNamesLookupTable(
   geo_set: string
 ): DataGeographiesGeoNameLookupTable {
-  validateAndAliasTheGeoSetArgument(geo_set);
+  const validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(geo_set);
   switch (geo_set) {
     case "countries_etc":
       return getDataGeographiesListOfCountriesEtcLookupTable();

@@ -32,7 +32,7 @@ export function GM_DATA_SLOW(
   );
 
   // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
-  validateAndAliasTheGeoSetArgument(geo_set);
+  const validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(geo_set);
 
   // Separate the input range header row
   const inputColumnOrTableHeaderRow = inputColumnOrTable.shift();
@@ -42,7 +42,7 @@ export function GM_DATA_SLOW(
     inputColumnOrTableWithoutHeaderRow,
     concept_id,
     time_unit,
-    geo_set,
+    validatedGeoSetArgument,
     undefined
   );
 }

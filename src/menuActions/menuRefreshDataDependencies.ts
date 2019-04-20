@@ -84,7 +84,9 @@ export function menuRefreshDataDependencies() {
 
     try {
       validateConceptIdArgument(concept_id);
-      validateAndAliasTheGeoSetArgument(geo_set);
+      const validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(
+        geo_set
+      );
     } catch (err) {
       writeStatus(dataDependenciesSheet, index, {
         importRangeRows: null,

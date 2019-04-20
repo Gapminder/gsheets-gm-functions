@@ -31,13 +31,13 @@ export function GM_IMPORT_SLOW(
   geo_set: string
 ) {
   // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
-  validateAndAliasTheGeoSetArgument(geo_set);
+  const validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(geo_set);
 
   const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
   const importedWorksheetData = getFasttrackCatalogConceptDataWorksheetData(
     concept_id,
     time_unit,
-    geo_set,
+    validatedGeoSetArgument,
     fasttrackCatalogDataPointsWorksheetData
   );
   const importedData = importedWorksheetData.rows.map((row: ConceptDataRow) => {

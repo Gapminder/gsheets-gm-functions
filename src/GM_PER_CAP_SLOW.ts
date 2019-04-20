@@ -24,7 +24,7 @@ export function GM_PER_CAP_SLOW(
   );
 
   // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
-  validateAndAliasTheGeoSetArgument(geo_set);
+  const validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(geo_set);
 
   const inputTableRows = inputTable.map(GmTable.structureRow);
   const inputTableHeaderRow = inputTableRows.slice().shift();

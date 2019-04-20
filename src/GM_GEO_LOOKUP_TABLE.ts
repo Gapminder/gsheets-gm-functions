@@ -18,10 +18,10 @@ import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoS
  */
 export function GM_GEO_LOOKUP_TABLE(geo_set: string): string[][] {
   // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
-  validateAndAliasTheGeoSetArgument(geo_set);
+  const validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(geo_set);
 
   const geoAliasesAndSynonymsWorksheetData: GeoAliasesAndSynonymsWorksheetData = getGeoAliasesAndSynonymsWorksheetData(
-    geo_set
+    validatedGeoSetArgument
   );
   const fuzzyMatchLookupTable: GeoAliasesAndSynonymsLookupTable = geoAliasesAndSynonymsWorksheetDataToNormalizedGeoAndAliasesLookupTable(
     geoAliasesAndSynonymsWorksheetData,

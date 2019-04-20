@@ -22,7 +22,7 @@ export function GM_ID(
   );
 
   // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
-  validateAndAliasTheGeoSetArgument(geo_set);
+  const validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(geo_set);
 
   // Default argument value
   if (verbose === undefined) {

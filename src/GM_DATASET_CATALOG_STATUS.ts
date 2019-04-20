@@ -43,14 +43,18 @@ export function GM_DATASET_CATALOG_STATUS(
     const concept_id = parsedDatasetReference[0];
     validateConceptIdArgument(concept_id);
     // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
-    validateAndAliasTheGeoSetArgument(geo_set);
+    const validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(geo_set);
     const catalog = parsedDatasetReference[1];
     switch (catalog) {
       case undefined:
       case "":
       case "fasttrack":
         {
-          validateFasttrackCatalogStatus(concept_id, time_unit, geo_set);
+          validateFasttrackCatalogStatus(
+            concept_id,
+            time_unit,
+            validatedGeoSetArgument
+          );
         }
         break;
       case "open-numbers-wdi":
@@ -60,7 +64,7 @@ export function GM_DATASET_CATALOG_STATUS(
             "ddf--open_numbers--world_development_indicators",
             concept_id,
             time_unit,
-            geo_set
+            validatedGeoSetArgument
           );
         }
         break;
