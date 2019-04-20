@@ -1,3 +1,8 @@
+import {
+  DataGeographiesGeoNameLookupTable,
+  getDataGeographiesGeoNamesLookupTable,
+  getDataGeographiesListOfCountriesEtcLookupTable
+} from "../gsheetsData/dataGeographies";
 import { ConceptDataWorksheetData } from "../lib/conceptData";
 import { OpenNumbersDatasetConceptListingDataRow } from "./openNumbersDataset";
 
@@ -18,7 +23,10 @@ export function getOpenNumbersConceptData(
   );
   const csvDataHTTPResponse = UrlFetchApp.fetch(matchingConcept.csvLink);
   const csvData = Utilities.parseCsv(csvDataHTTPResponse.getContentText());
-  return listOpenNumbersDatasetConceptDataCsvDataToWorksheetData(csvData);
+  return listOpenNumbersDatasetConceptDataCsvDataToWorksheetData(
+    csvData,
+    geo_set
+  );
 }
 
 /**
@@ -58,7 +66,7 @@ function getMatchingOpenNumbersDatasetConcept(
       return (
         row.concept_id === concept_id &&
         row.time_unit === time_unit &&
-        row.geo_set === geo_set
+        (row.geo_set === geo_set || row.geo_set === "geo")
       );
     }
   );
@@ -79,21 +87,36 @@ function getMatchingOpenNumbersDatasetConcept(
  * @hidden
  */
 function listOpenNumbersDatasetConceptDataCsvDataToWorksheetData(
-  csvData
+  csvData: string[][],
+  geo_set: string
 ): ConceptDataWorksheetData {
   // Separate the header row from the data rows
   const headers = [csvData[0][0], "name", csvData[0][1], csvData[0][2]];
-  // Interpret the data rows based on position
-  const rows = csvData.slice(1).map(csvDataRow => {
-    return {
+  const csvDataRows = csvData.slice(1);
+  // Interpret the data rows based on position, applying geo set filter and geo name mapping
+  const geoNameLookupTable: DataGeographiesGeoNameLookupTable = getDataGeographiesGeoNamesLookupTable(
+    geo_set
+  );
+  const rowsRelatedToChosenGeoSetWithGeoNameLookedUp = [];
+  csvDataRows.map(csvDataRow => {
+    const dataRow = {
       geo: csvDataRow[0],
       name: undefined,
       time: csvDataRow[1],
       value: csvDataRow[2]
     };
+    const geoNameLookup = geoNameLookupTable[dataRow.geo];
+    if (geoNameLookup) {
+      rowsRelatedToChosenGeoSetWithGeoNameLookedUp.push({
+        geo: dataRow.geo,
+        name: geoNameLookup.name,
+        time: dataRow.time,
+        value: dataRow.value
+      });
+    }
   });
   return {
     headers,
-    rows
+    rows: rowsRelatedToChosenGeoSetWithGeoNameLookedUp
   };
 }

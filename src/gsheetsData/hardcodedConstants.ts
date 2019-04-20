@@ -5,6 +5,76 @@
 /* tslint:disable:object-literal-sort-keys */
 
 /**
+ * These are the geo sets recognized/supported currently
+ * @hidden
+ */
+export const geoSets = [
+  "global",
+  "world_4region",
+  "world_6region",
+  "countries_etc"
+];
+
+/**
+ * @hidden
+ */
+export const hardcodedGeoNamesLookupTables = {
+  world_4region: {
+    // From the Data Geographies spreadsheet
+    asia: {
+      geo: "asia",
+      name: "Asia"
+    },
+    europe: {
+      geo: "europe",
+      name: "Europe"
+    },
+    africa: {
+      geo: "africa",
+      name: "Africa"
+    },
+    americas: {
+      geo: "americas",
+      name: "The Americas"
+    }
+  },
+  // From https://github.com/open-numbers/ddf--gapminder--geo_entity_domain/blob/master/ddf--entities--geo--world_6region.csv
+  world_6region: {
+    east_asia_pacific: {
+      geo: "east_asia_pacific",
+      name: "East Asia & Pacific"
+    },
+    south_asia: {
+      geo: "south_asia",
+      name: "South Asia"
+    },
+    middle_east_north_africa: {
+      geo: "middle_east_north_africa",
+      name: "Middle East & North Africa"
+    },
+    sub_saharan_africa: {
+      geo: "sub_saharan_africa",
+      name: "Sub-Saharan Africa"
+    },
+    america: {
+      geo: "america",
+      name: "America"
+    },
+    europe_central_asia: {
+      geo: "europe_central_asia",
+      name: "Europe & Central Asia"
+    }
+  },
+  // From the Data Geographies spreadsheet
+  global: {
+    world: {
+      geo: "world",
+      name: "The World"
+    }
+  }
+};
+
+/**
  * @hidden
  */
 export interface WorksheetReference {

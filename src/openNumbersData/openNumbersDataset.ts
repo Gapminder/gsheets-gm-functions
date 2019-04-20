@@ -98,7 +98,7 @@ function openNumbersDatasetConceptListingParsedCsvToOpenNumbersDatasetConceptLis
       const concept_name = parsedCsvRow[ensuredColumnIndex("name")];
       return {
         /* tslint:disable:object-literal-sort-keys */
-        geo_set: "countries_etc",
+        geo_set: "geo",
         time_unit: "year",
         concept_id,
         concept_name,

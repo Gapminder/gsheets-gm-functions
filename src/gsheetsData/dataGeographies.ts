@@ -1,17 +1,28 @@
+import { validateAndAliasTheGeoSetArgument } from "../lib/validateAndAliasTheGeoSetArgument";
 import { fetchWorksheetData } from "./fetchWorksheetData";
 import {
   dataGeographiesDocListOfCountriesEtcWorksheetReference,
-  dataGeographiesDocSpreadsheetId
+  dataGeographiesDocSpreadsheetId,
+  hardcodedGeoNamesLookupTables
 } from "./hardcodedConstants";
 import { ListDataGeographiesListOfCountriesEtc } from "./types/listDataGeographiesListOfCountriesEtc";
 
 /**
  * @hidden
  */
-interface DataGeographiesListOfCountriesEtcDataRow {
+export interface DataGeographiesGeoNameDataRow {
   /* tslint:disable:object-literal-sort-keys */
   geo: string;
   name: string;
+  /* tslint:enable:object-literal-sort-keys */
+}
+
+/**
+ * @hidden
+ */
+interface DataGeographiesListOfCountriesEtcDataRow
+  extends DataGeographiesGeoNameDataRow {
+  /* tslint:disable:object-literal-sort-keys */
   fourregions: string;
   eightregions: string;
   sixregions: string;
@@ -35,7 +46,14 @@ interface DataGeographiesListOfCountriesEtcWorksheetData {
  * @hidden
  */
 interface DataGeographiesListOfCountriesEtcLookupTable {
-  [alias: string]: DataGeographiesListOfCountriesEtcDataRow;
+  [geo: string]: DataGeographiesListOfCountriesEtcDataRow;
+}
+
+/**
+ * @hidden
+ */
+export interface DataGeographiesGeoNameLookupTable {
+  [geo: string]: DataGeographiesGeoNameDataRow;
 }
 
 /**
@@ -50,6 +68,25 @@ export function getDataGeographiesListOfCountriesEtcLookupTable() {
     worksheetDataResponse
   );
   return dataGeographiesListOfCountriesEtcWorksheetDataToGeoLookupTable(data);
+}
+
+/**
+ * @hidden
+ */
+export function getDataGeographiesGeoNamesLookupTable(
+  geo_set: string
+): DataGeographiesGeoNameLookupTable {
+  validateAndAliasTheGeoSetArgument(geo_set);
+  switch (geo_set) {
+    case "countries_etc":
+      return getDataGeographiesListOfCountriesEtcLookupTable();
+    case "world_4region":
+    case "world_6region":
+    case "global":
+      return hardcodedGeoNamesLookupTables[geo_set];
+    default:
+      throw new Error("Invalid geo set: " + geo_set);
+  }
 }
 
 /**
@@ -86,8 +123,14 @@ function gsheetsDataApiFeedsListDataGeographiesListOfCountriesEtcResponseToWorks
 function dataGeographiesListOfCountriesEtcWorksheetDataToGeoLookupTable(
   data: DataGeographiesListOfCountriesEtcWorksheetData
 ): DataGeographiesListOfCountriesEtcLookupTable {
-  return data.rows.reduce((lookupTableAccumulator, currentValue) => {
-    lookupTableAccumulator[currentValue.geo] = currentValue;
-    return lookupTableAccumulator;
-  }, {});
+  return data.rows.reduce(
+    (
+      lookupTableAccumulator,
+      currentValue: DataGeographiesListOfCountriesEtcDataRow
+    ) => {
+      lookupTableAccumulator[currentValue.geo] = currentValue;
+      return lookupTableAccumulator;
+    },
+    {}
+  );
 }

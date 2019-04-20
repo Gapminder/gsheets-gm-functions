@@ -1,9 +1,9 @@
+import { geoSets } from "../gsheetsData/hardcodedConstants";
 import {
   FasttrackCatalogDataPointsDataRow,
   FasttrackCatalogDataPointsWorksheetData,
   getFasttrackCatalogDataPointsList
 } from "../gsheetsData/fastttrackCatalog";
-import { geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet } from "../gsheetsData/hardcodedConstants";
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 import { OpenNumbersDatasetConceptListingDataRow } from "../openNumbersData/openNumbersDataset";
 
@@ -229,6 +229,6 @@ export function implementDataDependenciesValidations(
   setSelectableOptionsForColumnValues(
     dataDependenciesSheet,
     "Geo set",
-    Object.keys(geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet)
+    geoSets
   );
 }
