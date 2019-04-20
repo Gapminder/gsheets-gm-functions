@@ -67,7 +67,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note: Requires that the concept data to match against is first imported using the "Gapminder Data -> Import/refresh data dependencies".
  *
  * @param {A1:D} input_table_range_with_headers The input table range including [geo,name,time] for a concept value lookup
- * @param {'data:pop:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Required for performance reasons.
+ * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Required for performance reasons.
  * @customfunction
  */
 (global as any).GM_DATA = function(
@@ -89,7 +89,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * =GM_DATA_SLOW(B7:D, "pop", "year", "countries_etc")
  *
  * Takes 2-4 seconds:
- * =GM_DATA(B7:D, 'data:pop:year:countries_etc'!A1:D)
+ * =GM_DATA(B7:D, 'data:pop@fasttrack:year:countries_etc'!A1:D)
  *
  * @param {A1:D} column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
  * @param {"UN members since"} concept_id The concept id ("pop") of which value to look up
@@ -161,7 +161,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note: Uses GM_DATA internally
  *
  * @param {A1:D} input_table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
- * @param {'data:pop:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
+ * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
 (global as any).GM_GROWTH = function(
@@ -225,13 +225,13 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * =GM_IMPORT_SLOW("pop", "year", "global")
  *
  * Almost instant:
- * =QUERY('data:pop:year:global'!A1:D)
+ * =QUERY('data:pop@fasttrack:year:global'!A1:D)
  *
  * Always yields "Error: Result too large" since the "countries_etc" version of the dataset is rather large:
  * =GM_IMPORT_SLOW("pop", "year", "countries_etc")
  *
  * Finishes in 3-10 seconds:
- * =QUERY('data:pop:year:countries_etc'!A1:D)
+ * =QUERY('data:pop@fasttrack:year:countries_etc'!A1:D)
  *
  * @param {"pop"} concept_id Concept id (eg. "pop") of which concept to import
  * @param {"year"} time_unit Time unit variant (eg. "year") of the concept to import
@@ -289,7 +289,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note: Uses GM_DATA internally
  *
  * @param {A1:D} input_table_range_with_headers_and_concept_values A table range including [geo,name,time,concept-values...]
- * @param {'data:pop:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Can be included for performance reasons.
+ * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
 (global as any).GM_PER_CAP = function(
@@ -329,7 +329,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  *
  * @param input_column_range_with_headers A column range for a property lookup column
  * @param {"UN members since"} property_id The property (eg. "UN member since") or concept id (eg. "pop") of which value to look up
- * @param {'data:pop:year:countries_etc'!A1:D} property_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Can be included for performance reasons.
+ * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} property_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
 (global as any).GM_PROP = function(
@@ -355,7 +355,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  *
  * @param {A1:D} input_table_range_with_headers
  * @param {"four_regions"} aggregation_property_id Aggregation property
- * @param {'data:pop:year:countries_etc'!A1:D} property_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Can be included for performance reasons.
+ * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} property_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
 (global as any).GM_PROP_AGGR = function(

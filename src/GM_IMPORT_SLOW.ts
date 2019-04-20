@@ -12,13 +12,13 @@ import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoS
  * =GM_IMPORT_SLOW("pop", "year", "global")
  *
  * Almost instant:
- * =QUERY('data:pop:year:global'!A1:D)
+ * =QUERY('data:pop@fasttrack:year:global'!A1:D)
  *
  * Always yields "Error: Result too large" since the "countries_etc" version of the dataset is rather large:
  * =GM_IMPORT_SLOW("pop", "year", "countries_etc")
  *
  * Finishes in 3-10 seconds:
- * =QUERY('data:pop:year:countries_etc'!A1:D)
+ * =QUERY('data:pop@fasttrack:year:countries_etc'!A1:D)
  *
  * @param concept_id Concept id (eg. "pop") of which concept to import
  * @param time_unit Time unit variant (eg. "year") of the concept to import

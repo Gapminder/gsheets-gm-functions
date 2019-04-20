@@ -100,7 +100,7 @@ Imports the corresponding data on-the-fly. Note that using GM\_DATA is the only 
 
 Takes 10-20 seconds: =GM\_DATA\_SLOW(B7:D, "pop", "year", "countries\_etc")
 
-Takes 2-4 seconds: =GM\_DATA(B7:D, 'data:pop:year:countries\_etc'!A1:D)
+Takes 2-4 seconds: =GM\_DATA(B7:D, 'data:pop@fasttrack:year:countries\_etc'!A1:D)
 
 **Parameters:**
 
@@ -221,11 +221,11 @@ Note that using data dependencies in combination with the QUERY() function inste
 
 Takes 2-4 seconds: =GM\_IMPORT\_SLOW("pop", "year", "global")
 
-Almost instant: =QUERY('data:pop:year:global'!A1:D)
+Almost instant: =QUERY('data:pop@fasttrack:year:global'!A1:D)
 
 Always yields "Error: Result too large" since the "countries\_etc" version of the dataset is rather large: =GM\_IMPORT\_SLOW("pop", "year", "countries\_etc")
 
-Finishes in 3-10 seconds: =QUERY('data:pop:year:countries\_etc'!A1:D)
+Finishes in 3-10 seconds: =QUERY('data:pop@fasttrack:year:countries\_etc'!A1:D)
 
 **Parameters:**
 

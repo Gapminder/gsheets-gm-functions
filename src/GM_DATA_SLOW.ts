@@ -12,7 +12,7 @@ import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoS
  * =GM_DATA_SLOW(B7:D, "pop", "year", "countries_etc")
  *
  * Takes 2-4 seconds:
- * =GM_DATA(B7:D, 'data:pop:year:countries_etc'!A1:D)
+ * =GM_DATA(B7:D, 'data:pop@fasttrack:year:countries_etc'!A1:D)
  *
  * @param column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
  * @param concept_id The concept id ("pop") of which value to look up
