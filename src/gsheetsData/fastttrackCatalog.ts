@@ -31,13 +31,6 @@ export interface FasttrackCatalogDataPointsWorksheetData {
 /**
  * @hidden
  */
-interface FasttrackCatalogDataPointsLookupTable {
-  [alias: string]: FasttrackCatalogDataPointsDataRow;
-}
-
-/**
- * @hidden
- */
 export function getFasttrackCatalogDataPointsList() {
   const worksheetDataResponse: ListFasttrackCatalogDataPoints.Response = fetchWorksheetData(
     fasttrackCatalogDocSpreadsheetId,

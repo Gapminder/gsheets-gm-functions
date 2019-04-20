@@ -43,7 +43,10 @@ export interface GeoAliasesAndSynonymsLookupTable {
  */
 export function getGeoAliasesAndSynonymsLookupTable(geo_set) {
   const data = getGeoAliasesAndSynonymsWorksheetData(geo_set);
-  return geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(data, null);
+  return geoAliasesAndSynonymsWorksheetDataToNormalizedGeoAndAliasesLookupTable(
+    data,
+    null
+  );
 }
 
 /**
@@ -98,7 +101,7 @@ export function keyNormalizerForSlightlySmarterLookups(
 /**
  * @hidden
  */
-export function geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(
+export function geoAliasesAndSynonymsWorksheetDataToNormalizedGeoAndAliasesLookupTable(
   data: GeoAliasesAndSynonymsWorksheetData,
   normalizer: (lookupKey: string) => string
 ): GeoAliasesAndSynonymsLookupTable {

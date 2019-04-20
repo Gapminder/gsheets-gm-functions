@@ -1,9 +1,8 @@
-import { geoSets } from "../gsheetsData/hardcodedConstants";
 import {
   FasttrackCatalogDataPointsDataRow,
-  FasttrackCatalogDataPointsWorksheetData,
-  getFasttrackCatalogDataPointsList
+  FasttrackCatalogDataPointsWorksheetData
 } from "../gsheetsData/fastttrackCatalog";
+import { geoSets } from "../gsheetsData/hardcodedConstants";
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 import { OpenNumbersDatasetConceptListingDataRow } from "../openNumbersData/openNumbersDataset";
 
@@ -47,10 +46,11 @@ export const ensuredColumnIndex = (header: string) => {
 export function writeStatus(
   sheet,
   index,
-  { lastChecked, notes, sourceDataRows }
+  { lastChecked, notes, importRangeRows }
 ) {
+  const importRangeDataRows = importRangeRows - 1; // Minus the header row
   const dataRowsColumnIndex = ensuredColumnIndex("Data rows");
-  const updatedRowValues = [sourceDataRows, lastChecked, notes];
+  const updatedRowValues = [importRangeDataRows, lastChecked, notes];
   const dataDependencyRow = 2 + index;
   sheet
     .getRange(

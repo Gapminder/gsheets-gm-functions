@@ -2,7 +2,7 @@ import {
   GeoAliasesAndSynonymsDataRow,
   GeoAliasesAndSynonymsLookupTable,
   GeoAliasesAndSynonymsWorksheetData,
-  geoAliasesAndSynonymsWorksheetDataToGeoLookupTable,
+  geoAliasesAndSynonymsWorksheetDataToNormalizedGeoAndAliasesLookupTable,
   getGeoAliasesAndSynonymsWorksheetData
 } from "./gsheetsData/geoAliasesAndSynonyms";
 import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
@@ -23,11 +23,11 @@ export function GM_GEO_LOOKUP_TABLE(geo_set: string): string[][] {
   const geoAliasesAndSynonymsWorksheetData: GeoAliasesAndSynonymsWorksheetData = getGeoAliasesAndSynonymsWorksheetData(
     geo_set
   );
-  const fuzzyMatchLookupTable: GeoAliasesAndSynonymsLookupTable = geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(
+  const fuzzyMatchLookupTable: GeoAliasesAndSynonymsLookupTable = geoAliasesAndSynonymsWorksheetDataToNormalizedGeoAndAliasesLookupTable(
     geoAliasesAndSynonymsWorksheetData,
     null
   );
-  const exactMatchLookupTable: GeoAliasesAndSynonymsLookupTable = geoAliasesAndSynonymsWorksheetDataToGeoLookupTable(
+  const exactMatchLookupTable: GeoAliasesAndSynonymsLookupTable = geoAliasesAndSynonymsWorksheetDataToNormalizedGeoAndAliasesLookupTable(
     geoAliasesAndSynonymsWorksheetData,
     lookupKey => lookupKey
   );

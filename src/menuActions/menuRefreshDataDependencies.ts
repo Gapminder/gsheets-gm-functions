@@ -87,9 +87,9 @@ export function menuRefreshDataDependencies() {
       validateAndAliasTheGeoSetArgument(geo_set);
     } catch (err) {
       writeStatus(dataDependenciesSheet, index, {
+        importRangeRows: null,
         lastChecked: null,
-        notes: "Not imported: " + err.message,
-        sourceDataRows: null
+        notes: "Not imported: " + err.message
       });
       return;
     }
@@ -97,9 +97,9 @@ export function menuRefreshDataDependencies() {
     // Do not attempt to import bad datasets
     if (dataStatus.toString().substr(0, 3) === "BAD") {
       writeStatus(dataDependenciesSheet, index, {
+        importRangeRows: null,
         lastChecked: null,
-        notes: "Not checked/imported since catalog status is marked as BAD",
-        sourceDataRows: null
+        notes: "Not checked/imported since catalog status is marked as BAD"
       });
       return;
     }
@@ -109,8 +109,8 @@ export function menuRefreshDataDependencies() {
     // Read values to import
     const catalog = parsedDatasetReference[1];
     let importValues;
-    let sourceDataRows;
-    let sourceDataColumns;
+    let importRangeRows;
+    let importRangeColumns;
     switch (catalog) {
       case undefined:
       case "":
@@ -132,19 +132,19 @@ export function menuRefreshDataDependencies() {
           );
           if (!sourceSheet) {
             writeStatus(dataDependenciesSheet, index, {
+              importRangeRows: null,
               lastChecked: null,
               notes: `Not imported since the source sheet "${
                 conceptDataFasttrackCatalogEntry.worksheetReference.name
-              }" was not available`,
-              sourceDataRows: null
+              }" was not available`
             });
             return;
           }
 
           const sourceDataRange = sourceSheet.getDataRange();
           importValues = sourceDataRange.getValues();
-          sourceDataRows = sourceDataRange.getNumRows();
-          sourceDataColumns = sourceDataRange.getNumColumns();
+          importRangeRows = sourceDataRange.getNumRows();
+          importRangeColumns = sourceDataRange.getNumColumns();
         }
         break;
       case "open-numbers-wdi":
@@ -156,7 +156,6 @@ export function menuRefreshDataDependencies() {
             geo_set,
             openNumbersWorldDevelopmentIndicatorsDatasetConceptListing
           );
-
           importValues = [openNumbersConceptData.headers].concat(
             openNumbersConceptData.rows.map(
               (conceptDataRow: ConceptDataRow) => {
@@ -169,19 +168,21 @@ export function menuRefreshDataDependencies() {
               }
             )
           );
-          sourceDataRows = importValues.length;
-          sourceDataColumns = 4;
+          importRangeRows = importValues.length;
+          importRangeColumns = 4;
         }
         break;
       default: {
         writeStatus(dataDependenciesSheet, index, {
+          importRangeRows: null,
           lastChecked: null,
-          notes: `Not imported - unknown catalog: "${catalog}"`,
-          sourceDataRows: null
+          notes: `Not imported - unknown catalog: "${catalog}"`
         });
         return;
       }
     }
+
+    const lastChecked = new Date();
 
     // Make sure that the destination sheet exists
     const destination = activeSpreadsheet;
@@ -193,45 +194,44 @@ export function menuRefreshDataDependencies() {
       );
     }
 
-    const lastChecked = new Date();
     writeStatus(dataDependenciesSheet, index, {
+      importRangeRows,
       lastChecked,
-      notes: "About to import...",
-      sourceDataRows: null
+      notes: "About to import..."
     });
 
     // Remove excess rows and columns in case the import data range is smaller than the previously imported data range
     // This prevents stale data from lingering around after the import
-    if (destinationSheet.getMaxRows() > sourceDataRows) {
+    if (destinationSheet.getMaxRows() > importRangeRows) {
       destinationSheet.deleteRows(
-        sourceDataRows,
-        destinationSheet.getMaxRows() - sourceDataRows
+        importRangeRows,
+        destinationSheet.getMaxRows() - importRangeRows
       );
     }
-    if (destinationSheet.getMaxColumns() > sourceDataColumns) {
+    if (destinationSheet.getMaxColumns() > importRangeColumns) {
       destinationSheet.deleteColumns(
-        sourceDataColumns,
-        destinationSheet.getMaxColumns() - sourceDataColumns
+        importRangeColumns,
+        destinationSheet.getMaxColumns() - importRangeColumns
       );
     }
     // Insert new rows if the existing range is smaller than the import data range
-    if (destinationSheet.getMaxRows() < sourceDataRows) {
+    if (destinationSheet.getMaxRows() < importRangeRows) {
       destinationSheet.insertRows(
         destinationSheet.getMaxRows(),
-        sourceDataRows - destinationSheet.getMaxRows()
+        importRangeRows - destinationSheet.getMaxRows()
       );
     }
-    if (destinationSheet.getMaxColumns() < sourceDataColumns) {
+    if (destinationSheet.getMaxColumns() < importRangeColumns) {
       destinationSheet.insertColumns(
         destinationSheet.getMaxColumns(),
-        sourceDataColumns - destinationSheet.getMaxColumns()
+        importRangeColumns - destinationSheet.getMaxColumns()
       );
     }
     writeStatus(dataDependenciesSheet, index, {
+      importRangeRows,
       lastChecked,
       notes:
-        "[Importing...] Adjusted destination sheet rows and columns to accommodate the new data",
-      sourceDataRows
+        "[Importing...] Adjusted destination sheet rows and columns to accommodate the new data"
     });
 
     // Write values to import
@@ -244,9 +244,9 @@ export function menuRefreshDataDependencies() {
       )
       .setValues(importValues);
     writeStatus(dataDependenciesSheet, index, {
+      importRangeRows,
       lastChecked,
-      notes: "Imported the data successfully",
-      sourceDataRows
+      notes: "Imported the data successfully"
     });
   });
 
