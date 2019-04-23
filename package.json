@@ -8,7 +8,8 @@
     "diacritics": "^1.3.0",
     "everpolate": "github:gapminder/everpolate#additional-interpolation-implementations",
     "gas-entry-generator": "github:motin/gas-entry-generator#include-params",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "weighted-mean": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

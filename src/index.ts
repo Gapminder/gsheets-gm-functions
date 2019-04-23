@@ -412,7 +412,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  *  - Column 3: time
  *  - Column 4+: values to be aggregated
  *
- * Note: Uses GM_PROP internally
+ * Note: Uses GM_PROP internally for the property lookup, and GM_DATA internally for the population lookup
  *
  * @param {A1:D} input_table_range_with_headers
  * @param {"four_regions"} aggregation_property_id Aggregation property
@@ -422,7 +422,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
 (global as any).GM_WEIGHTED_AVERAGE = function(
   input_table_range_with_headers: string[][],
   aggregation_property_id: string,
-  population_concept_data_table_range_with_headers: string
+  population_concept_data_table_range_with_headers: string[][]
 ) {
   return GM_WEIGHTED_AVERAGE(
     input_table_range_with_headers,

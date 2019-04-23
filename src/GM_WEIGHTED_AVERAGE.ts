@@ -1,3 +1,4 @@
+import { GM_DATA } from "./GM_DATA";
 import {
   aggregateGapminderTableByAggregationPropertyValueAndTime,
   aggregationModes
@@ -14,7 +15,7 @@ import { prependPropertyAndNameColumnsToGapminderTableWithHeaders } from "./lib/
  *  - Column 3: time
  *  - Column 4+: values to be aggregated
  *
- * Note: Uses GM_PROP internally
+ * Note: Uses GM_PROP internally for the property lookup, and GM_DATA internally for the population lookup
  *
  * @param input_table_range_with_headers
  * @param aggregation_property_id Aggregation property
@@ -24,11 +25,17 @@ import { prependPropertyAndNameColumnsToGapminderTableWithHeaders } from "./lib/
 export function GM_WEIGHTED_AVERAGE(
   input_table_range_with_headers: string[][],
   aggregation_property_id: string,
-  population_concept_data_table_range_with_headers: string
+  population_concept_data_table_range_with_headers: string[][]
 ) {
   // Ensure expected input range contents
   const inputTable = preProcessInputRangeWithHeaders(
     input_table_range_with_headers
+  );
+
+  // Population data
+  const populationGmDataResult: any[][] = GM_DATA(
+    inputTable,
+    population_concept_data_table_range_with_headers
   );
 
   // Add aggregation property value and aggregation property name columns to the left side of the input table
@@ -37,9 +44,21 @@ export function GM_WEIGHTED_AVERAGE(
     aggregation_property_id
   );
 
+  // Prepend the weights column (the population of each geo and time) to the left side of the aggregation table
+  const aggregationTableWithWeightsColumnPrepended = tableWithHeadersAndPropertyAndNameColumnsPrepended.map(
+    (row, index) => {
+      if (populationGmDataResult[index] === undefined) {
+        throw new Error(
+          `The populationGmDataResult at index ${index} is undefined`
+        );
+      }
+      return [populationGmDataResult[index][0], ...row];
+    }
+  );
+
   // Aggregate input table by property and time using weighted average as the aggregation mode
   return aggregateGapminderTableByAggregationPropertyValueAndTime(
-    tableWithHeadersAndPropertyAndNameColumnsPrepended,
-    aggregationModes.SUM
+    aggregationTableWithWeightsColumnPrepended,
+    aggregationModes.WEIGHTED_MEAN
   );
 }

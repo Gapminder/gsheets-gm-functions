@@ -20,6 +20,13 @@ export interface GmAggregationTableRow extends GmTableRow {
 /**
  * @hidden
  */
+export interface GmWeightedAggregationTableRow extends GmAggregationTableRow {
+  weight: number;
+}
+
+/**
+ * @hidden
+ */
 export interface GmTableRowWithTimesAcrossColumns {
   geo: string;
   name: string;
@@ -68,6 +75,24 @@ export class GmTable {
       name: row[3],
       time: row[4],
       data: row.slice(5),
+      originalRowIndex: index
+      /* tslint:enable:object-literal-sort-keys */
+    };
+  }
+
+  public static structureWeightedAggregationRow(
+    row: any[],
+    index
+  ): GmWeightedAggregationTableRow {
+    return {
+      /* tslint:disable:object-literal-sort-keys */
+      weight: row[0],
+      aggregationPropertyValue: row[1],
+      aggregationPropertyName: row[2],
+      geo: row[3],
+      name: row[4],
+      time: row[5],
+      data: row.slice(6),
       originalRowIndex: index
       /* tslint:enable:object-literal-sort-keys */
     };

@@ -445,9 +445,9 @@ ___
 
 ###  GM_WEIGHTED_AVERAGE
 
-▸ **GM_WEIGHTED_AVERAGE**(input_table_range_with_headers: *`string`[][]*, aggregation_property_id: *`string`*, population_concept_data_table_range_with_headers: *`string`*): `any`[][]
+▸ **GM_WEIGHTED_AVERAGE**(input_table_range_with_headers: *`string`[][]*, aggregation_property_id: *`string`*, population_concept_data_table_range_with_headers: *`string`[][]*): `any`[][]
 
-*Defined in [GM_WEIGHTED_AVERAGE.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_WEIGHTED_AVERAGE.ts#L24)*
+*Defined in [GM_WEIGHTED_AVERAGE.ts:25](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_WEIGHTED_AVERAGE.ts#L25)*
 
 Aggregates an input table by a time-independent property and time, returning a table with the population-weighted average values of the input table.
 
@@ -458,7 +458,7 @@ The input table must be at least four columns wide.
 *   Column 3: time
 *   Column 4+: values to be aggregated
 
-Note: Uses GM\_PROP internally
+Note: Uses GM\_PROP internally for the property lookup, and GM\_DATA internally for the population lookup
 
 **Parameters:**
 
@@ -466,7 +466,7 @@ Note: Uses GM\_PROP internally
 | ------ | ------ | ------ |
 | input_table_range_with_headers | `string`[][] |  \- |
 | aggregation_property_id | `string` |  Aggregation property |
-| population_concept_data_table_range_with_headers | `string` |  Local spreadsheet range of the population concept data to look up against. Required for performance reasons. |
+| population_concept_data_table_range_with_headers | `string`[][] |  Local spreadsheet range of the population concept data to look up against. Required for performance reasons. |
 
 **Returns:** `any`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
