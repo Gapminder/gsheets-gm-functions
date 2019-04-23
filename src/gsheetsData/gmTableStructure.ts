@@ -12,6 +12,14 @@ export interface GmTableRow {
 /**
  * @hidden
  */
+export interface GmAggregationTableRow extends GmTableRow {
+  aggregationPropertyValue: string;
+  aggregationPropertyName: string;
+}
+
+/**
+ * @hidden
+ */
 export interface GmTableRowWithTimesAcrossColumns {
   geo: string;
   name: string;
@@ -23,6 +31,13 @@ export interface GmTableRowWithTimesAcrossColumns {
  */
 export interface GmTableRowsByGeoAndTime {
   [geo: string]: { [time: string]: GmTableRow };
+}
+
+/**
+ * @hidden
+ */
+export interface GmTableAggregationRowsByAggregationPropertyValueAndTime {
+  [aggregationPropertyValue: string]: { [time: string]: GmAggregationTableRow };
 }
 
 /**
@@ -41,12 +56,40 @@ export class GmTable {
     };
   }
 
+  public static structureAggregationRow(
+    row: any[],
+    index
+  ): GmAggregationTableRow {
+    return {
+      /* tslint:disable:object-literal-sort-keys */
+      aggregationPropertyValue: row[0],
+      aggregationPropertyName: row[1],
+      geo: row[2],
+      name: row[3],
+      time: row[4],
+      data: row.slice(5),
+      originalRowIndex: index
+      /* tslint:enable:object-literal-sort-keys */
+    };
+  }
+
   public static unstructureRow(structuredRow: GmTableRow): any[] {
     return [
       structuredRow.geo,
       structuredRow.name,
       structuredRow.time,
       ...structuredRow.data
+    ];
+  }
+
+  public static unstructureAggregationRow(
+    structuredAggregationRow: GmAggregationTableRow
+  ): any[] {
+    return [
+      structuredAggregationRow.aggregationPropertyValue,
+      structuredAggregationRow.aggregationPropertyName,
+      structuredAggregationRow.time,
+      ...structuredAggregationRow.data
     ];
   }
 

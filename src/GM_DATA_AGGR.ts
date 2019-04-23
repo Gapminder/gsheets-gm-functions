@@ -1,5 +1,8 @@
 import { GM_DATA } from "./GM_DATA";
-import { aggregateGapminderTableByMainColumnAndTime } from "./lib/aggregateGapminderTableByMainColumnAndTime";
+import {
+  aggregateGapminderTableByAggregationPropertyValueAndTime,
+  aggregationModes
+} from "./lib/aggregateGapminderTableByAggregationPropertyValueAndTime";
 import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
 
 /**
@@ -25,7 +28,7 @@ export function GM_DATA_AGGR(
   const inputTable = preProcessInputRangeWithHeaders(
     input_table_range_with_headers
   );
-  // Add aggregation concept value column to input table
+  // Add aggregation property value and aggregation property name columns to the left side of the input table
   const aggregationConceptColumnWithHeaderRow = GM_DATA(
     inputTable,
     concept_data_table_range_with_headers
@@ -40,12 +43,13 @@ export function GM_DATA_AGGR(
     return [
       aggregationConceptColumnWithHeaderRow[index][0],
       aggregationConceptColumnWithHeaderRow[index][0],
-      ...row.slice(2)
+      ...row
     ];
   });
 
   // Aggregate input table by property and time
-  return aggregateGapminderTableByMainColumnAndTime(
-    aggregationTableWithHeaders
+  return aggregateGapminderTableByAggregationPropertyValueAndTime(
+    aggregationTableWithHeaders,
+    aggregationModes.SUM
   );
 }

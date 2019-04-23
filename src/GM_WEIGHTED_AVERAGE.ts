@@ -1,7 +1,9 @@
-import { getGeoAliasesAndSynonymsLookupTable } from "./gsheetsData/geoAliasesAndSynonyms";
-import { GmTable } from "./gsheetsData/gmTableStructure";
+import {
+  aggregateGapminderTableByAggregationPropertyValueAndTime,
+  aggregationModes
+} from "./lib/aggregateGapminderTableByAggregationPropertyValueAndTime";
 import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
-import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
+import { prependPropertyAndNameColumnsToGapminderTableWithHeaders } from "./lib/prependPropertyAndNameColumnsToGapminderTableWithHeaders";
 
 /**
  * Aggregates an input table by a time-independent property and time, returning a table with the population-weighted average values of the input table.
@@ -11,6 +13,8 @@ import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoS
  *  - Column 2: geo_names (isn’t part of the calculation)
  *  - Column 3: time
  *  - Column 4+: values to be aggregated
+ *
+ * Note: Uses GM_PROP internally
  *
  * @param input_table_range_with_headers
  * @param aggregation_property_id Aggregation property
@@ -27,9 +31,15 @@ export function GM_WEIGHTED_AVERAGE(
     input_table_range_with_headers
   );
 
-  const inputTableRows = inputTable.map(GmTable.structureRow);
-  const inputTableHeaderRow = inputTableRows.slice(0, 1).shift();
-  const inputTableRowsWithoutHeaderRow = inputTableRows.slice(1);
+  // Add aggregation property value and aggregation property name columns to the left side of the input table
+  const tableWithHeadersAndPropertyAndNameColumnsPrepended = prependPropertyAndNameColumnsToGapminderTableWithHeaders(
+    inputTable,
+    aggregation_property_id
+  );
 
-  // TODO
+  // Aggregate input table by property and time using weighted average as the aggregation mode
+  return aggregateGapminderTableByAggregationPropertyValueAndTime(
+    tableWithHeadersAndPropertyAndNameColumnsPrepended,
+    aggregationModes.SUM
+  );
 }

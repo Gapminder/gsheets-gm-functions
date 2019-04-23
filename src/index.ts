@@ -412,6 +412,8 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  *  - Column 3: time
  *  - Column 4+: values to be aggregated
  *
+ * Note: Uses GM_PROP internally
+ *
  * @param {A1:D} input_table_range_with_headers
  * @param {"four_regions"} aggregation_property_id Aggregation property
  * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Required for performance reasons.

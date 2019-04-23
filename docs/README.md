@@ -94,7 +94,7 @@ ___
 
 ▸ **GM_DATA_AGGR**(input_table_range_with_headers: *`string`[][]*, concept_data_table_range_with_headers: *`string`[][]*): `any`[][]
 
-*Defined in [GM_DATA_AGGR.ts:20](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_DATA_AGGR.ts#L20)*
+*Defined in [GM_DATA_AGGR.ts:23](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_DATA_AGGR.ts#L23)*
 
 Aggregates an input table by a time-dependent indicator and time, returning a table with the aggregated values of the input table.
 
@@ -395,7 +395,7 @@ ___
 
 ▸ **GM_PROP_AGGR**(input_table_range_with_headers: *`string`[][]*, aggregation_property_id: *`string`*): `any`[][]
 
-*Defined in [GM_PROP_AGGR.ts:22](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_PROP_AGGR.ts#L22)*
+*Defined in [GM_PROP_AGGR.ts:23](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_PROP_AGGR.ts#L23)*
 
 Aggregates an input table by a time-independent property and time, returning a table with the aggregated values of the input table.
 
@@ -445,9 +445,9 @@ ___
 
 ###  GM_WEIGHTED_AVERAGE
 
-▸ **GM_WEIGHTED_AVERAGE**(input_table_range_with_headers: *`string`[][]*, aggregation_property_id: *`string`*, population_concept_data_table_range_with_headers: *`string`*): `void`
+▸ **GM_WEIGHTED_AVERAGE**(input_table_range_with_headers: *`string`[][]*, aggregation_property_id: *`string`*, population_concept_data_table_range_with_headers: *`string`*): `any`[][]
 
-*Defined in GM_WEIGHTED_AVERAGE.ts:20*
+*Defined in [GM_WEIGHTED_AVERAGE.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.8.0/src/GM_WEIGHTED_AVERAGE.ts#L24)*
 
 Aggregates an input table by a time-independent property and time, returning a table with the population-weighted average values of the input table.
 
@@ -458,6 +458,8 @@ The input table must be at least four columns wide.
 *   Column 3: time
 *   Column 4+: values to be aggregated
 
+Note: Uses GM\_PROP internally
+
 **Parameters:**
 
 | Name | Type | Description |
@@ -466,7 +468,7 @@ The input table must be at least four columns wide.
 | aggregation_property_id | `string` |  Aggregation property |
 | population_concept_data_table_range_with_headers | `string` |  Local spreadsheet range of the population concept data to look up against. Required for performance reasons. |
 
-**Returns:** `void`
+**Returns:** `any`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
