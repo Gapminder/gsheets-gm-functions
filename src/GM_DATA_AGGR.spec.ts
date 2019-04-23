@@ -4,7 +4,7 @@ import { GM_DATA_AGGR } from "./GM_DATA_AGGR";
 /**
  * @hidden
  */
-const testDataAggr: Macro<any> = (
+const testGmDataAggr: Macro<any> = (
   t: ExecutionContext,
   {
     input_table_range_with_headers,
@@ -60,5 +60,5 @@ const testDataAggr: Macro<any> = (
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {
-  test("testDataAggr - " + index, testDataAggr, testData);
+  test("testGmDataAggr - " + index, testGmDataAggr, testData);
 });
