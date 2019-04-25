@@ -1,19 +1,9 @@
 import { getConceptDataFasttrackCatalogEntry } from "../gsheetsData/conceptData";
-import { getFasttrackCatalogDataPointsList } from "../gsheetsData/fastttrackCatalog";
 import { ConceptDataRow, ConceptDataWorksheetData } from "../lib/conceptData";
 import { validateAndAliasTheGeoSetArgument } from "../lib/validateAndAliasTheGeoSetArgument";
 import { validateConceptIdArgument } from "../lib/validateConceptIdArgument";
 import { getOpenNumbersConceptData } from "../openNumbersData/conceptData";
-import { getOpenNumbersDatasetConceptListing } from "../openNumbersData/openNumbersDataset";
-import {
-  assertCorrectDataDependenciesSheetHeaders,
-  createDataCatalogSheet,
-  createDataDependenciesSheet,
-  getDataDependenciesWithHeaderRow,
-  implementDataDependenciesValidations,
-  refreshDataCatalogSheet,
-  writeStatus
-} from "./dataDependenciesCommon";
+import { refreshDataCatalog, writeStatus } from "./dataDependenciesCommon";
 
 /**
  * Menu item action for "Gapminder Data -> Import/refresh data dependencies"
@@ -29,40 +19,13 @@ import {
  */
 export function menuRefreshDataDependencies() {
   const activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  let dataDependenciesSheet = activeSpreadsheet.getSheetByName(
-    "data-dependencies"
-  );
-  if (dataDependenciesSheet === null) {
-    dataDependenciesSheet = createDataDependenciesSheet(activeSpreadsheet);
-  }
 
-  let dataCatalogSheet = activeSpreadsheet.getSheetByName("data-catalog");
-  if (dataCatalogSheet === null) {
-    dataCatalogSheet = createDataCatalogSheet(activeSpreadsheet);
-  }
-
-  const dataDependenciesWithHeaderRow = getDataDependenciesWithHeaderRow(
-    dataDependenciesSheet
-  );
-
-  // Verify that the first headers are as expected
-  if (
-    !assertCorrectDataDependenciesSheetHeaders(dataDependenciesWithHeaderRow)
-  ) {
-    return;
-  }
-
-  // Refresh data catalog
-  const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
-  const openNumbersWorldDevelopmentIndicatorsDatasetConceptListing = getOpenNumbersDatasetConceptListing(
-    "ddf--open_numbers--world_development_indicators"
-  );
-  refreshDataCatalogSheet(
-    dataCatalogSheet,
+  const {
+    dataDependenciesSheet,
+    dataDependenciesWithHeaderRow,
     fasttrackCatalogDataPointsWorksheetData,
     openNumbersWorldDevelopmentIndicatorsDatasetConceptListing
-  );
-  implementDataDependenciesValidations(dataDependenciesSheet, dataCatalogSheet);
+  } = refreshDataCatalog(activeSpreadsheet);
 
   // Read current data dependencies
   const dataDependencies = dataDependenciesWithHeaderRow.slice(1);

@@ -1,10 +1,14 @@
 import {
   FasttrackCatalogDataPointsDataRow,
-  FasttrackCatalogDataPointsWorksheetData
+  FasttrackCatalogDataPointsWorksheetData,
+  getFasttrackCatalogDataPointsList
 } from "../gsheetsData/fastttrackCatalog";
 import { geoSets } from "../gsheetsData/hardcodedConstants";
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
-import { OpenNumbersDatasetConceptListingDataRow } from "../openNumbersData/openNumbersDataset";
+import {
+  getOpenNumbersDatasetConceptListing,
+  OpenNumbersDatasetConceptListingDataRow
+} from "../openNumbersData/openNumbersDataset";
 
 /**
  * @hidden
@@ -32,7 +36,7 @@ const dataCatalogHeaders = [
 /**
  * @hidden
  */
-export const ensuredColumnIndex = (header: string) => {
+const ensuredColumnIndex = (header: string) => {
   const index = dataDependenciesHeaders.indexOf(header);
   if (index < 0) {
     throw new Error(`Header not found: '${header}'`);
@@ -66,7 +70,7 @@ export function writeStatus(
 /**
  * @hidden
  */
-export function createDataDependenciesSheet(spreadsheet) {
+function createDataDependenciesSheet(spreadsheet) {
   const sheet = spreadsheet.insertSheet(
     "data-dependencies",
     spreadsheet.getNumSheets()
@@ -84,7 +88,7 @@ export function createDataDependenciesSheet(spreadsheet) {
 /**
  * @hidden
  */
-export function createDataCatalogSheet(spreadsheet) {
+function createDataCatalogSheet(spreadsheet) {
   const sheet = spreadsheet.insertSheet(
     "data-catalog",
     spreadsheet.getNumSheets()
@@ -102,7 +106,7 @@ export function createDataCatalogSheet(spreadsheet) {
 /**
  * @hidden
  */
-export function getDataDependenciesWithHeaderRow(sheet: Sheet) {
+function getDataDependenciesWithHeaderRow(sheet: Sheet) {
   const dataDependenciesWithHeaderRowRange = sheet.getRange(
     1,
     1,
@@ -116,7 +120,7 @@ export function getDataDependenciesWithHeaderRow(sheet: Sheet) {
 /**
  * @hidden
  */
-export function assertCorrectDataDependenciesSheetHeaders(
+function assertCorrectDataDependenciesSheetHeaders(
   dataDependenciesWithHeaderRow
 ) {
   const headerRow = dataDependenciesWithHeaderRow.slice(0, 1);
@@ -139,7 +143,7 @@ export function assertCorrectDataDependenciesSheetHeaders(
 /**
  * @hidden
  */
-export function refreshDataCatalogSheet(
+function refreshDataCatalogSheet(
   sheet,
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData,
   openNumbersWorldDevelopmentIndicatorsDatasetConceptListing: OpenNumbersDatasetConceptListingDataRow[]
@@ -176,7 +180,7 @@ export function refreshDataCatalogSheet(
 /**
  * @hidden
  */
-export function implementDataDependenciesValidations(
+function implementDataDependenciesValidations(
   dataDependenciesSheet: Sheet,
   dataCatalogSheet: Sheet
 ) {
@@ -233,4 +237,62 @@ export function implementDataDependenciesValidations(
     "Geo set",
     geoSets
   );
+}
+
+/**
+ * @hidden
+ */
+export function refreshDataCatalog(activeSpreadsheet) {
+  let dataDependenciesSheet = activeSpreadsheet.getSheetByName(
+    "data-dependencies"
+  );
+  if (dataDependenciesSheet === null) {
+    dataDependenciesSheet = createDataDependenciesSheet(activeSpreadsheet);
+  }
+
+  let dataCatalogSheet = activeSpreadsheet.getSheetByName("data-catalog");
+  if (dataCatalogSheet === null) {
+    dataCatalogSheet = createDataCatalogSheet(activeSpreadsheet);
+  }
+
+  const dataDependenciesWithHeaderRow = getDataDependenciesWithHeaderRow(
+    dataDependenciesSheet
+  );
+
+  // Verify that the first headers are as expected
+  if (
+    !assertCorrectDataDependenciesSheetHeaders(dataDependenciesWithHeaderRow)
+  ) {
+    return;
+  }
+
+  // Refresh data catalog
+  const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
+  const openNumbersWorldDevelopmentIndicatorsDatasetConceptListing = getOpenNumbersDatasetConceptListing(
+    "ddf--open_numbers--world_development_indicators"
+  );
+  refreshDataCatalogSheet(
+    dataCatalogSheet,
+    fasttrackCatalogDataPointsWorksheetData,
+    openNumbersWorldDevelopmentIndicatorsDatasetConceptListing
+  );
+  implementDataDependenciesValidations(dataDependenciesSheet, dataCatalogSheet);
+
+  // Read current data dependencies
+  const dataDependencies = dataDependenciesWithHeaderRow.slice(1);
+
+  // For each data dependency - insert GM_DATASET_CATALOG_STATUS if not already exists
+  dataDependencies.map((dataDependencyRow, index) => {
+    const dataset_reference = dataDependencyRow[0];
+    const time_unit = dataDependencyRow[1];
+    const geo_set = dataDependencyRow[2];
+    const dataStatus = dataDependencyRow[3];
+  });
+
+  return {
+    dataDependenciesSheet,
+    dataDependenciesWithHeaderRow,
+    fasttrackCatalogDataPointsWorksheetData,
+    openNumbersWorldDevelopmentIndicatorsDatasetConceptListing
+  };
 }

@@ -478,7 +478,7 @@ ___
 
 ▸ **menuRefreshDataCatalog**(): `void`
 
-*Defined in [menuActions/menuRefreshDataCatalog.ts:22](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.9.0/src/menuActions/menuRefreshDataCatalog.ts#L22)*
+*Defined in [menuActions/menuRefreshDataCatalog.ts:13](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.9.0/src/menuActions/menuRefreshDataCatalog.ts#L13)*
 
 Menu item action for "Gapminder Data -> Refresh data catalog"
 
@@ -498,7 +498,7 @@ ___
 
 ▸ **menuRefreshDataDependencies**(): `void`
 
-*Defined in [menuActions/menuRefreshDataDependencies.ts:30](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.9.0/src/menuActions/menuRefreshDataDependencies.ts#L30)*
+*Defined in [menuActions/menuRefreshDataDependencies.ts:20](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.9.0/src/menuActions/menuRefreshDataDependencies.ts#L20)*
 
 Menu item action for "Gapminder Data -> Import/refresh data dependencies"
 
