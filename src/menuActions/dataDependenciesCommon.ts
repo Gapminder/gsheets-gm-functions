@@ -4,6 +4,10 @@ import {
   getFasttrackCatalogDataPointsList
 } from "../gsheetsData/fastttrackCatalog";
 import { geoSets } from "../gsheetsData/hardcodedConstants";
+import {
+  preProcessInputRangeWithHeaders,
+  removeEmptyRowsAtTheEnd
+} from "../lib/cleanInputRange";
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 import {
   getOpenNumbersDatasetConceptListing,
@@ -113,8 +117,9 @@ function getDataDependenciesWithHeaderRow(sheet: Sheet) {
     sheet.getDataRange().getNumRows(),
     dataDependenciesHeaders.length
   );
-
-  return dataDependenciesWithHeaderRowRange.getValues();
+  return removeEmptyRowsAtTheEnd(
+    dataDependenciesWithHeaderRowRange.getValues()
+  );
 }
 
 /**
@@ -180,15 +185,18 @@ function refreshDataCatalogSheet(
 /**
  * @hidden
  */
+function getColumnValuesRange(sheet: Sheet, header) {
+  const columnIndex = ensuredColumnIndex(header);
+  return sheet.getRange(2, columnIndex + 1, sheet.getMaxRows() - 1, 1);
+}
+
+/**
+ * @hidden
+ */
 function implementDataDependenciesValidations(
   dataDependenciesSheet: Sheet,
   dataCatalogSheet: Sheet
 ) {
-  const getColumnValuesRange = (sheet: Sheet, header) => {
-    const columnIndex = ensuredColumnIndex(header);
-    return sheet.getRange(2, columnIndex + 1, sheet.getMaxRows() - 1, 1);
-  };
-
   const setSelectableOptionsForColumnValues = (
     sheet: Sheet,
     header,
@@ -242,6 +250,37 @@ function implementDataDependenciesValidations(
 /**
  * @hidden
  */
+export function adjustSheetRowsAndColumnsCount(
+  sheet: Sheet,
+  desiredRowCount,
+  desiredColumnCount
+) {
+  if (sheet.getMaxRows() > desiredRowCount) {
+    sheet.deleteRows(desiredRowCount + 1, sheet.getMaxRows() - desiredRowCount);
+  }
+  if (sheet.getMaxColumns() > desiredColumnCount) {
+    sheet.deleteColumns(
+      desiredColumnCount + 1,
+      sheet.getMaxColumns() - desiredColumnCount
+    );
+  }
+  if (sheet.getMaxRows() < desiredRowCount) {
+    sheet.insertRowsAfter(
+      sheet.getMaxRows(),
+      desiredRowCount - sheet.getMaxRows()
+    );
+  }
+  if (sheet.getMaxColumns() < desiredColumnCount) {
+    sheet.insertColumnsAfter(
+      sheet.getMaxColumns(),
+      desiredColumnCount - sheet.getMaxColumns()
+    );
+  }
+}
+
+/**
+ * @hidden
+ */
 export function refreshDataCatalog(activeSpreadsheet) {
   let dataDependenciesSheet = activeSpreadsheet.getSheetByName(
     "data-dependencies"
@@ -281,13 +320,34 @@ export function refreshDataCatalog(activeSpreadsheet) {
   // Read current data dependencies
   const dataDependencies = dataDependenciesWithHeaderRow.slice(1);
 
-  // For each data dependency - insert GM_DATASET_CATALOG_STATUS if not already exists
-  dataDependencies.map((dataDependencyRow, index) => {
-    const dataset_reference = dataDependencyRow[0];
-    const time_unit = dataDependencyRow[1];
-    const geo_set = dataDependencyRow[2];
-    const dataStatus = dataDependencyRow[3];
-  });
+  // Limit the amount of rows of the spreadsheet to the amount of data dependencies + a few extras for adding new ones
+  const desiredRowCount = dataDependencies.length + 1 + 3;
+  const desiredColumnCount = dataDependenciesHeaders.length;
+  adjustSheetRowsAndColumnsCount(
+    dataDependenciesSheet,
+    desiredRowCount,
+    desiredColumnCount
+  );
+
+  // Fill the "Catalog status" column with the GM_DATASET_CATALOG_STATUS function
+  const catalogStatusRange = getColumnValuesRange(
+    dataDependenciesSheet,
+    "Catalog status"
+  );
+  const sheetValueRowsCount = dataDependenciesSheet.getMaxRows() - 1;
+  function arrayOfASingleValue(value, len): any[] {
+    const arr = [];
+    for (let i = 0; i < len; i++) {
+      arr.push(value);
+    }
+    return arr;
+  }
+  const formulas = arrayOfASingleValue(
+    '=IF(R[0]C[-3]<>"",GM_DATASET_CATALOG_STATUS(R[0]C[-3],R[0]C[-2],R[0]C[-1], TRUE),"")',
+    sheetValueRowsCount
+  );
+  const formulaRows = formulas.map(formula => [formula]);
+  catalogStatusRange.setFormulasR1C1(formulaRows);
 
   return {
     dataDependenciesSheet,

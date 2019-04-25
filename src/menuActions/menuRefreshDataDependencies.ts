@@ -3,7 +3,11 @@ import { ConceptDataRow, ConceptDataWorksheetData } from "../lib/conceptData";
 import { validateAndAliasTheGeoSetArgument } from "../lib/validateAndAliasTheGeoSetArgument";
 import { validateConceptIdArgument } from "../lib/validateConceptIdArgument";
 import { getOpenNumbersConceptData } from "../openNumbersData/conceptData";
-import { refreshDataCatalog, writeStatus } from "./dataDependenciesCommon";
+import {
+  adjustSheetRowsAndColumnsCount,
+  refreshDataCatalog,
+  writeStatus
+} from "./dataDependenciesCommon";
 
 /**
  * Menu item action for "Gapminder Data -> Import/refresh data dependencies"
@@ -183,33 +187,14 @@ export function menuRefreshDataDependencies() {
       notes: "About to import..."
     });
 
-    // Remove excess rows and columns in case the import data range is smaller than the previously imported data range
+    // Remove excess rows and columns in case the import data range is smaller than the previously imported data range and vice versa
     // This prevents stale data from lingering around after the import
-    if (destinationSheet.getMaxRows() > importRangeRows) {
-      destinationSheet.deleteRows(
-        importRangeRows,
-        destinationSheet.getMaxRows() - importRangeRows
-      );
-    }
-    if (destinationSheet.getMaxColumns() > importRangeColumns) {
-      destinationSheet.deleteColumns(
-        importRangeColumns,
-        destinationSheet.getMaxColumns() - importRangeColumns
-      );
-    }
-    // Insert new rows if the existing range is smaller than the import data range
-    if (destinationSheet.getMaxRows() < importRangeRows) {
-      destinationSheet.insertRows(
-        destinationSheet.getMaxRows(),
-        importRangeRows - destinationSheet.getMaxRows()
-      );
-    }
-    if (destinationSheet.getMaxColumns() < importRangeColumns) {
-      destinationSheet.insertColumns(
-        destinationSheet.getMaxColumns(),
-        importRangeColumns - destinationSheet.getMaxColumns()
-      );
-    }
+    adjustSheetRowsAndColumnsCount(
+      destinationSheet,
+      importRangeRows,
+      importRangeColumns
+    );
+
     writeStatus(dataDependenciesSheet, index, {
       importRangeRows,
       lastChecked,

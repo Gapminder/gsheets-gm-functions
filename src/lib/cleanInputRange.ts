@@ -23,6 +23,24 @@ export function preProcessInputRangeWithHeaders(
 
   // Filter away completely empty rows at the end of the input range
   // (allows input range to be specified as complete columns without negative effects)
+  const inputColumnOrTableWithoutEmptyRowsAtTheEnd = removeEmptyRowsAtTheEnd(
+    inputColumnOrTableWithHeaders
+  );
+
+  // Throw error if input range is empty
+  if (inputColumnOrTableWithoutEmptyRowsAtTheEnd.length === 0) {
+    throw new Error("Input range is empty");
+  }
+
+  return inputColumnOrTableWithoutEmptyRowsAtTheEnd;
+}
+
+/**
+ * @hidden
+ */
+export function removeEmptyRowsAtTheEnd(inputTable: any[][]) {
+  // Filter away completely empty rows at the end of the input range
+  // (allows input range to be specified as complete columns without negative effects)
   const rowIsNotEmpty = (row: string[]) => {
     const amountOfCellsThatAreNotEmptyStrings = row.reduce(
       (count: number, cellValue: string) =>
@@ -32,20 +50,9 @@ export function preProcessInputRangeWithHeaders(
     return amountOfCellsThatAreNotEmptyStrings > 0;
   };
   const firstNonEmptyRowReverseIndex = pipe([findIndex(rowIsNotEmpty)])(
-    inputColumnOrTableWithHeaders.concat([]).reverse()
+    inputTable.concat([]).reverse()
   );
-  const inputColumnOrTableWithoutEmptyRowsAtTheEnd =
-    firstNonEmptyRowReverseIndex > -1
-      ? inputColumnOrTableWithHeaders.slice(
-          0,
-          inputColumnOrTableWithHeaders.length - firstNonEmptyRowReverseIndex
-        )
-      : inputColumnOrTableWithHeaders;
-
-  // Throw error if input range is empty
-  if (inputColumnOrTableWithoutEmptyRowsAtTheEnd.length === 0) {
-    throw new Error("Input range is empty");
-  }
-
-  return inputColumnOrTableWithoutEmptyRowsAtTheEnd;
+  return firstNonEmptyRowReverseIndex > -1
+    ? inputTable.slice(0, inputTable.length - firstNonEmptyRowReverseIndex)
+    : inputTable;
 }
