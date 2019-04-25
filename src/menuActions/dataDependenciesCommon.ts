@@ -94,7 +94,7 @@ export function createDataCatalogSheet(spreadsheet) {
   headersRange.setFontWeight("bold");
   sheet.setFrozenRows(1);
   SpreadsheetApp.getUi().alert(
-    "No sheet named 'data-catalog' was found. It has now been added."
+    "No sheet named 'data-catalog' was found. It has now been added and will soon be filled with the list of available indicators and concept data that can be used as data dependencies."
   );
   return sheet;
 }

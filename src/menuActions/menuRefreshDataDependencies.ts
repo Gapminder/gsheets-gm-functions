@@ -69,6 +69,9 @@ export function menuRefreshDataDependencies() {
 
   // Do not attempt to import if there are no data dependencies
   if (dataDependencies.length === 0) {
+    SpreadsheetApp.getUi().alert(
+      "Please add your data dependencies to the 'data-dependencies' sheet, then run this again."
+    );
     return;
   }
 
@@ -267,7 +270,7 @@ export function menuRefreshDataDependencies() {
     });
   });
 
-  SpreadsheetApp.getUi().alert("Imported/refreshed data dependencies");
+  SpreadsheetApp.getUi().alert("Imported/refreshed data dependencies.");
 
   return;
 }
