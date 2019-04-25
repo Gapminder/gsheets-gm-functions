@@ -193,6 +193,7 @@ export function implementDataDependenciesValidations(
     const columnValuesRange = getColumnValuesRange(sheet, header);
     const currentDataValidation = columnValuesRange.getDataValidation();
     if (
+      !currentDataValidation ||
       currentDataValidation.getCriteriaType() !==
         SpreadsheetApp.DataValidationCriteria.VALUE_IN_LIST ||
       !currentDataValidation.getCriteriaValues() ||
