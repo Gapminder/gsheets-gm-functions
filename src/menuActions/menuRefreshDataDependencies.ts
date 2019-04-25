@@ -67,6 +67,11 @@ export function menuRefreshDataDependencies() {
   // Read current data dependencies
   const dataDependencies = dataDependenciesWithHeaderRow.slice(1);
 
+  // Do not attempt to import if there are no data dependencies
+  if (dataDependencies.length === 0) {
+    return;
+  }
+
   // For each data dependency - copy the catalog data worksheet values to corresponding sheets in the current spreadsheet
   dataDependencies.map((dataDependencyRow, index) => {
     const dataset_reference: string = String(dataDependencyRow[0]);
