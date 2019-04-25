@@ -227,13 +227,13 @@ function validateDatasetSpreadsheet(
       recordValidationResult(
         name,
         false,
-        `The named range '${name}' should cover the whole ${tableName} table`
+        `The named range '${name}' should cover the whole ${tableName} table (the rows immediately above and below the table should be empty)`
       );
     } else {
       recordValidationResult(
         name,
         true,
-        `The named range '${name}' covers the whole ${tableName} table`
+        `The named range '${name}' covers the whole ${tableName} table (the rows immediately above and below the table are empty)`
       );
     }
   };
