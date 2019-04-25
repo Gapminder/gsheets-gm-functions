@@ -487,7 +487,7 @@ function validateDatasetSpreadsheet(
         if (indicatorId.match(/^([a-z0-9]*)$/)) {
           recordValidationResult(
             key,
-            false,
+            true,
             `Indicator ${rowNumber}'s ID contains only lowercase latin characters (a-z) or numbers, and no space, dashes or underscores. (Column ${columnNumber})`
           );
         } else {
