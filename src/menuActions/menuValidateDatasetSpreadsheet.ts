@@ -345,7 +345,7 @@ function validateDatasetSpreadsheet(
     indicatorTableValues.map((indicatorTableRow, i) => {
       const rowNumber = i + 1;
       const key = `indicator_table:row_${rowNumber}`;
-      let columnNumber;
+      let columnIndex;
 
       // #
       // Make sure the first column has a incremental number for each indicator you define.
@@ -367,18 +367,20 @@ function validateDatasetSpreadsheet(
       // Indicator(s)
       // This is the short, simple to understand, version of the indicator name. E.g. "Babies per woman"
       // It is used as column headers in the "data-..." sheets.
-      columnNumber = 1;
-      if (indicatorTableRow[columnNumber] === "") {
+      columnIndex = 1;
+      if (indicatorTableRow[columnIndex] === "") {
         recordValidationResult(
           key,
           false,
-          `Indicator ${rowNumber} has no short indicator name (Column ${columnNumber})`
+          `Indicator ${rowNumber} has no short indicator name (Column ${columnIndex +
+            1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Indicator ${rowNumber} has a short indicator name (Column ${columnNumber})`
+          `Indicator ${rowNumber} has a short indicator name (Column ${columnIndex +
+            1})`
         );
       }
 
@@ -415,72 +417,73 @@ function validateDatasetSpreadsheet(
 
       // Description
       // This description will be used in visualisations when a user want's to understand what the indicator is measuring.
-      columnNumber = 2;
-      if (indicatorTableRow[columnNumber] === "") {
+      columnIndex = 2;
+      if (indicatorTableRow[columnIndex] === "") {
         recordValidationResult(
           key,
           false,
-          `Indicator ${rowNumber} has no description (Column ${columnNumber})`
+          `Indicator ${rowNumber} has no description (Column ${columnIndex +
+            1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Indicator ${rowNumber} has a description (Column ${columnNumber})`
+          `Indicator ${rowNumber} has a description (Column ${columnIndex + 1})`
         );
       }
 
       // Full name
       // This is a long, more technically exact version of the indicator name. E.g. "Total fertility rate"
-      columnNumber = 3;
-      if (indicatorTableRow[columnNumber] === "") {
+      columnIndex = 3;
+      if (indicatorTableRow[columnIndex] === "") {
         recordValidationResult(
           key,
           false,
-          `Indicator ${rowNumber} has no full name (Column ${columnNumber})`
+          `Indicator ${rowNumber} has no full name (Column ${columnIndex + 1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Indicator ${rowNumber} has a full name (Column ${columnNumber})`
+          `Indicator ${rowNumber} has a full name (Column ${columnIndex + 1})`
         );
       }
 
       // Unit
       // The unit of the indicator.
       // For example: %, Babies, Deaths, US $,
-      columnNumber = 4;
-      if (indicatorTableRow[columnNumber] === "") {
+      columnIndex = 4;
+      if (indicatorTableRow[columnIndex] === "") {
         recordValidationResult(
           key,
           false,
-          `Indicator ${rowNumber} has no unit (Column ${columnNumber})`
+          `Indicator ${rowNumber} has no unit (Column ${columnIndex + 1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Indicator ${rowNumber} has a unit (Column ${columnNumber})`
+          `Indicator ${rowNumber} has a unit (Column ${columnIndex + 1})`
         );
       }
 
       // ID
       // This is a short id for storing the indicator in the database.
       // And it is also used in the link (url) to charts showing this data.
-      columnNumber = 5;
-      const indicatorId = String(indicatorTableRow[columnNumber]);
+      columnIndex = 5;
+      const indicatorId = String(indicatorTableRow[columnIndex]);
       if (indicatorId === "") {
         recordValidationResult(
           key,
           false,
-          `Indicator ${rowNumber} has no ID (Column ${columnNumber})`
+          `Indicator ${rowNumber} has no ID (Column ${columnIndex + 1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Indicator ${rowNumber} has an ID (Column ${columnNumber})`
+          `Indicator ${rowNumber} has an ID (Column ${columnIndex + 1})`
         );
 
         // It should contain only lowercase latin characters (a-z) or numbers, and no space, dashes or underscores.
@@ -488,13 +491,15 @@ function validateDatasetSpreadsheet(
           recordValidationResult(
             key,
             true,
-            `Indicator ${rowNumber}'s ID contains only lowercase latin characters (a-z) or numbers, and no space, dashes or underscores. (Column ${columnNumber})`
+            `Indicator ${rowNumber}'s ID contains only lowercase latin characters (a-z) or numbers, and no space, dashes or underscores. (Column ${columnIndex +
+              1})`
           );
         } else {
           recordValidationResult(
             key,
             false,
-            `Indicator ${rowNumber}'s ID should contain only lowercase latin characters (a-z) or numbers, and no space, dashes or underscores. (Column ${columnNumber})`
+            `Indicator ${rowNumber}'s ID should contain only lowercase latin characters (a-z) or numbers, and no space, dashes or underscores. (Column ${columnIndex +
+              1})`
           );
         }
 
@@ -519,18 +524,18 @@ function validateDatasetSpreadsheet(
 
       // type
       // This should say "measure" i the indicator is a numeric measure. In some cases it's "category", for example in the Income Level data , where countries changes which level it is in over time. Another example of categories are found in the data about slavery legislation, where the legality status of slavery changes over time.
-      columnNumber = 6;
-      if (indicatorTableRow[columnNumber] === "") {
+      columnIndex = 6;
+      if (indicatorTableRow[columnIndex] === "") {
         recordValidationResult(
           key,
           false,
-          `Indicator ${rowNumber} has no type set (Column ${columnNumber})`
+          `Indicator ${rowNumber} has no type set (Column ${columnIndex + 1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Indicator ${rowNumber} has a type set (Column ${columnNumber})`
+          `Indicator ${rowNumber} has a type set (Column ${columnIndex + 1})`
         );
       }
 
@@ -541,18 +546,20 @@ function validateDatasetSpreadsheet(
       // 3 = analytically advanced
       // 4 = technical measures, like uncertainties
       // 5 = understandable only to software developers
-      columnNumber = 7;
-      if (indicatorTableRow[columnNumber] === "") {
+      columnIndex = 7;
+      if (indicatorTableRow[columnIndex] === "") {
         recordValidationResult(
           key,
           false,
-          `Indicator ${rowNumber} has no usage level set (Column ${columnNumber})`
+          `Indicator ${rowNumber} has no usage level set (Column ${columnIndex +
+            1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Indicator ${rowNumber} has a usage level set (Column ${columnNumber})`
+          `Indicator ${rowNumber} has a usage level set (Column ${columnIndex +
+            1})`
         );
       }
     });
@@ -638,7 +645,7 @@ function validateDatasetSpreadsheet(
     sourcesTableValues.map((sourcesTableRow, i) => {
       const rowNumber = i + 1;
       const key = `source_table:row_${rowNumber}`;
-      let columnNumber;
+      let columnIndex;
 
       // #
       // Make sure the first column has a incremental number for each source you define.
@@ -657,50 +664,50 @@ function validateDatasetSpreadsheet(
       }
 
       // Source id
-      columnNumber = 1;
-      if (sourcesTableRow[columnNumber] === "") {
+      columnIndex = 1;
+      if (sourcesTableRow[columnIndex] === "") {
         recordValidationResult(
           key,
           false,
-          `Source ${rowNumber} has no source id (Column ${columnNumber})`
+          `Source ${rowNumber} has no source id (Column ${columnIndex + 1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Source ${rowNumber} has a source id (Column ${columnNumber})`
+          `Source ${rowNumber} has a source id (Column ${columnIndex + 1})`
         );
       }
 
       // Name
-      columnNumber = 2;
-      if (sourcesTableRow[columnNumber] === "") {
+      columnIndex = 2;
+      if (sourcesTableRow[columnIndex] === "") {
         recordValidationResult(
           key,
           false,
-          `Source ${rowNumber} has no name (Column ${columnNumber})`
+          `Source ${rowNumber} has no name (Column ${columnIndex + 1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Source ${rowNumber} has a name (Column ${columnNumber})`
+          `Source ${rowNumber} has a name (Column ${columnIndex + 1})`
         );
       }
 
       // Link
-      columnNumber = 3;
-      if (sourcesTableRow[columnNumber] === "") {
+      columnIndex = 3;
+      if (sourcesTableRow[columnIndex] === "") {
         recordValidationResult(
           key,
           false,
-          `Source ${rowNumber} has no link (Column ${columnNumber})`
+          `Source ${rowNumber} has no link (Column ${columnIndex + 1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Source ${rowNumber} has a link (Column ${columnNumber})`
+          `Source ${rowNumber} has a link (Column ${columnIndex + 1})`
         );
       }
     });
@@ -729,28 +736,30 @@ function validateDatasetSpreadsheet(
     versionsTableValues.map((versionsTableRow, i) => {
       const rowNumber = i + 1;
       const key = `version_table:row_${rowNumber}`;
-      let columnNumber;
+      let columnIndex;
 
       // Each row will keep a link to the versioned doc (which is a copy of the work doc, at the time the versions was published). This enables us to fall back to previous versions. The date and contributors should be fetched from the doc. But the changes you edit manually.
 
       // Version
-      columnNumber = 1;
-      if (versionsTableRow[0] === "") {
+      columnIndex = 0;
+      if (versionsTableRow[columnIndex] === "") {
         recordValidationResult(
           key,
           false,
-          `Version-listing ${rowNumber} has no version reference set (Column ${columnNumber})`
+          `Version-listing ${rowNumber} has no version reference set (Column ${columnIndex +
+            1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Version-listing ${rowNumber} has a version reference set (Column ${columnNumber})`
+          `Version-listing ${rowNumber} has a version reference set (Column ${columnIndex +
+            1})`
         );
         assertValidVersion(
           versionsTableRow[0],
           key,
-          `in column ${columnNumber}`
+          `in column ${columnIndex + 1}`
         );
       }
 
@@ -778,34 +787,36 @@ function validateDatasetSpreadsheet(
       }
 
       // Link
-      columnNumber = 2;
-      if (versionsTableRow[columnNumber - 1] === "") {
+      columnIndex = 1;
+      if (versionsTableRow[columnIndex] === "") {
         recordValidationResult(
           key,
           false,
-          `Version-listing ${rowNumber} has no link (Column ${columnNumber})`
+          `Version-listing ${rowNumber} has no link (Column ${columnIndex + 1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Version-listing ${rowNumber} has a link (Column ${columnNumber})`
+          `Version-listing ${rowNumber} has a link (Column ${columnIndex + 1})`
         );
       }
 
       // Changes compared to previous
-      columnNumber = 3;
-      if (versionsTableRow[columnNumber - 1] === "") {
+      columnIndex = 2;
+      if (versionsTableRow[columnIndex] === "") {
         recordValidationResult(
           key,
           false,
-          `Version-listing ${rowNumber} has no "Changes compared to previous" (Column ${columnNumber})`
+          `Version-listing ${rowNumber} has no "Changes compared to previous" (Column ${columnIndex +
+            1})`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `Version-listing ${rowNumber} has "Changes compared to previous" (Column ${columnNumber})`
+          `Version-listing ${rowNumber} has "Changes compared to previous" (Column ${columnIndex +
+            1})`
         );
       }
 
