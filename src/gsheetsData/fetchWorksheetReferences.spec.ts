@@ -29,7 +29,8 @@ const testFetchWorksheetReferences: Macro<any> = (
       },
       conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit.global.year,
       conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit.world_4region.year,
-      conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit.countries_etc.year
+      conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit.countries_etc.year,
+      conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit.world_4level.year
     ]
   }
   /* tslint:enable:object-literal-sort-keys */

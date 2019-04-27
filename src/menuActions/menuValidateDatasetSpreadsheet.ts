@@ -30,7 +30,7 @@ interface OutputSheetMetadata {
  * and writes the validation results in the Validation table at the bottom of the About sheet.
  *
  * Details:
- * - Checks the row headers of the output sheets (the so called "data-countries-etc/world/region-by-year")
+ * - Checks the row headers of the output sheets (the so called "data-for-world/region/countries-etc/income-levels-by-year")
  * - Checks the about sheet (to see if it follows the requirements in col A in the template)
  * - Checks that filter mode is not turned on in output sheets (since it breaks the CSV endpoint)
  */

@@ -16,6 +16,10 @@ const testValidateAndAliasTheGeoSetArgument: Macro<any> = (
 [
   /* tslint:disable:object-literal-sort-keys */
   {
+    geo_set: "world_4level",
+    expected: "world_4level"
+  },
+  {
     geo_set: "countries_etc",
     expected: "countries_etc"
   },
@@ -30,6 +34,10 @@ const testValidateAndAliasTheGeoSetArgument: Macro<any> = (
   {
     geo_set: "global",
     expected: "global"
+  },
+  {
+    geo_set: "income-levels",
+    expected: "world_4level"
   },
   {
     geo_set: "countries-etc",
