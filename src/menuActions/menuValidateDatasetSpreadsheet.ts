@@ -51,7 +51,7 @@ export function menuValidateDatasetSpreadsheet() {
 function getOutputSheetsMetadata(
   activeSpreadsheet: Spreadsheet
 ): OutputSheetMetadata[] {
-  return getPresentOutputSheets(activeSpreadsheet).map((outputSheet: Sheet) => {
+  return getCurrentOutputSheets(activeSpreadsheet).map((outputSheet: Sheet) => {
     const dataRange = outputSheet.getDataRange();
     const headersRange = outputSheet.getRange(
       dataRange.getRow(),
@@ -71,10 +71,14 @@ function getOutputSheetsMetadata(
 /**
  * @hidden
  */
-function getPresentOutputSheets(activeSpreadsheet: Spreadsheet): Sheet[] {
+function getCurrentOutputSheets(activeSpreadsheet: Spreadsheet): Sheet[] {
   return activeSpreadsheet
     .getSheets()
-    .filter((sheet: Sheet) => sheet.getSheetName().indexOf("data-") === 0);
+    .filter(
+      (sheet: Sheet) =>
+        sheet.getSheetName().indexOf("data-for-") === 0 &&
+        sheet.getSheetName().indexOf("-in-columns") === -1
+    );
 }
 
 /**
@@ -119,20 +123,20 @@ function validateDatasetSpreadsheet(
   // At least one output sheet
   if (outputSheetsMetadata.length === null) {
     recordValidationResult(
-      "data-sheets",
+      "output-sheets",
       false,
-      `There should be at least one "data-" sheet`
+      `There should be at least one output sheet (sheets starting with 'data-for-' and not ending with '-in-columns')`
     );
   } else {
     recordValidationResult(
-      "data-sheets",
+      "output-sheets",
       true,
-      `There is at least one "data-" sheet present`
+      `There is at least one output sheet present (sheets starting with 'data-for-' and not ending with '-in-columns')`
     );
 
     // At least one four header columns in each output sheet
     outputSheetsMetadata.map((outputSheetMetadata: OutputSheetMetadata) => {
-      const key = `data-sheet:${outputSheetMetadata.name}`;
+      const key = `output-sheet:${outputSheetMetadata.name}`;
       if (outputSheetMetadata.headers.length < 4) {
         recordValidationResult(
           key,
@@ -366,7 +370,7 @@ function validateDatasetSpreadsheet(
 
       // Indicator(s)
       // This is the short, simple to understand, version of the indicator name. E.g. "Babies per woman"
-      // It is used as column headers in the "data-..." sheets.
+      // It is used as column headers in the "data-for-..." sheets.
       columnIndex = 1;
       if (indicatorTableRow[columnIndex] === "") {
         recordValidationResult(
@@ -384,7 +388,7 @@ function validateDatasetSpreadsheet(
         );
       }
 
-      // Then go over the "data-.." sheets to make sure the column headers (column D and forward, with indicator names) use references to the cells with "Indicator(s)" here, so they match perfectly when the data is fetched.
+      // Then go over the "data-for-.." sheets to make sure the column headers (column D and forward, with indicator names) use references to the cells with "Indicator(s)" here, so they match perfectly when the data is fetched.
       const headerIndex = i + 3;
       const indicatorNameCell = indicatorTableRange.getCell(rowNumber, 2);
       const expectedFormula = `=${aboutSheet.getSheetName()}!${indicatorNameCell.getA1Notation()}`;
