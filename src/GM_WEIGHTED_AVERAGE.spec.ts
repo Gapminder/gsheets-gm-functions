@@ -21,8 +21,8 @@ const testGmWeightedAverage: Macro<any> = (
     population_concept_data_table_range_with_headers
   );
   // t.log({ input_table_range_with_headers });
-  t.log({ output });
-  t.log({ expectedOutput });
+  // t.log({ output });
+  // t.log({ expectedOutput });
   t.deepEqual(output, expectedOutput);
 };
 
