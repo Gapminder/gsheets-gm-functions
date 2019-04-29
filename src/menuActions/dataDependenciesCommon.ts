@@ -18,7 +18,7 @@ import {
  * @hidden
  */
 const dataDependenciesHeaders = [
-  "Dataset reference",
+  "Concept ID and catalog reference",
   "Time unit",
   "Geo set",
   "Catalog status",
@@ -31,7 +31,7 @@ const dataDependenciesHeaders = [
  * @hidden
  */
 const dataCatalogHeaders = [
-  "Dataset reference",
+  "Concept ID and catalog reference",
   "Concept ID",
   "Concept Name",
   "CSV"
@@ -223,11 +223,11 @@ function implementDataDependenciesValidations(
   // Update selectable options based on catalog data
   const dataDependenciesSheetDataReferencesRange = getColumnValuesRange(
     dataDependenciesSheet,
-    "Dataset reference"
+    "Concept ID and catalog reference"
   );
   const dataCatalogSheetDataReferencesRange = getColumnValuesRange(
     dataCatalogSheet,
-    "Dataset reference"
+    "Concept ID and catalog reference"
   );
   dataDependenciesSheetDataReferencesRange.setDataValidation(
     SpreadsheetApp.newDataValidation()

@@ -10,10 +10,16 @@ import { MinimalUtilities } from "./lib/MinimalUtilities";
  */
 const testGmDatapointCatalogStatus: Macro<any> = (
   t: ExecutionContext,
-  { dataset_reference, time_unit, geo_set, verbose, expectedOutput }
+  {
+    concept_id_and_catalog_reference,
+    time_unit,
+    geo_set,
+    verbose,
+    expectedOutput
+  }
 ) => {
   const output = GM_DATAPOINT_CATALOG_STATUS(
-    dataset_reference,
+    concept_id_and_catalog_reference,
     time_unit,
     geo_set,
     verbose
@@ -25,14 +31,14 @@ const testGmDatapointCatalogStatus: Macro<any> = (
 [
   /* tslint:disable:object-literal-sort-keys */
   {
-    dataset_reference: "pop@fasttrack",
+    concept_id_and_catalog_reference: "pop@fasttrack",
     time_unit: "year",
     geo_set: "countries_etc",
     verbose: true,
     expectedOutput: [["GOOD"]]
   },
   {
-    dataset_reference: "sp_pop_totl@open-numbers-wdi",
+    concept_id_and_catalog_reference: "sp_pop_totl@open-numbers-wdi",
     time_unit: "year",
     geo_set: "countries_etc",
     verbose: true,
