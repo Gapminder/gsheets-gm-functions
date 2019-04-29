@@ -8,17 +8,17 @@ import { getOpenNumbersDatasetConceptDataEntry } from "./openNumbersData/concept
 import { getOpenNumbersDatasetConceptListing } from "./openNumbersData/openNumbersDataset";
 
 /**
- * Checks if the referenced data is available remotely for use by GM_* functions.
+ * Checks if the referenced concept data is available remotely for import.
  *
  * Runs the basic validation checks against the referenced dataset making sure that
- *  - it is listed in the fasttrack catalog
- *  - the relevant "data-" worksheet in the dataset source document is published
+ *  - it is listed in the fasttrack catalog or is part of the Open Numbers World Development Indicators
+ *  - (fasttrack catalog only) the relevant "data-" worksheet in the dataset source document is published
  *
  * Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
  *
  * Note: The function results are not automatically re-evaluated as changes are made to the source documents or the catalog. You can trigger a manual update by deleting the cell and undoing the deletion immediately.
  *
- * @param concept_id_and_catalog_reference The concept ID and catalog reference in the form of {concept id}@{catalog} (eg "pop@fasttrack", or "pop@opennumbers") of which concept data to check status for
+ * @param concept_id_and_catalog_reference The concept id and catalog reference in the form of {concept id}@{catalog} (eg "pop@fasttrack", or "pop@opennumbers") of which concept data to check status for
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for
  * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param verbose Explains how a certain dataset is invalid instead of simply returning "BAD" for the row
@@ -37,7 +37,7 @@ export function GM_DATAPOINT_CATALOG_STATUS(
 
   try {
     if (concept_id_and_catalog_reference === "") {
-      throw new Error("The concept ID and catalog reference argument is empty");
+      throw new Error("The concept id and catalog reference argument is empty");
     }
     const parsedDatasetReference = concept_id_and_catalog_reference.split("@");
     const concept_id = parsedDatasetReference[0];
