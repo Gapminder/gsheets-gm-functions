@@ -24,7 +24,7 @@ import { getOpenNumbersDatasetConceptListing } from "./openNumbersData/openNumbe
  * @param verbose Explains how a certain dataset is invalid instead of simply returning "BAD" for the row
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
-export function GM_DATASET_CATALOG_STATUS(
+export function GM_DATAPOINT_CATALOG_STATUS(
   dataset_reference: string,
   time_unit: string,
   geo_set: string,

@@ -1,5 +1,5 @@
 import test, { ExecutionContext, Macro } from "ava";
-import { GM_DATASET_CATALOG_STATUS } from "./GM_DATASET_CATALOG_STATUS";
+import { GM_DATAPOINT_CATALOG_STATUS } from "./GM_DATAPOINT_CATALOG_STATUS";
 import { MinimalUrlFetchApp } from "./lib/MinimalUrlFetchApp";
 import { MinimalUtilities } from "./lib/MinimalUtilities";
 (global as any).UrlFetchApp = MinimalUrlFetchApp;
@@ -8,11 +8,11 @@ import { MinimalUtilities } from "./lib/MinimalUtilities";
 /**
  * @hidden
  */
-const testGmDatasetCatalogStatus: Macro<any> = (
+const testGmDatapointCatalogStatus: Macro<any> = (
   t: ExecutionContext,
   { dataset_reference, time_unit, geo_set, verbose, expectedOutput }
 ) => {
-  const output = GM_DATASET_CATALOG_STATUS(
+  const output = GM_DATAPOINT_CATALOG_STATUS(
     dataset_reference,
     time_unit,
     geo_set,
@@ -42,8 +42,8 @@ const testGmDatasetCatalogStatus: Macro<any> = (
 ].forEach((testData, index) => {
   // Skipping until the concept data is available again in the fasttrack catalog
   test(
-    "testGmDatasetCatalogStatus - " + index,
-    testGmDatasetCatalogStatus,
+    "testGmDatapointCatalogStatus - " + index,
+    testGmDatapointCatalogStatus,
     testData
   );
 });

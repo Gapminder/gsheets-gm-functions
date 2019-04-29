@@ -329,7 +329,7 @@ export function refreshDataCatalog(activeSpreadsheet) {
     desiredColumnCount
   );
 
-  // Fill the "Catalog status" column with the GM_DATASET_CATALOG_STATUS function
+  // Fill the "Catalog status" column with the GM_DATAPOINT_CATALOG_STATUS function
   const catalogStatusRange = getColumnValuesRange(
     dataDependenciesSheet,
     "Catalog status"
@@ -343,7 +343,7 @@ export function refreshDataCatalog(activeSpreadsheet) {
     return arr;
   }
   const formulas = arrayOfASingleValue(
-    '=IF(R[0]C[-3]<>"",GM_DATASET_CATALOG_STATUS(R[0]C[-3],R[0]C[-2],R[0]C[-1], TRUE),"")',
+    '=IF(R[0]C[-3]<>"",GM_DATAPOINT_CATALOG_STATUS(R[0]C[-3],R[0]C[-2],R[0]C[-1], TRUE),"")',
     sheetValueRowsCount
   );
   const formulaRows = formulas.map(formula => [formula]);
