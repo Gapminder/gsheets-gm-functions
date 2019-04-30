@@ -7,12 +7,12 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
  * Note: Requires that the concept data to match against is first imported using the "Gapminder Data -> Import/refresh data dependencies".
  *
  * @param input_table_range_with_headers The input table range including [geo,name,time] for a concept value lookup
- * @param concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Required for performance reasons.
+ * @param concepts_data_table_range_with_headers Local spreadsheet range (imported using data-dependencies) of the concepts' data to look up against. Required for performance reasons.
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_DATA(
   input_table_range_with_headers: string[][],
-  concept_data_table_range_with_headers: string[][]
+  concepts_data_table_range_with_headers: string[][]
 ): any[][] {
   // Ensure expected input range contents
   const inputTable = preProcessInputRangeWithHeaders(
@@ -22,10 +22,10 @@ export function GM_DATA(
   const inputTableWithoutHeaderRow = inputTable.slice(1);
   const matchedData = conceptValueLookup(
     inputTableWithoutHeaderRow,
-    concept_data_table_range_with_headers
+    concepts_data_table_range_with_headers
   );
 
-  const conceptDataTableHeaders = concept_data_table_range_with_headers[0];
+  const conceptDataTableHeaders = concepts_data_table_range_with_headers[0];
   const conceptDataHeader = conceptDataTableHeaders[3];
 
   return [[conceptDataHeader]].concat(matchedData);
@@ -36,13 +36,13 @@ export function GM_DATA(
  */
 function conceptValueLookup(
   inputTableWithoutHeaderRow,
-  concept_data_table_range_with_headers
+  concepts_data_table_range_with_headers
 ): any[][] {
   const inputTableRowsWithoutHeaderRow = inputTableWithoutHeaderRow.map(
     GmTable.structureRow
   );
   const conceptData = preProcessInputRangeWithHeaders(
-    concept_data_table_range_with_headers
+    concepts_data_table_range_with_headers
   );
   if (conceptData.length === 0) {
     throw new Error("No property or concept data supplied");

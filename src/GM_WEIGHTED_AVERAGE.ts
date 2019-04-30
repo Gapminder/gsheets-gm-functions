@@ -19,7 +19,7 @@ import { prependPropertyAndNameColumnsToGapminderTableWithHeaders } from "./lib/
  *
  * @param input_table_range_with_headers
  * @param aggregation_property_id Aggregation property
- * @param population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Required for performance reasons.
+ * @param population_concept_data_table_range_with_headers Local spreadsheet range (imported using data-dependencies) of the population concept data to look up against, where the population concept is the first concept column in the data range. Required for performance reasons.
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_WEIGHTED_AVERAGE(

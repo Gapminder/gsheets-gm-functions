@@ -55,7 +55,7 @@ function conceptValueLookup(
   concept_id,
   time_unit,
   geo_set,
-  property_or_concept_data_table_range_with_headers
+  property_or_concepts_data_table_range_with_headers
 ): any[][] {
   if (!geo_set) {
     geo_set = "countries_etc";
@@ -66,15 +66,15 @@ function conceptValueLookup(
   const inputTableRowsWithoutHeaderRow = inputTableWithoutHeaderRow.map(
     GmTable.structureRow
   );
-  if (!property_or_concept_data_table_range_with_headers) {
-    property_or_concept_data_table_range_with_headers = GM_IMPORT_SLOW(
+  if (!property_or_concepts_data_table_range_with_headers) {
+    property_or_concepts_data_table_range_with_headers = GM_IMPORT_SLOW(
       concept_id,
       time_unit,
       geo_set
     );
   }
   const conceptData = preProcessInputRangeWithHeaders(
-    property_or_concept_data_table_range_with_headers
+    property_or_concepts_data_table_range_with_headers
   );
   const conceptDataRows = conceptData.map(GmTable.structureRow);
   const conceptDataByGeoAndTime = GmTable.byGeoAndTime(conceptDataRows);

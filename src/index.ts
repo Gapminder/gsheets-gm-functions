@@ -69,16 +69,16 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note: Requires that the concept data to match against is first imported using the "Gapminder Data -> Import/refresh data dependencies".
  *
  * @param {A1:D} input_table_range_with_headers The input table range including [geo,name,time] for a concept value lookup
- * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Required for performance reasons.
+ * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concepts_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Required for performance reasons.
  * @customfunction
  */
 (global as any).GM_DATA = function(
   input_table_range_with_headers: string[][],
-  concept_data_table_range_with_headers: string[][]
+  concepts_data_table_range_with_headers: string[][]
 ) {
   return GM_DATA(
     input_table_range_with_headers,
-    concept_data_table_range_with_headers
+    concepts_data_table_range_with_headers
   );
 };
 
@@ -94,16 +94,16 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note: Uses GM_DATA internally
  *
  * @param {A1:D} input_table_range_with_headers The input table range including [geo,name,time] for a concept value lookup
- * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Required for performance reasons.
+ * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concepts_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Required for performance reasons.
  * @customfunction
  */
 (global as any).GM_DATA_AGGR = function(
   input_table_range_with_headers: string[][],
-  concept_data_table_range_with_headers: string[][]
+  concepts_data_table_range_with_headers: string[][]
 ) {
   return GM_DATA_AGGR(
     input_table_range_with_headers,
-    concept_data_table_range_with_headers
+    concepts_data_table_range_with_headers
   );
 };
 
@@ -188,16 +188,16 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note: Uses GM_DATA internally
  *
  * @param {A1:D} input_table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
- * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
+ * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concepts_data_table_range_with_headers Local spreadsheet range (imported using data-dependencies) of the concepts' data to look up against. Required for performance reasons.
  * @customfunction
  */
 (global as any).GM_GROWTH = function(
   input_table_range_with_headers: string[][],
-  concept_data_table_range_with_headers: string[][]
+  concepts_data_table_range_with_headers: string[][]
 ) {
   return GM_GROWTH(
     input_table_range_with_headers,
-    concept_data_table_range_with_headers
+    concepts_data_table_range_with_headers
   );
 };
 
