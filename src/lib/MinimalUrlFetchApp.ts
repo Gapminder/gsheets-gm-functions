@@ -14,7 +14,15 @@ class MinimalHttpResponse {
     this.res = res;
   }
   public getContentText() {
-    return this.res.body.toString("utf-8");
+    const contentText = this.res.body.toString("utf-8");
+    if (this.getResponseCode() !== 200) {
+      throw new Error(
+        `Request failed for ${
+          this.res.url
+        } returned code ${this.getResponseCode()}. Truncated server response: ${contentText} (use muteHttpExceptions option to examine full response)`
+      );
+    }
+    return contentText;
   }
   public getResponseCode() {
     return this.res.statusCode;
