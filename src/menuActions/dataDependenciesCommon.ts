@@ -18,7 +18,7 @@ import {
  * @hidden
  */
 const dataDependenciesHeaders = [
-  "Concept ID and catalog reference",
+  "Dataset reference",
   "Time unit",
   "Geo set",
   "Catalog status",
@@ -31,7 +31,7 @@ const dataDependenciesHeaders = [
  * @hidden
  */
 const dataCatalogHeaders = [
-  "Concept ID and catalog reference",
+  "Dataset reference",
   "Concept ID",
   "Concept Name",
   "CSV"
@@ -156,7 +156,7 @@ function refreshDataCatalogSheet(
   const fasttrackCatalogValues = fasttrackCatalogDataPointsWorksheetData.rows.map(
     (row: FasttrackCatalogDataPointsDataRow) => {
       return [
-        `${row.concept_id}@fasttrack`,
+        `${row.dataset_id}@fasttrack`,
         row.concept_id,
         row.concept_name,
         row.csv_link
