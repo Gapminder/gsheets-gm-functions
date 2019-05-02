@@ -9,7 +9,7 @@ Gapminder-specific custom functions and related menu item actions for Google Spr
 ### Functions
 
 * [GM_DATA](#gm_data)
-* [GM_DATASET_CATALOG_STATUS](#gm_dataset_catalog_status)
+* [GM_DATAPOINT_CATALOG_STATUS](#gm_datapoint_catalog_status)
 * [GM_DATA_AGGR](#gm_data_aggr)
 * [GM_DATA_SLOW](#gm_data_slow)
 * [GM_GEO_LOOKUP_TABLE](#gm_geo_lookup_table)
@@ -56,20 +56,20 @@ Note: Requires that the concept data to match against is first imported using th
 A two-dimensional array containing the cell/column contents described above in the summary.
 
 ___
-<a id="gm_dataset_catalog_status"></a>
+<a id="gm_datapoint_catalog_status"></a>
 
-###  GM_DATASET_CATALOG_STATUS
+###  GM_DATAPOINT_CATALOG_STATUS
 
-▸ **GM_DATASET_CATALOG_STATUS**(dataset_reference: *`string`*, time_unit: *`string`*, geo_set: *`string`*, verbose: *`boolean`*): `string`[][]
+▸ **GM_DATAPOINT_CATALOG_STATUS**(concept_id_and_catalog_reference: *`string`*, time_unit: *`string`*, geo_set: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_DATASET_CATALOG_STATUS.ts:27](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.9.2/src/GM_DATASET_CATALOG_STATUS.ts#L27)*
+*Defined in [GM_DATAPOINT_CATALOG_STATUS.ts:27](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.9.2/src/GM_DATAPOINT_CATALOG_STATUS.ts#L27)*
 
-Checks if the referenced data is available remotely for use by GM\_\* functions.
+Checks if the referenced concept data is available remotely for import.
 
 Runs the basic validation checks against the referenced dataset making sure that
 
-*   it is listed in the fasttrack catalog
-*   the relevant "data-" worksheet in the dataset source document is published
+*   it is listed in the fasttrack catalog or is part of the Open Numbers World Development Indicators
+*   (fasttrack catalog only) the relevant "data-" worksheet in the dataset source document is published
 
 Returns "GOOD" or "BAD" (Or "BAD: What is bad... " if the verbose flag is TRUE).
 
@@ -79,7 +79,7 @@ Note: The function results are not automatically re-evaluated as changes are mad
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| dataset_reference | `string` |  The dataset reference in the form of {concept id}@{catalog} (eg "pop@fasttrack", or "pop@opennumbers") of which concept data to check status for |
+| concept_id_and_catalog_reference | `string` |  The concept id and catalog reference in the form of {concept id}@{catalog} (eg "pop@fasttrack", or "pop@opennumbers") of which concept data to check status for |
 | time_unit | `string` |  (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for |
 | geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 | verbose | `boolean` |  Explains how a certain dataset is invalid instead of simply returning "BAD" for the row |
