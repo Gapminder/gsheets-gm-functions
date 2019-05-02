@@ -511,17 +511,21 @@ function validateDatasetSpreadsheet(
         // (No validation performed at the moment)
 
         // Max 20 characters
-        if (indicatorId.length <= 20) {
+        const maxCharacters = 20;
+        if (indicatorId.length <= maxCharacters) {
           recordValidationResult(
             key,
             true,
-            `Indicator ${rowNumber}'s ID should be max 20 characters`
+            `Indicator ${rowNumber}'s ID has less than or equal to ${maxCharacters} characters`
           );
         } else {
           recordValidationResult(
             key,
             false,
-            `Indicator ${rowNumber}'s ID has less than or equal to 20 characters`
+            `Indicator ${rowNumber}'s ID should be max ${maxCharacters} characters. (The first ${maxCharacters} characters are '${indicatorId.substr(
+              0,
+              maxCharacters
+            )}')`
           );
         }
       }
@@ -609,17 +613,21 @@ function validateDatasetSpreadsheet(
     if (sourceShortText !== false) {
       // Summary of sources must be max 45 characters. It shows under graphs using this data, as a snippet summarising the sources. For example:
       // "Gapminder based on UNESCO"
-      if (sourceShortText.length <= 45) {
+      const maxCharacters = 45;
+      if (sourceShortText.length <= maxCharacters) {
         recordValidationResult(
           key,
           true,
-          `'${label}' should be max 45 characters`
+          `'${label}' has less than or equal to ${maxCharacters} characters`
         );
       } else {
         recordValidationResult(
           key,
           false,
-          `'${label}' has less than or equal to 45 characters`
+          `'${label}' should be max ${maxCharacters} characters. (The first ${maxCharacters} characters are '${sourceShortText.substr(
+            0,
+            maxCharacters
+          )}')`
         );
       }
     }
