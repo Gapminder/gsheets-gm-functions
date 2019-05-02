@@ -520,7 +520,7 @@ ___
 
 ▸ **menuValidateDatasetSpreadsheet**(): `void`
 
-*Defined in [menuActions/menuValidateDatasetSpreadsheet.ts:37](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.9.2/src/menuActions/menuValidateDatasetSpreadsheet.ts#L37)*
+*Defined in [menuActions/menuValidateDatasetSpreadsheet.ts:38](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.9.2/src/menuActions/menuValidateDatasetSpreadsheet.ts#L38)*
 
 Menu item action for "Gapminder Data -> Validate this dataset spreadsheet" (only shown if the spreadsheet contains an "ABOUT" sheet and a named range called "dataset\_id")
 

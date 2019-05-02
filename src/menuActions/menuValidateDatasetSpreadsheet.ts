@@ -1,6 +1,7 @@
 import Range = GoogleAppsScript.Spreadsheet.Range;
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 import Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
+import NamedRange = GoogleAppsScript.Spreadsheet.NamedRange;
 
 /**
  * @hidden
@@ -928,6 +929,24 @@ function validateDatasetSpreadsheet(
     validationTableRangeValues.length,
     3
   );
+
+  // Workaround gsheets peculiarity where sheet-scoped named ranges may exist and
+  // in such case take priority over spreadsheet-scoped named ranges, resulting in our new
+  // named range never being used
+  const sheets = activeSpreadsheet.getSheets();
+  sheets.map((sheet: Sheet) => {
+    const sheetNamedRanges = sheet.getNamedRanges();
+    sheetNamedRanges.map((sheetNamedRange: NamedRange) => {
+      if (sheetNamedRange.getName() === "validation_table") {
+        sheetNamedRange.remove();
+      }
+    });
+  });
+  if (activeSpreadsheet.getRangeByName("validation_table")) {
+    activeSpreadsheet.removeNamedRange("validation_table");
+  }
+
+  // Set new named range to reflect the new size of the validation table
   activeSpreadsheet.setNamedRange("validation_table", newValidationTableRange);
 
   // Replace old values with the new
