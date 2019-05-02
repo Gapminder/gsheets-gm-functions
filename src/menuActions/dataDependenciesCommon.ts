@@ -4,10 +4,7 @@ import {
   getFasttrackCatalogDataPointsList
 } from "../gsheetsData/fastttrackCatalog";
 import { geoSets } from "../gsheetsData/hardcodedConstants";
-import {
-  preProcessInputRangeWithHeaders,
-  removeEmptyRowsAtTheEnd
-} from "../lib/cleanInputRange";
+import { removeEmptyRowsAtTheEnd } from "../lib/cleanInputRange";
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 import {
   getOpenNumbersDatasetConceptListing,

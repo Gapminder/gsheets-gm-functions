@@ -17,7 +17,7 @@ export function getFasttrackCatalogConceptDataWorksheetData(
   geo_set,
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
 ): ConceptDataWorksheetData {
-  const matchingConcept = getConceptDataFasttrackCatalogEntry(
+  const matchingConcept = getValidConceptDataFasttrackCatalogEntry(
     concept_id,
     time_unit,
     geo_set,
@@ -37,7 +37,7 @@ export function getFasttrackCatalogConceptDataWorksheetData(
 /**
  * @hidden
  */
-export function getConceptDataFasttrackCatalogEntry(
+export function getValidConceptDataFasttrackCatalogEntry(
   concept_id,
   time_unit,
   geo_set,

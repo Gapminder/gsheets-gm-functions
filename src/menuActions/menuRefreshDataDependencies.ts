@@ -1,4 +1,4 @@
-import { getConceptDataFasttrackCatalogEntry } from "../gsheetsData/conceptData";
+import { getValidConceptDataFasttrackCatalogEntry } from "../gsheetsData/conceptData";
 import { ConceptDataRow, ConceptDataWorksheetData } from "../lib/conceptData";
 import { validateAndAliasTheGeoSetArgument } from "../lib/validateAndAliasTheGeoSetArgument";
 import { validateConceptIdArgument } from "../lib/validateConceptIdArgument";
@@ -44,7 +44,9 @@ export function menuRefreshDataDependencies() {
 
   // For each data dependency - copy the catalog data worksheet values to corresponding sheets in the current spreadsheet
   dataDependencies.map((dataDependencyRow, index) => {
-    const concept_id_and_catalog_reference: string = String(dataDependencyRow[0]);
+    const concept_id_and_catalog_reference: string = String(
+      dataDependencyRow[0]
+    );
     const time_unit = dataDependencyRow[1];
     const geo_set = dataDependencyRow[2];
     const dataStatus = dataDependencyRow[3];
@@ -57,11 +59,10 @@ export function menuRefreshDataDependencies() {
     const parsedDatasetReference = concept_id_and_catalog_reference.split("@");
     const concept_id = parsedDatasetReference[0];
 
+    let validatedGeoSetArgument;
     try {
       validateConceptIdArgument(concept_id);
-      const validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(
-        geo_set
-      );
+      validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(geo_set);
     } catch (err) {
       writeStatus(dataDependenciesSheet, index, {
         importRangeRows: null,
@@ -81,7 +82,7 @@ export function menuRefreshDataDependencies() {
       return;
     }
 
-    const destinationSheetName = `data:${concept_id_and_catalog_reference}:${time_unit}:${geo_set}`;
+    const destinationSheetName = `data:${concept_id_and_catalog_reference}:${time_unit}:${validatedGeoSetArgument}`;
 
     // Read values to import
     const catalog = parsedDatasetReference[1];
@@ -93,10 +94,10 @@ export function menuRefreshDataDependencies() {
       case "":
       case "fasttrack":
         {
-          const conceptDataFasttrackCatalogEntry = getConceptDataFasttrackCatalogEntry(
+          const conceptDataFasttrackCatalogEntry = getValidConceptDataFasttrackCatalogEntry(
             concept_id,
             time_unit,
-            geo_set,
+            validatedGeoSetArgument,
             fasttrackCatalogDataPointsWorksheetData
           );
 

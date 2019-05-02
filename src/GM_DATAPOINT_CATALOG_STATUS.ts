@@ -1,4 +1,4 @@
-import { getConceptDataFasttrackCatalogEntry } from "./gsheetsData/conceptData";
+import { getValidConceptDataFasttrackCatalogEntry } from "./gsheetsData/conceptData";
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 import { fetchWorksheetReferences } from "./gsheetsData/fetchWorksheetReferences";
 import { conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit } from "./gsheetsData/hardcodedConstants";
@@ -50,7 +50,7 @@ export function GM_DATAPOINT_CATALOG_STATUS(
       case "":
       case "fasttrack":
         {
-          validateFasttrackCatalogStatus(
+          validateFasttrackDatapointsCatalogStatus(
             concept_id,
             time_unit,
             validatedGeoSetArgument
@@ -81,13 +81,13 @@ export function GM_DATAPOINT_CATALOG_STATUS(
 /**
  * @hidden
  */
-function validateFasttrackCatalogStatus(
+function validateFasttrackDatapointsCatalogStatus(
   concept_id: string,
   time_unit: string,
   geo_set: string
 ) {
   const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
-  const conceptDataFasttrackCatalogEntry = getConceptDataFasttrackCatalogEntry(
+  const conceptDataFasttrackCatalogEntry = getValidConceptDataFasttrackCatalogEntry(
     concept_id,
     time_unit,
     geo_set,

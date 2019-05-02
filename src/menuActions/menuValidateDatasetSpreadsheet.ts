@@ -930,7 +930,7 @@ function validateDatasetSpreadsheet(
     3
   );
 
-  // Workaround gsheets peculiarity where sheet-scoped named ranges may exist and
+  // Work around a gsheets peculiarity where sheet-scoped named ranges may exist and
   // in such case take priority over spreadsheet-scoped named ranges, resulting in our new
   // named range never being used
   const sheets = activeSpreadsheet.getSheets();
