@@ -44,17 +44,17 @@ export function menuRefreshDataDependencies() {
 
   // For each data dependency - copy the catalog data worksheet values to corresponding sheets in the current spreadsheet
   dataDependencies.map((dataDependencyRow, index) => {
-    const dataset_reference: string = String(dataDependencyRow[0]);
+    const concept_id_and_catalog_reference: string = String(dataDependencyRow[0]);
     const time_unit = dataDependencyRow[1];
     const geo_set = dataDependencyRow[2];
     const dataStatus = dataDependencyRow[3];
 
     // Skip empty rows
-    if (dataset_reference === "") {
+    if (concept_id_and_catalog_reference === "") {
       return;
     }
 
-    const parsedDatasetReference = dataset_reference.split("@");
+    const parsedDatasetReference = concept_id_and_catalog_reference.split("@");
     const concept_id = parsedDatasetReference[0];
 
     try {
@@ -81,7 +81,7 @@ export function menuRefreshDataDependencies() {
       return;
     }
 
-    const destinationSheetName = `data:${dataset_reference}:${time_unit}:${geo_set}`;
+    const destinationSheetName = `data:${concept_id_and_catalog_reference}:${time_unit}:${geo_set}`;
 
     // Read values to import
     const catalog = parsedDatasetReference[1];

@@ -18,7 +18,7 @@ import {
  * @hidden
  */
 const dataDependenciesHeaders = [
-  "Dataset reference",
+  "Concept ID and catalog reference",
   "Time unit",
   "Geo set",
   "Catalog status",
@@ -31,9 +31,11 @@ const dataDependenciesHeaders = [
  * @hidden
  */
 const dataCatalogHeaders = [
-  "Dataset reference",
-  "Concept ID",
+  "Concept ID and catalog reference",
   "Concept Name",
+  "Time unit",
+  "Geo set",
+  "Dataset ID",
   "CSV"
 ];
 
@@ -156,9 +158,11 @@ function refreshDataCatalogSheet(
   const fasttrackCatalogValues = fasttrackCatalogDataPointsWorksheetData.rows.map(
     (row: FasttrackCatalogDataPointsDataRow) => {
       return [
-        `${row.dataset_id}@fasttrack`,
-        row.concept_id,
+        `${row.concept_id}@fasttrack`,
         row.concept_name,
+        row.time_unit,
+        row.geo_set,
+        row.dataset_id,
         row.csv_link
       ];
     }
@@ -167,8 +171,10 @@ function refreshDataCatalogSheet(
     (row: OpenNumbersDatasetConceptListingDataRow) => {
       return [
         `${row.concept_id}@open-numbers-wdi`,
-        row.concept_id,
         row.concept_name,
+        row.time_unit,
+        row.geo_set,
+        row.dataset_id,
         row.csv_link
       ];
     }

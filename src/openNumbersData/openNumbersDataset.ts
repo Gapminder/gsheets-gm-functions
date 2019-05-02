@@ -3,6 +3,7 @@
  */
 export interface OpenNumbersDatasetConceptListingDataRow {
   /* tslint:disable:object-literal-sort-keys */
+  dataset_id: string;
   geo_set: string;
   time_unit: string;
   concept_id: string;
@@ -98,6 +99,7 @@ function openNumbersDatasetConceptListingParsedCsvToOpenNumbersDatasetConceptLis
       const concept_name = parsedCsvRow[ensuredColumnIndex("name")];
       return {
         /* tslint:disable:object-literal-sort-keys */
+        dataset_id: concept_id,
         geo_set: "geo",
         time_unit: "year",
         concept_id,
