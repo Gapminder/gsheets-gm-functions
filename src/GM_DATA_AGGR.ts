@@ -17,12 +17,12 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
  * Note: Uses GM_DATA internally
  *
  * @param input_table_range_with_headers
- * @param concepts_data_table_range_with_headers Local spreadsheet range (imported using data-dependencies) of the concepts' data to look up against. Required for performance reasons.
+ * @param concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Required for performance reasons.
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_DATA_AGGR(
   input_table_range_with_headers: string[][],
-  concepts_data_table_range_with_headers: string[][]
+  concept_data_table_range_with_headers: string[][]
 ) {
   // Ensure expected input range contents
   const inputTable = preProcessInputRangeWithHeaders(
@@ -31,7 +31,7 @@ export function GM_DATA_AGGR(
   // Add aggregation property value and aggregation property name columns to the left side of the input table
   const aggregationConceptColumnWithHeaderRow = GM_DATA(
     inputTable,
-    concepts_data_table_range_with_headers
+    concept_data_table_range_with_headers
   );
 
   const aggregationTableWithHeaders = inputTable.map((row, index) => {

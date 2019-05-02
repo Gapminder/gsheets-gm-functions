@@ -8,12 +8,12 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
  * Note: Uses GM_DATA internally
  *
  * @param input_table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
- * @param concepts_data_table_range_with_headers Local spreadsheet range (imported using data-dependencies) of the concepts' data to look up against. Required for performance reasons.
+ * @param concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_GROWTH(
   input_table_range_with_headers: string[][],
-  concepts_data_table_range_with_headers: string[][]
+  concept_data_table_range_with_headers: string[][]
 ) {
   // Ensure expected input range contents
   const inputTable = preProcessInputRangeWithHeaders(
@@ -27,7 +27,7 @@ export function GM_GROWTH(
   // Concept data
   const gmDataResult: any[][] = GM_DATA(
     input_table_range_with_headers,
-    concepts_data_table_range_with_headers
+    concept_data_table_range_with_headers
   );
   const gmDataHeaderRow: string[] = gmDataResult.slice().shift();
   // Replace GM_DATA concept data with the growth over time unit in each geo

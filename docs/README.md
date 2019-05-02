@@ -37,7 +37,7 @@ Gapminder-specific custom functions and related menu item actions for Google Spr
 
 ###  GM_DATA
 
-▸ **GM_DATA**(input_table_range_with_headers: *`string`[][]*, concepts_data_table_range_with_headers: *`string`[][]*): `any`[][]
+▸ **GM_DATA**(input_table_range_with_headers: *`string`[][]*, concept_data_table_range_with_headers: *`string`[][]*): `any`[][]
 
 *Defined in [GM_DATA.ts:13](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.9.2/src/GM_DATA.ts#L13)*
 
@@ -50,7 +50,7 @@ Note: Requires that the concept data to match against is first imported using th
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | input_table_range_with_headers | `string`[][] |  The input table range including \[geo,name,time\] for a concept value lookup |
-| concepts_data_table_range_with_headers | `string`[][] |  Local spreadsheet range (imported using data-dependencies) of the concepts' data to look up against. Required for performance reasons. |
+| concept_data_table_range_with_headers | `string`[][] |  Local spreadsheet range of the concept data to look up against. Required for performance reasons. |
 
 **Returns:** `any`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
@@ -92,7 +92,7 @@ ___
 
 ###  GM_DATA_AGGR
 
-▸ **GM_DATA_AGGR**(input_table_range_with_headers: *`string`[][]*, concepts_data_table_range_with_headers: *`string`[][]*): `any`[][]
+▸ **GM_DATA_AGGR**(input_table_range_with_headers: *`string`[][]*, concept_data_table_range_with_headers: *`string`[][]*): `any`[][]
 
 *Defined in [GM_DATA_AGGR.ts:23](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.9.2/src/GM_DATA_AGGR.ts#L23)*
 
@@ -112,7 +112,7 @@ Note: Uses GM\_DATA internally
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | input_table_range_with_headers | `string`[][] |  \- |
-| concepts_data_table_range_with_headers | `string`[][] |  Local spreadsheet range (imported using data-dependencies) of the concepts' data to look up against. Required for performance reasons. |
+| concept_data_table_range_with_headers | `string`[][] |  Local spreadsheet range of the concept data to look up against. Required for performance reasons. |
 
 **Returns:** `any`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
@@ -173,7 +173,7 @@ ___
 
 ###  GM_GROWTH
 
-▸ **GM_GROWTH**(input_table_range_with_headers: *`string`[][]*, concepts_data_table_range_with_headers: *`string`[][]*): `string`[][]
+▸ **GM_GROWTH**(input_table_range_with_headers: *`string`[][]*, concept_data_table_range_with_headers: *`string`[][]*): `string`[][]
 
 *Defined in [GM_GROWTH.ts:14](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.9.2/src/GM_GROWTH.ts#L14)*
 
@@ -186,7 +186,7 @@ Note: Uses GM\_DATA internally
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | input_table_range_with_headers | `string`[][] |  A table range including \[geo,name,time\] to be used for a concept value lookup |
-| concepts_data_table_range_with_headers | `string`[][] |  Local spreadsheet range (imported using data-dependencies) of the concepts' data to look up against. Required for performance reasons. |
+| concept_data_table_range_with_headers | `string`[][] |  Local spreadsheet range of the concept data to look up against. Can be included for performance reasons. |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
@@ -338,7 +338,7 @@ Note: Uses GM\_DATA internally
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | input_table_range_with_headers_and_concept_values | `string`[][] |  A table range including \[geo,name,time,concept-values...\] |
-| population_concept_data_table_range_with_headers | `string`[][] |  Local spreadsheet range (imported using data-dependencies) of the population concept data to look up against, where the population concept is the first concept column in the data range. Required for performance reasons. |
+| population_concept_data_table_range_with_headers | `string`[][] |  Local spreadsheet range of the population concept data to look up against. Required for performance reasons. |
 
 **Returns:** `string`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.
@@ -466,7 +466,7 @@ Note: Uses GM\_PROP internally for the property lookup, and GM\_DATA internally 
 | ------ | ------ | ------ |
 | input_table_range_with_headers | `string`[][] |  \- |
 | aggregation_property_id | `string` |  Aggregation property |
-| population_concept_data_table_range_with_headers | `string`[][] |  Local spreadsheet range (imported using data-dependencies) of the population concept data to look up against, where the population concept is the first concept column in the data range. Required for performance reasons. |
+| population_concept_data_table_range_with_headers | `string`[][] |  Local spreadsheet range of the population concept data to look up against. Required for performance reasons. |
 
 **Returns:** `any`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.

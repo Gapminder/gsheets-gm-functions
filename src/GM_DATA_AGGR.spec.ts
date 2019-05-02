@@ -8,13 +8,13 @@ const testGmDataAggr: Macro<any> = (
   t: ExecutionContext,
   {
     input_table_range_with_headers,
-    concepts_data_table_range_with_headers,
+    concept_data_table_range_with_headers,
     expectedOutput
   }
 ) => {
   const output = GM_DATA_AGGR(
     input_table_range_with_headers,
-    concepts_data_table_range_with_headers
+    concept_data_table_range_with_headers
   );
   // t.log({ input_table_range_with_headers });
   // t.log({ output });
@@ -38,7 +38,7 @@ const testGmDataAggr: Macro<any> = (
       ["zoo", "Zoo", "1900", "22", "200"],
       ["zoo", "Zoo", "1901", "44", "500"]
     ],
-    concepts_data_table_range_with_headers: [
+    concept_data_table_range_with_headers: [
       ["geo_id", "geo_name", "year", "time-dependent category"],
       ["foo", "Foo", 1900, "A"],
       ["foo", "Foo", 1901, "B"],
