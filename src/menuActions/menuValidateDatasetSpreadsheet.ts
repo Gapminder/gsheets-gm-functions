@@ -908,7 +908,7 @@ function validateDatasetSpreadsheet(
 
   // Accommodate the validation table range to hold the validation results
   if (validationTableRange.getNumRows() > validationTableRangeValues.length) {
-    // Remove excess rows and columns in case the new validation results are smaller than previous validation results
+    // Remove excess rows in case the new validation results are smaller than previous validation results
     // This prevents stale data from lingering around after the validation
     aboutSheet.deleteRows(
       validationTableRange.getRow(),
@@ -917,8 +917,8 @@ function validateDatasetSpreadsheet(
   }
   if (validationTableRange.getNumRows() < validationTableRangeValues.length) {
     // Insert new rows if the existing range is smaller than the new validation results
-    aboutSheet.insertRows(
-      validationTableRange.getRow(),
+    aboutSheet.insertRowsAfter(
+      validationTableRange.getRow() + validationTableRange.getNumRows(),
       validationTableRangeValues.length - validationTableRange.getNumRows()
     );
   }
