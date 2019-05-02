@@ -30,7 +30,8 @@ export function getFasttrackCatalogConceptDataWorksheetData(
     worksheetCsvDataHTTPResponse.getContentText()
   );
   return listFasttrackCatalogConceptDataCsvDataToWorksheetData(
-    worksheetCsvData
+    worksheetCsvData,
+    matchingConcept.indicatorOrder
   );
 }
 
@@ -59,9 +60,18 @@ export function getValidConceptDataFasttrackCatalogEntry(
       `Unsupported time_unit for geo_set "${geo_set}": "${time_unit}"`
     );
   }
+  const indicatorOrder = parseInt(matchingConcept.indicator_order, 10);
+  if (indicatorOrder < 1) {
+    throw new Error(
+      `The indicator order ("${
+        matchingConcept.indicator_order
+      }") listed in the fasttrack catalog for this concept was empty or less than 1`
+    );
+  }
   return {
     csvLink: matchingConcept.csv_link,
     docId: matchingConcept.doc_id,
+    indicatorOrder,
     worksheetReference:
       conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit[geo_set][time_unit]
   };
@@ -106,7 +116,8 @@ function getMatchingFasttrackCatalogConcept(
  * @hidden
  */
 function listFasttrackCatalogConceptDataCsvDataToWorksheetData(
-  csvData
+  csvData,
+  indicatorOrder
 ): ConceptDataWorksheetData {
   // Separate the header row from the data rows
   const headers = csvData[0];
@@ -116,7 +127,7 @@ function listFasttrackCatalogConceptDataCsvDataToWorksheetData(
       geo: csvDataRow[0],
       name: csvDataRow[1],
       time: csvDataRow[2],
-      value: csvDataRow[3]
+      value: csvDataRow[2 + indicatorOrder]
     };
   });
   return {

@@ -11,6 +11,7 @@ import { ListFasttrackCatalogDataPoints } from "./types/listFasttrackCatalogData
 export interface FasttrackCatalogDataPointsDataRow {
   /* tslint:disable:object-literal-sort-keys */
   dataset_id: string;
+  indicator_order: string;
   geo_set: string;
   time_unit: string;
   concept_id: string;
@@ -52,6 +53,7 @@ function gsheetsDataApiFeedsListFasttrackCatalogDataPointsResponseToWorksheetDat
     return {
       /* tslint:disable:object-literal-sort-keys */
       dataset_id: currentValue.gsx$datasetid.$t,
+      indicator_order: currentValue.gsx$indicatororder.$t,
       geo_set: currentValue.gsx$geography.$t,
       time_unit: currentValue.gsx$timeunit.$t,
       concept_id: currentValue.gsx$conceptid.$t,

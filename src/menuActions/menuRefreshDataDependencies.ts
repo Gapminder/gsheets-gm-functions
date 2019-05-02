@@ -119,10 +119,17 @@ export function menuRefreshDataDependencies() {
             return;
           }
 
+          // Import the relevant concept data
           const sourceDataRange = sourceSheet.getDataRange();
-          importValues = sourceDataRange.getValues();
+          const sourceValues = sourceDataRange.getValues();
+          importValues = sourceValues.map(row => [
+            row[0], // geo
+            row[1], // name
+            row[2], // time
+            row[2 + conceptDataFasttrackCatalogEntry.indicatorOrder] // the concept data column to import
+          ]);
           importRangeRows = sourceDataRange.getNumRows();
-          importRangeColumns = sourceDataRange.getNumColumns();
+          importRangeColumns = 4;
         }
         break;
       case "open-numbers-wdi":
