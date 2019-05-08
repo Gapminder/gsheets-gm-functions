@@ -118,6 +118,35 @@ const testInterpolation: Macro<any> = (
       ["foo", "Foo", 1904, NaN, 103.98038934],
       ["foo", "Foo", 1905, 0, 105]
     ]
+  },
+  {
+    input_table_range_with_headers: [
+      [
+        "geo_id",
+        "geo_name",
+        "year",
+        "Overall score",
+        "Electoral process and pluralism"
+      ],
+      ["foo", "Foo", "1900", "0", "100"],
+      ["foo", "Foo", "1905", "0", "105"]
+    ],
+    method: "zerofill",
+    expectedOutput: [
+      [
+        "geo_id",
+        "geo_name",
+        "year",
+        "Overall score",
+        "Electoral process and pluralism"
+      ],
+      ["foo", "Foo", 1900, 0, 100],
+      ["foo", "Foo", 1901, 0, 0],
+      ["foo", "Foo", 1902, 0, 0],
+      ["foo", "Foo", 1903, 0, 0],
+      ["foo", "Foo", 1904, 0, 0],
+      ["foo", "Foo", 1905, 0, 105]
+    ]
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {

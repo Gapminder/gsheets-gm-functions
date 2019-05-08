@@ -1,4 +1,4 @@
-import { exponential, linear, step } from "everpolate";
+import { exponential, fillMissing, linear, step } from "everpolate";
 import range from "lodash/range";
 import round from "lodash/round";
 import {
@@ -51,6 +51,17 @@ export function GM_INTERPOLATE(
           functionValuesX,
           functionValuesY,
           useRightBorder
+        );
+      };
+      break;
+    case "zerofill":
+      interpolation = (pointsToEvaluate, functionValuesX, functionValuesY) => {
+        const fillValue = 0;
+        return fillMissing(
+          pointsToEvaluate,
+          functionValuesX,
+          functionValuesY,
+          fillValue
         );
       };
       break;
