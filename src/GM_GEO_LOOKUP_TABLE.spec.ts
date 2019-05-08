@@ -24,8 +24,8 @@ const testGmGeoLookupTable: Macro<any> = (
     geo_set: "world_4region",
     expectedTopFiveRowsOfOutput: [
       ["alias", "geo", "name"],
-      ["africa", "africa", "Africa"],
       ["Africa", "africa", "Africa"],
+      ["africa", "africa", "Africa"],
       ["africa (total)", "americas", "The Americas"],
       ["Africa (total)", "americas", "The Americas"]
     ]
