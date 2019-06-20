@@ -1,4 +1,6 @@
 import test, { ExecutionContext, Macro } from "ava";
+import fs from "fs";
+import path from "path";
 import { GM_INTERPOLATE } from "./GM_INTERPOLATE";
 
 /**
@@ -6,10 +8,45 @@ import { GM_INTERPOLATE } from "./GM_INTERPOLATE";
  */
 const testInterpolation: Macro<any> = (
   t: ExecutionContext,
-  { input_table_range_with_headers, method, expectedOutput }
+  {
+    input_table_range_with_headers,
+    input_table_range_with_headers_fixture,
+    method,
+    expectedOutput,
+    expectedOutput_fixture
+  }
 ) => {
+  let fixturePath;
+  if (input_table_range_with_headers_fixture) {
+    fixturePath = path.join(
+      __dirname,
+      "..",
+      "fixtures",
+      input_table_range_with_headers_fixture
+    );
+    input_table_range_with_headers = fs
+      .readFileSync(fixturePath, "utf8")
+      .split("\n")
+      .map(row => row.split("\t"));
+  }
+  if (expectedOutput_fixture) {
+    const expectedOutputFixturePath = path.join(
+      __dirname,
+      "..",
+      "fixtures",
+      expectedOutput_fixture
+    );
+    expectedOutput = JSON.parse(
+      fs.readFileSync(expectedOutputFixturePath, "utf8")
+    );
+  }
   const output = GM_INTERPOLATE(input_table_range_with_headers, method);
-  // t.log({output, expectedOutput});
+  /*
+  if (input_table_range_with_headers_fixture) {
+    fs.writeFileSync(fixturePath + ".actual.json", JSON.stringify(output));
+  }
+  */
+  // t.log({ output, expectedOutput });
   t.deepEqual(output, expectedOutput);
 };
 
@@ -147,6 +184,11 @@ const testInterpolation: Macro<any> = (
       ["foo", "Foo", 1904, 0, 0],
       ["foo", "Foo", 1905, 0, 105]
     ]
+  },
+  {
+    input_table_range_with_headers_fixture: "gdppcap-for-countries-etc.tsv",
+    method: "linear",
+    expectedOutput_fixture: "gdppcap-for-countries-etc.tsv.expected.json"
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {
