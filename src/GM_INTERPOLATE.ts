@@ -19,11 +19,15 @@ import { preProcessInputRangeWithHeaders } from "./lib/cleanInputRange";
  *
  * @param input_table_range_with_headers
  * @param method Optional. linear (default), growth, flat_forward, flat_backward
+ * @param page_size Optional. Used to paginate large output tables
+ * @param page Optional. Used to paginate large output tables
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
  */
 export function GM_INTERPOLATE(
   input_table_range_with_headers: string[][],
-  method: string
+  method: string,
+  page_size: number,
+  page: number
 ) {
   // Ensure expected input range contents
   const inputTable = preProcessInputRangeWithHeaders(
@@ -32,6 +36,12 @@ export function GM_INTERPOLATE(
   let interpolation;
   if (!method) {
     method = "linear";
+  }
+  if (!page_size) {
+    page_size = null;
+  }
+  if (!page) {
+    page = null;
   }
   switch (method) {
     case "linear":
@@ -196,7 +206,16 @@ export function GM_INTERPOLATE(
       outputTableRows.push(outputTableRow);
     }
   }
-  return [inputTableHeaderRow]
+
+  const outputTable = [inputTableHeaderRow]
     .concat(outputTableRows)
     .map(GmTable.unstructureRow);
+
+  if (page_size) {
+    const start = page ? (page - 1) * page_size : 0;
+    const end = start + page_size;
+    return outputTable.slice(start, end);
+  }
+
+  return outputTable;
 }

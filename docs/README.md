@@ -275,9 +275,9 @@ ___
 
 ###  GM_INTERPOLATE
 
-▸ **GM_INTERPOLATE**(input_table_range_with_headers: *`string`[][]*, method: *`string`*): `any`[][]
+▸ **GM_INTERPOLATE**(input_table_range_with_headers: *`string`[][]*, method: *`string`*, page_size: *`number`*, page: *`number`*): `any`[][]
 
-*Defined in [GM_INTERPOLATE.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.10.0/src/GM_INTERPOLATE.ts#L24)*
+*Defined in [GM_INTERPOLATE.ts:26](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.10.0/src/GM_INTERPOLATE.ts#L26)*
 
 Interpolates an input table, inserting a sorted table with additional rows, where the gaps (missing rows or empty values) in the input table have been filled in. This function works on data with two primary key columns: usually geo and time. (If we want to use this on data that has more keys: geo, time, age, gender, etc - we need a different formula)
 
@@ -294,6 +294,8 @@ The range must be four columns wide.
 | ------ | ------ | ------ |
 | input_table_range_with_headers | `string`[][] |  \- |
 | method | `string` |  Optional. linear (default), growth, flat\_forward, flat\_backward |
+| page_size | `number` |  Optional. Used to paginate large output tables |
+| page | `number` |  Optional. Used to paginate large output tables |
 
 **Returns:** `any`[][]
 A two-dimensional array containing the cell/column contents described above in the summary.

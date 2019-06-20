@@ -13,7 +13,9 @@ const testInterpolation: Macro<any> = (
     input_table_range_with_headers_fixture,
     method,
     expectedOutput,
-    expectedOutput_fixture
+    expectedOutput_fixture,
+    page_size,
+    page
   }
 ) => {
   let fixturePath;
@@ -40,13 +42,17 @@ const testInterpolation: Macro<any> = (
       fs.readFileSync(expectedOutputFixturePath, "utf8")
     );
   }
-  const output = GM_INTERPOLATE(input_table_range_with_headers, method);
-  /*
+  const output = GM_INTERPOLATE(
+    input_table_range_with_headers,
+    method,
+    page_size,
+    page
+  );
   if (input_table_range_with_headers_fixture) {
     fs.writeFileSync(fixturePath + ".actual.json", JSON.stringify(output));
+  } else {
+    // t.log({ output, expectedOutput, page_size, page });
   }
-  */
-  // t.log({ output, expectedOutput });
   t.deepEqual(output, expectedOutput);
 };
 
@@ -103,6 +109,71 @@ const testInterpolation: Macro<any> = (
       ["foo", "Foo", 1904, 0, 104],
       ["foo", "Foo", 1905, 0, 105]
     ]
+  },
+  {
+    input_table_range_with_headers: [
+      [
+        "geo_id",
+        "geo_name",
+        "year",
+        "Overall score",
+        "Electoral process and pluralism"
+      ],
+      ["foo", "Foo", "1900", "0", "100"],
+      ["foo", "Foo", "1905", "0", "105"]
+    ],
+    method: "linear",
+    page_size: 3,
+    page: 1,
+    expectedOutput: [
+      [
+        "geo_id",
+        "geo_name",
+        "year",
+        "Overall score",
+        "Electoral process and pluralism"
+      ],
+      ["foo", "Foo", 1900, 0, 100],
+      ["foo", "Foo", 1901, 0, 101]
+    ]
+  },
+  {
+    input_table_range_with_headers: [
+      [
+        "geo_id",
+        "geo_name",
+        "year",
+        "Overall score",
+        "Electoral process and pluralism"
+      ],
+      ["foo", "Foo", "1900", "0", "100"],
+      ["foo", "Foo", "1905", "0", "105"]
+    ],
+    method: "linear",
+    page_size: 3,
+    page: 2,
+    expectedOutput: [
+      ["foo", "Foo", 1902, 0, 102],
+      ["foo", "Foo", 1903, 0, 103],
+      ["foo", "Foo", 1904, 0, 104]
+    ]
+  },
+  {
+    input_table_range_with_headers: [
+      [
+        "geo_id",
+        "geo_name",
+        "year",
+        "Overall score",
+        "Electoral process and pluralism"
+      ],
+      ["foo", "Foo", "1900", "0", "100"],
+      ["foo", "Foo", "1905", "0", "105"]
+    ],
+    method: "linear",
+    page_size: 3,
+    page: 3,
+    expectedOutput: [["foo", "Foo", 1905, 0, 105]]
   },
   {
     input_table_range_with_headers: [
