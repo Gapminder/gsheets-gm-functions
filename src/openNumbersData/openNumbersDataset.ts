@@ -61,6 +61,7 @@ function openNumbersDatasetConceptListingParsedCsvToOpenNumbersDatasetConceptLis
     "long_definition",
     "name",
     "notes_from_original_source",
+    "other_notes",
     "periodicity",
     "related_indicators",
     "related_source_links",
@@ -74,11 +75,12 @@ function openNumbersDatasetConceptListingParsedCsvToOpenNumbersDatasetConceptLis
   ];
   const headers = openNumbersDatasetConceptListingParsedCsv[0];
 
-  if (JSON.stringify(expectedHeaders) !== JSON.stringify(headers)) {
+  if (
+    expectedHeaders.indexOf("concept") < 0 ||
+    expectedHeaders.indexOf("name") < 0
+  ) {
     throw new Error(
-      `The open-numbers catalog list csv headers are expected to be ${JSON.stringify(
-        expectedHeaders
-      )} but are currently ${JSON.stringify(
+      `The open-numbers catalog list csv headers are expected to contain "concept" and "name" but are currently ${JSON.stringify(
         headers
       )}. Please update the GM scripts to expect the current format.`
     );
