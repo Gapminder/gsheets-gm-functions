@@ -45,7 +45,7 @@ function dataGeographiesListOfCountriesEtcPropertyLookup(
     }
     const result = lookupTable[geo];
     if (result[gsxProperty] === undefined) {
-      return [`Unknown property ${gsxProperty}`];
+      return [`Unknown property: ${gsxProperty}`];
     }
     return [result[gsxProperty]];
   });

@@ -24,6 +24,16 @@ const testGmProp: Macro<any> = (
     property_id: "UN member since",
     geo_set: "countries_etc",
     expectedOutput: [["UN member since"], ["Unknown geo: foo"], ["19/11/1946"]]
+  },
+  {
+    input_column_range_with_headers: [["geo"], ["foo"], ["swe"]],
+    property_id: "Does not exist",
+    geo_set: "countries_etc",
+    expectedOutput: [
+      ["Does not exist"],
+      ["Unknown geo: foo"],
+      ["Unknown property: doesnotexist"]
+    ]
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {
