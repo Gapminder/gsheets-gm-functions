@@ -31,7 +31,8 @@ interface DataGeographiesListOfCountriesEtcDataRow
   longitude: string;
   unmembersince: string;
   worldbankregion: string;
-  worldbankincomegroup2017: string;
+  worldbank4incomegroups2017: string;
+  worldbank3incomegroups2017: string;
   /* tslint:enable:object-literal-sort-keys */
 }
 
@@ -108,7 +109,9 @@ function gsheetsDataApiFeedsListDataGeographiesListOfCountriesEtcResponseToWorks
       longitude: currentValue.gsx$longitude.$t,
       unmembersince: currentValue.gsx$unmembersince.$t,
       worldbankregion: currentValue.gsx$worldbankregion.$t,
-      worldbankincomegroup2017: currentValue.gsx$worldbankincomegroup2017.$t
+      worldbank4incomegroups2017:
+        currentValue.gsx$worldbank4incomegroups2017.$t,
+      worldbank3incomegroups2017: currentValue.gsx$worldbank3incomegroups2017.$t
       /* tslint:enable:object-literal-sort-keys */
     };
   });

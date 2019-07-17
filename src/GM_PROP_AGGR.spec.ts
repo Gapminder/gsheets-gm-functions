@@ -119,11 +119,11 @@ const testGmPropAggr: Macro<any> = (
       ],
       ["foo", "Foo", "1900", "0", "100"]
     ],
-    aggregation_property_id: "World bank income group 2017",
+    aggregation_property_id: "World bank, 4 income groups 2017",
     expectedOutput: [
       [
-        "World bank income group 2017",
-        "World bank income group 2017",
+        "World bank, 4 income groups 2017",
+        "World bank, 4 income groups 2017",
         "year",
         "Overall score",
         "Electoral process and pluralism"
@@ -162,11 +162,11 @@ const testGmPropAggr: Macro<any> = (
       ["btn", "Bhutan", 1912, 1, 1200, 66, 90000, 8, 90000, 30000],
       ["bol", "Bolivia", 1913, 1, 41, 5, 666, 48, 6, 5]
     ],
-    aggregation_property_id: "World bank income group 2017",
+    aggregation_property_id: "World bank, 4 income groups 2017",
     expectedOutput: [
       [
-        "World bank income group 2017",
-        "World bank income group 2017",
+        "World bank, 4 income groups 2017",
+        "World bank, 4 income groups 2017",
         "year",
         "occurrence",
         "Total deaths - Earthquakes",

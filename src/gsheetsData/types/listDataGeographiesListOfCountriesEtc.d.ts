@@ -115,7 +115,11 @@ export namespace ListDataGeographiesListOfCountriesEtc {
     $t: string;
   }
 
-  export interface GsxWorldbankincomegroup2017 {
+  export interface GsxWorldbank4incomegroups2017 {
+    $t: string;
+  }
+
+  export interface GsxWorldbank3incomegroups2017 {
     $t: string;
   }
 
@@ -136,7 +140,8 @@ export namespace ListDataGeographiesListOfCountriesEtc {
     gsx$longitude: GsxLongitude;
     gsx$unmembersince: GsxUnmembersince;
     gsx$worldbankregion: GsxWorldbankregion;
-    gsx$worldbankincomegroup2017: GsxWorldbankincomegroup2017;
+    gsx$worldbank4incomegroups2017: GsxWorldbank3incomegroups2017;
+    gsx$worldbank3incomegroups2017: GsxWorldbank4incomegroups2017;
   }
 
   export interface Feed {
