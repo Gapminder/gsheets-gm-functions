@@ -96,7 +96,34 @@ export function getDataGeographiesGeoNamesLookupTable(
 function gsheetsDataApiFeedsListDataGeographiesListOfCountriesEtcResponseToWorksheetData(
   r: ListDataGeographiesListOfCountriesEtc.Response
 ): DataGeographiesListOfCountriesEtcWorksheetData {
+  const checkAttr = (
+    entry: ListDataGeographiesListOfCountriesEtc.Entry,
+    attribute
+  ) => {
+    if (!entry["gsx$" + attribute]) {
+      throw new Error(
+        `Found no attribute "${attribute}" in the Data Geographies list-of-countries-etc sheet's data feed. Has the column been removed/renamed?`
+      );
+    }
+  };
   const rows = r.feed.entry.map(currentValue => {
+    // Runtime sanity check since type definitions may be outdated compared to the actual feed data
+    [
+      "geo",
+      "name",
+      "fourregions",
+      "eightregions",
+      "sixregions",
+      "membersoecdg77",
+      "latitude",
+      "longitude",
+      "unmembersince",
+      "worldbankregion",
+      "worldbank4incomegroups2017",
+      "worldbank3incomegroups2017"
+    ].map(attribute => {
+      checkAttr(currentValue, attribute);
+    });
     return {
       /* tslint:disable:object-literal-sort-keys */
       geo: currentValue.gsx$geo.$t,
