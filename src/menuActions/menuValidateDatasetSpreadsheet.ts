@@ -78,7 +78,8 @@ function getCurrentOutputSheets(activeSpreadsheet: Spreadsheet): Sheet[] {
     .filter(
       (sheet: Sheet) =>
         sheet.getSheetName().indexOf("data-for-") === 0 &&
-        sheet.getSheetName().indexOf("-in-columns") === -1
+        sheet.getSheetName().indexOf("-in-columns") === -1 &&
+        sheet.getSheetName().indexOf("-column") === -1
     );
 }
 
