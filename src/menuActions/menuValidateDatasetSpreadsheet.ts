@@ -472,6 +472,22 @@ function validateDatasetSpreadsheet(
           true,
           `Indicator ${rowNumber} has a unit (Column ${columnIndex + 1})`
         );
+        if (
+          String(indicatorTableRow[columnIndex]).match(/^ /) ||
+          String(indicatorTableRow[columnIndex]).match(/ $/)
+        ) {
+          recordValidationResult(
+            key,
+            false,
+            `Indicator ${rowNumber}'s unit should not start or end with a space`
+          );
+        } else {
+          recordValidationResult(
+            key,
+            true,
+            `Indicator ${rowNumber}'s unit does not start or end with a space`
+          );
+        }
       }
 
       // ID
