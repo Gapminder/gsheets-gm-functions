@@ -402,14 +402,24 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * @param {A1:D} input_table_range_with_headers The table range to unpivot
  * @param {"year"} time_label (Optional with default "time") the header label to use for the time column
  * @param {"Income level"} value_label (Optional with default "value") the header label to use for the value column
+ * @param {20000} page_size Optional. Used to paginate large output tables
+ * @param {1} page Optional. Used to paginate large output tables
  * @customfunction
  */
 (global as any).GM_UNPIVOT = function(
   input_table_range_with_headers: string[][],
   time_label: string,
-  value_label: string
+  value_label: string,
+  page_size: number,
+  page: number
 ) {
-  return GM_UNPIVOT(input_table_range_with_headers, time_label, value_label);
+  return GM_UNPIVOT(
+    input_table_range_with_headers,
+    time_label,
+    value_label,
+    page_size,
+    page
+  );
 };
 
 /**
