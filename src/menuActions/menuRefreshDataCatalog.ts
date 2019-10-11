@@ -16,7 +16,7 @@ export function menuRefreshDataCatalog() {
   refreshDataCatalog(activeSpreadsheet);
 
   SpreadsheetApp.getUi().alert(
-    'Refreshed data catalog. In the "data-dependencies" sheet\'s "Data reference" column, you are now able to select between the datasets listed in the Fasttrack catalog and the Open Numbers World Development Indicators.'
+    'Refreshed data catalog. In the "data-dependencies" sheet\'s "Concept ID and catalog reference" column, you are now able to select between the datasets listed in the Fasttrack catalog and the Open Numbers World Development Indicators.'
   );
 
   return;
