@@ -31,7 +31,7 @@ const testGmDatapointCatalogStatus: Macro<any> = (
 [
   /* tslint:disable:object-literal-sort-keys */
   {
-    concept_id_and_catalog_reference: "pop@fasttrack",
+    concept_id_and_catalog_reference: "pop_gm_6@fasttrack",
     time_unit: "year",
     geo_set: "countries_etc",
     verbose: true,

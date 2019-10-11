@@ -9,18 +9,18 @@ import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoS
  * Note that using data dependencies in combination with the QUERY() function instead of GM_IMPORT_SLOW() is the only performant way to include concept data in a spreadsheet.
  *
  * Takes 2-4 seconds:
- * =GM_IMPORT_SLOW("pop", "year", "global")
+ * =GM_IMPORT_SLOW("pop_gm_6", "year", "global")
  *
  * Almost instant:
- * =QUERY('data:pop@fasttrack:year:global'!A1:D)
+ * =QUERY('data:pop_gm_6@fasttrack:year:global'!A1:D)
  *
  * Always yields "Error: Result too large" since the "countries_etc" version of the dataset is rather large:
- * =GM_IMPORT_SLOW("pop", "year", "countries_etc")
+ * =GM_IMPORT_SLOW("pop_gm_6", "year", "countries_etc")
  *
  * Finishes in 3-10 seconds:
- * =QUERY('data:pop@fasttrack:year:countries_etc'!A1:D)
+ * =QUERY('data:pop_gm_6@fasttrack:year:countries_etc'!A1:D)
  *
- * @param concept_id Concept id (eg. "pop") of which concept to import
+ * @param concept_id Concept id (eg. "pop_gm_6") of which concept to import
  * @param time_unit Time unit variant (eg. "year") of the concept to import
  * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @return A two-dimensional array containing the cell/column contents described above in the summary.

@@ -21,11 +21,11 @@ const testGmImportSlow: Macro<any> = (
 [
   /* tslint:disable:object-literal-sort-keys */
   {
-    concept_id: "pop",
+    concept_id: "pop_gm_6",
     time_unit: "year",
     geo_set: "global",
     expectedTopFiveRowsOfOutput: [
-      ["geo", "name", "year", "pop"],
+      ["geo", "name", "year", "pop_gm_6"],
       ["world", "World", "1800", "946,764,816"],
       ["world", "World", "1801", "950,949,353"],
       ["world", "World", "1802", "955,168,653"],

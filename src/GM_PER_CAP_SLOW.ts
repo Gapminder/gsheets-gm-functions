@@ -32,7 +32,7 @@ export function GM_PER_CAP_SLOW(
   // Population data
   const populationGmDataResult: any[][] = GM_DATA_SLOW(
     input_table_range_with_headers_and_concept_values,
-    "pop",
+    "pop_gm_6",
     time_unit,
     geo_set
   );

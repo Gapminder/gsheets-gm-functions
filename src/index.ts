@@ -69,7 +69,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note: Requires that the concept data to match against is first imported using the "Gapminder Data -> Import/refresh data dependencies".
  *
  * @param {A1:D} input_table_range_with_headers The input table range including [geo,name,time] for a concept value lookup
- * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Required for performance reasons.
+ * @param {'data:pop_gm_6@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Required for performance reasons.
  * @customfunction
  */
 (global as any).GM_DATA = function(
@@ -94,7 +94,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note: Uses GM_DATA internally
  *
  * @param {A1:D} input_table_range_with_headers The input table range including [geo,name,time] for a concept value lookup
- * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Required for performance reasons.
+ * @param {'data:pop_gm_6@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the property or concept data to look up against. Required for performance reasons.
  * @customfunction
  */
 (global as any).GM_DATA_AGGR = function(
@@ -113,13 +113,13 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Imports the corresponding data on-the-fly. Note that using GM_DATA is the only performant way to join concept data in a spreadsheet.
  *
  * Takes 10-20 seconds:
- * =GM_DATA_SLOW(B7:D, "pop", "year", "countries_etc")
+ * =GM_DATA_SLOW(B7:D, "pop_gm_6", "year", "countries_etc")
  *
  * Takes 2-4 seconds:
- * =GM_DATA(B7:D, 'data:pop@fasttrack:year:countries_etc'!A1:D)
+ * =GM_DATA(B7:D, 'data:pop_gm_6@fasttrack:year:countries_etc'!A1:D)
  *
  * @param {A1:D} column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
- * @param {"UN members since"} concept_id The concept id ("pop") of which value to look up
+ * @param {"UN members since"} concept_id The concept id ("pop_gm_6") of which value to look up
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
  * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @customfunction
@@ -149,7 +149,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  *
  * Note: The function results are not automatically re-evaluated as changes are made to the source documents or the catalog. You can trigger a manual update by deleting the cell and undoing the deletion immediately.
  *
- * @param {"pop@fasttrack"} concept_id_and_catalog_reference The concept id and catalog reference in the form of {concept id}@{catalog} (eg "pop@fasttrack", or "pop@opennumbers") of which concept data to check status for
+ * @param {"pop_gm_6@fasttrack"} concept_id_and_catalog_reference The concept id and catalog reference in the form of {concept id}@{catalog} (eg "pop_gm_6@fasttrack", or "pop_gm_6@opennumbers") of which concept data to check status for
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for
  * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param {FALSE} verbose Explains how a certain dataset is invalid instead of simply returning "BAD" for the row
@@ -188,7 +188,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note: Uses GM_DATA internally
  *
  * @param {A1:D} input_table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
- * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
+ * @param {'data:pop_gm_6@fasttrack:year:countries_etc'!A1:D} concept_data_table_range_with_headers Local spreadsheet range of the concept data to look up against. Can be included for performance reasons.
  * @customfunction
  */
 (global as any).GM_GROWTH = function(
@@ -207,7 +207,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note: Uses GM_DATA_SLOW internally. Performance-related documentation about GM_DATA_SLOW applies.
  *
  * @param {A1:D} input_table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
- * @param {"pop"} concept_id The concept id ("pop") of which value to look up
+ * @param {"pop_gm_6"} concept_id The concept id ("pop_gm_6") of which value to look up
  * @param {"year"} time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
  * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @customfunction
@@ -249,18 +249,18 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note that using data dependencies in combination with the QUERY() function instead of GM_IMPORT_SLOW() is the only performant way to include concept data in a spreadsheet.
  *
  * Takes 2-4 seconds:
- * =GM_IMPORT_SLOW("pop", "year", "global")
+ * =GM_IMPORT_SLOW("pop_gm_6", "year", "global")
  *
  * Almost instant:
- * =QUERY('data:pop@fasttrack:year:global'!A1:D)
+ * =QUERY('data:pop_gm_6@fasttrack:year:global'!A1:D)
  *
  * Always yields "Error: Result too large" since the "countries_etc" version of the dataset is rather large:
- * =GM_IMPORT_SLOW("pop", "year", "countries_etc")
+ * =GM_IMPORT_SLOW("pop_gm_6", "year", "countries_etc")
  *
  * Finishes in 3-10 seconds:
- * =QUERY('data:pop@fasttrack:year:countries_etc'!A1:D)
+ * =QUERY('data:pop_gm_6@fasttrack:year:countries_etc'!A1:D)
  *
- * @param {"pop"} concept_id Concept id (eg. "pop") of which concept to import
+ * @param {"pop_gm_6"} concept_id Concept id (eg. "pop_gm_6") of which concept to import
  * @param {"year"} time_unit Time unit variant (eg. "year") of the concept to import
  * @param {"countries_etc"} geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @customfunction
@@ -325,7 +325,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  * Note: Uses GM_DATA internally
  *
  * @param {A1:D} input_table_range_with_headers_and_concept_values A table range including [geo,name,time,concept-values...]
- * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Required for performance reasons.
+ * @param {'data:pop_gm_6@fasttrack:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Required for performance reasons.
  * @customfunction
  */
 (global as any).GM_PER_CAP = function(
@@ -425,7 +425,7 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  *
  * @param {A1:D} input_table_range_with_headers
  * @param {"four_regions"} aggregation_property_id Aggregation property
- * @param {'data:pop@fasttrack:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Required for performance reasons.
+ * @param {'data:pop_gm_6@fasttrack:year:countries_etc'!A1:D} population_concept_data_table_range_with_headers Local spreadsheet range of the population concept data to look up against. Required for performance reasons.
  * @customfunction
  */
 (global as any).GM_WEIGHTED_AVERAGE = function(
