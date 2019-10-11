@@ -13,7 +13,7 @@ export const geoSets = [
   "world_4region",
   "world_6region",
   "countries_etc",
-  "world_4level"
+  "4ilevels"
 ];
 
 /**
@@ -73,7 +73,7 @@ export const hardcodedGeoNamesLookupTables = {
       name: "The World"
     }
   },
-  world_4level: {
+  "4ilevels": {
     // From the Data Geographies spreadsheet
     asia: {
       geo: "l1",
@@ -138,6 +138,10 @@ export const geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet: {
   countries_etc: {
     name: "a-countries_etc",
     position: 6
+  },
+  "4ilevels": {
+    name: "a-4ilevels",
+    position: 7
   }
 };
 
@@ -173,7 +177,7 @@ export const geoSetToFasttrackCatalogGeoSetMap = {
   global: "world",
   world_4region: "regions",
   countries_etc: "countries-etc",
-  world_4level: "income-levels"
+  "4ilevels": "income-levels"
 };
 
 /**
@@ -200,9 +204,9 @@ export const conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit: {
       position: 4
     }
   },
-  world_4level: {
+  "4ilevels": {
     year: {
-      name: "data-for-income-levels-by-year",
+      name: "data-for-4ilevels-by-year",
       position: 5
     }
   }
