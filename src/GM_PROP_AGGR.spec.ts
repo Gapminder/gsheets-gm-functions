@@ -91,21 +91,21 @@ const testGmPropAggr: Macro<any> = (
         "Affected - Storms"
       ],
       ["africa", "Africa", 1909, 1, 2000, 256, 666, 567, 56, 5],
-      ["africa", "Africa", 1911, 1, 400, 7, 0, 68, 0, 0],
       ["africa", "Africa", 1913, 1, 0, 54, 3574, 4, 0, 20000],
-      ["americas", "The Americas", 1906, 2, 0, 3, 0, 0, 76, 4],
-      ["americas", "The Americas", 1908, 2, 7300, 2345, 66, 0, 7, 5],
-      ["americas", "The Americas", 1910, 1, 12000, 345, 666, 68, 0, 578],
-      ["americas", "The Americas", 1911, 1, 1099, 56, 14, 7, 7, 8],
-      ["americas", "The Americas", 1913, 1, 41, 5, 666, 48, 6, 5],
-      ["asia", "Asia", 1907, 1, 34, 54, 53, 68, 19, 8],
-      ["asia", "Asia", 1910, 2, 6, 0, 666, 56, 756, 6],
+      ["africa", "Africa", 1911, 1, 400, 7, 0, 68, 0, 0],
       ["asia", "Asia", 1912, 1, 1200, 66, 90000, 8, 90000, 30000],
+      ["asia", "Asia", 1910, 2, 6, 0, 666, 56, 756, 6],
+      ["asia", "Asia", 1907, 1, 34, 54, 53, 68, 19, 8],
       ["europe", "Europe", 1906, 1, 666, 666, 7, 0, 6, 6750],
       ["europe", "Europe", 1907, 1, 1000, 6666, 57, 67, 6, 67],
       ["europe", "Europe", 1908, 1, 24, 5, 357, 68, 0, 8],
       ["europe", "Europe", 1909, 1, 700, 7, 666, 6, 767, 46],
-      ["europe", "Europe", 1912, 1, 0, 0, 666, 546, 57, 45]
+      ["europe", "Europe", 1912, 1, 0, 0, 666, 546, 57, 45],
+      ["americas", "The Americas", 1911, 1, 1099, 56, 14, 7, 7, 8],
+      ["americas", "The Americas", 1913, 1, 41, 5, 666, 48, 6, 5],
+      ["americas", "The Americas", 1910, 1, 12000, 345, 666, 68, 0, 578],
+      ["americas", "The Americas", 1908, 2, 7300, 2345, 66, 0, 7, 5],
+      ["americas", "The Americas", 1906, 2, 0, 3, 0, 0, 76, 4]
     ]
   },
   {
@@ -207,18 +207,6 @@ const testGmPropAggr: Macro<any> = (
       [
         "Lower middle income",
         "Lower middle income",
-        1912,
-        1,
-        1200,
-        66,
-        90000,
-        8,
-        90000,
-        30000
-      ],
-      [
-        "Lower middle income",
-        "Lower middle income",
         1913,
         1,
         41,
@@ -227,6 +215,18 @@ const testGmPropAggr: Macro<any> = (
         48,
         6,
         5
+      ],
+      [
+        "Lower middle income",
+        "Lower middle income",
+        1912,
+        1,
+        1200,
+        66,
+        90000,
+        8,
+        90000,
+        30000
       ],
       [
         "Upper middle income",

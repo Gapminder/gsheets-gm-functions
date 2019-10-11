@@ -146,8 +146,15 @@ export function aggregateGapminderTableByAggregationPropertyValueAndTime(
     }
   }
 
+  // default sort by aggregation property name instead of aggregation property value
+  const sortedOutputAggregationTableRows = outputAggregationTableRows.sort(
+    (a: GmAggregationTableRow, b: GmAggregationTableRow) => {
+      return a.aggregationPropertyName > b.aggregationPropertyName ? 1 : -1;
+    }
+  );
+
   return [aggregationTableHeaderRow]
-    .concat(outputAggregationTableRows)
+    .concat(sortedOutputAggregationTableRows)
     .map(GmTable.unstructureAggregationRow);
 }
 
