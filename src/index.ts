@@ -284,8 +284,8 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
  *
  * @param {A1:D} input_table_range_with_headers
  * @param {"linear"} method Optional. linear (default), growth, flat_forward, flat_backward
- * @param {20000} Optional. Used to paginate large output tables
- * @param {1} Optional. Used to paginate large output tables
+ * @param {20000} page_size Optional. Used to paginate large output tables
+ * @param {1} page Optional. Used to paginate large output tables
  * @customfunction
  */
 (global as any).GM_INTERPOLATE = function(
