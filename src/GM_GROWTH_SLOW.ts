@@ -9,7 +9,7 @@ import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoS
  * Note: Uses GM_DATA_SLOW internally. Performance-related documentation about GM_DATA_SLOW applies.
  *
  * @param input_table_range_with_headers A table range including [geo,name,time] to be used for a concept value lookup
- * @param concept_id The concept id ("pop_gm_6") of which value to look up
+ * @param concept_id The concept id ("pop") of which value to look up
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
  * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @return A two-dimensional array containing the cell/column contents described above in the summary.

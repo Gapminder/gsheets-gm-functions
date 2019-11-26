@@ -37,11 +37,11 @@ const testGmDataSlow: Macro<any> = (
       ["zoo", "Zoo", "1901"],
       ["swe", "Sweden", "1950"]
     ],
-    concept_id: "pop_gm_6",
+    concept_id: "pop",
     time_unit: "year",
     geo_set: "countries_etc",
     expectedOutput: [
-      ["pop_gm_6"],
+      ["pop"],
       ["Unknown geo: foo"],
       ["Unknown geo: zoo"],
       ["7011275"]

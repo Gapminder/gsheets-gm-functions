@@ -79,7 +79,7 @@ Note: The function results are not automatically re-evaluated as changes are mad
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| concept_id_and_catalog_reference | `string` |  The concept id and catalog reference in the form of {concept id}@{catalog} (eg "pop_gm_6@fasttrack", or "pop_gm_6@opennumbers") of which concept data to check status for |
+| concept_id_and_catalog_reference | `string` |  The concept id and catalog reference in the form of {concept id}@{catalog} (eg "pop@fasttrack", or "pop@opennumbers") of which concept data to check status for |
 | time_unit | `string` |  (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for |
 | geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 | verbose | `boolean` |  Explains how a certain dataset is invalid instead of simply returning "BAD" for the row |
@@ -130,16 +130,16 @@ Inserts a property or concept column, including a header row, with a common Gapm
 
 Imports the corresponding data on-the-fly. Note that using GM\_DATA is the only performant way to join concept data in a spreadsheet.
 
-Takes 10-20 seconds: =GM\_DATA\_SLOW(B7:D, "pop\_gm\_6", "year", "countries\_etc")
+Takes 10-20 seconds: =GM\_DATA\_SLOW(B7:D, "pop", "year", "countries\_etc")
 
-Takes 2-4 seconds: =GM\_DATA(B7:D, 'data:pop_gm_6@fasttrack:year:countries\_etc'!A1:D)
+Takes 2-4 seconds: =GM\_DATA(B7:D, 'data:pop@fasttrack:year:countries\_etc'!A1:D)
 
 **Parameters:**
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | column_or_table_range_with_headers | `string`[][] |  Either a column range (for a property lookup column) or a table range including \[geo,name,time\] (for a concept value lookup) |
-| concept_id | `string` |  The concept id ("pop\_gm\_6") of which value to look up |
+| concept_id | `string` |  The concept id ("pop") of which value to look up |
 | time_unit | `string` |  (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against |
 | geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 
@@ -209,7 +209,7 @@ Note: Uses GM\_DATA\_SLOW internally. Performance-related documentation about GM
 | Name | Type | Description |
 | ------ | ------ | ------ |
 | input_table_range_with_headers | `string`[][] |  A table range including \[geo,name,time\] to be used for a concept value lookup |
-| concept_id | `string` |  The concept id ("pop\_gm\_6") of which value to look up |
+| concept_id | `string` |  The concept id ("pop") of which value to look up |
 | time_unit | `string` |  (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against |
 | geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 
@@ -251,19 +251,19 @@ Imports a standard Gapminder concept table.
 
 Note that using data dependencies in combination with the QUERY() function instead of GM\_IMPORT\_SLOW() is the only performant way to include concept data in a spreadsheet.
 
-Takes 2-4 seconds: =GM\_IMPORT\_SLOW("pop\_gm\_6", "year", "global")
+Takes 2-4 seconds: =GM\_IMPORT\_SLOW("pop", "year", "global")
 
-Almost instant: =QUERY('data:pop_gm_6@fasttrack:year:global'!A1:D)
+Almost instant: =QUERY('data:pop@fasttrack:year:global'!A1:D)
 
-Always yields "Error: Result too large" since the "countries\_etc" version of the dataset is rather large: =GM\_IMPORT\_SLOW("pop\_gm\_6", "year", "countries\_etc")
+Always yields "Error: Result too large" since the "countries\_etc" version of the dataset is rather large: =GM\_IMPORT\_SLOW("pop", "year", "countries\_etc")
 
-Finishes in 3-10 seconds: =QUERY('data:pop_gm_6@fasttrack:year:countries\_etc'!A1:D)
+Finishes in 3-10 seconds: =QUERY('data:pop@fasttrack:year:countries\_etc'!A1:D)
 
 **Parameters:**
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| concept_id | `string` |  Concept id (eg. "pop\_gm\_6") of which concept to import |
+| concept_id | `string` |  Concept id (eg. "pop") of which concept to import |
 | time_unit | `string` |  Time unit variant (eg. "year") of the concept to import |
 | geo_set | `string` |  (Optional with default "countries\_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 

@@ -18,7 +18,7 @@ import { getOpenNumbersDatasetConceptListing } from "./openNumbersData/openNumbe
  *
  * Note: The function results are not automatically re-evaluated as changes are made to the source documents or the catalog. You can trigger a manual update by deleting the cell and undoing the deletion immediately.
  *
- * @param concept_id_and_catalog_reference The concept id and catalog reference in the form of {concept id}@{catalog} (eg "pop_gm_6@fasttrack", or "pop_gm_6@opennumbers") of which concept data to check status for
+ * @param concept_id_and_catalog_reference The concept id and catalog reference in the form of {concept id}@{catalog} (eg "pop@fasttrack", or "pop@opennumbers") of which concept data to check status for
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept data to check status for
  * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @param verbose Explains how a certain dataset is invalid instead of simply returning "BAD" for the row

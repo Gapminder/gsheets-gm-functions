@@ -9,13 +9,13 @@ import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoS
  * Imports the corresponding data on-the-fly. Note that using GM_DATA is the only performant way to join concept data in a spreadsheet.
  *
  * Takes 10-20 seconds:
- * =GM_DATA_SLOW(B7:D, "pop_gm_6", "year", "countries_etc")
+ * =GM_DATA_SLOW(B7:D, "pop", "year", "countries_etc")
  *
  * Takes 2-4 seconds:
- * =GM_DATA(B7:D, 'data:pop_gm_6@fasttrack:year:countries_etc'!A1:D)
+ * =GM_DATA(B7:D, 'data:pop@fasttrack:year:countries_etc'!A1:D)
  *
  * @param column_or_table_range_with_headers Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup)
- * @param concept_id The concept id ("pop_gm_6") of which value to look up
+ * @param concept_id The concept id ("pop") of which value to look up
  * @param time_unit (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against
  * @param geo_set (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet
  * @return A two-dimensional array containing the cell/column contents described above in the summary.
