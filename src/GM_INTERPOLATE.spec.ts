@@ -259,6 +259,35 @@ const testInterpolation: Macro<any> = (
       ["foo", "Foo", 1905, 0, 105]
     ]
   },
+  {
+    input_table_range_with_headers: [
+      [
+        "geo",
+        "geo_name",
+        "year",
+        "Overall score",
+        "Electoral process and pluralism"
+      ],
+      ["geo", "Georgia", "1900", "0", "100"],
+      ["geo", "Georgia", "1905", "0", "105"]
+    ],
+    method: "linear",
+    expectedOutput: [
+      [
+        "geo",
+        "geo_name",
+        "year",
+        "Overall score",
+        "Electoral process and pluralism"
+      ],
+      ["geo", "Georgia", 1900, 0, 100],
+      ["geo", "Georgia", 1901, 0, 101],
+      ["geo", "Georgia", 1902, 0, 102],
+      ["geo", "Georgia", 1903, 0, 103],
+      ["geo", "Georgia", 1904, 0, 104],
+      ["geo", "Georgia", 1905, 0, 105]
+    ]
+  },
   // Note: Due to the large size of the following test fixture, ava may choke
   // on displaying a diff (RangeError {message: 'Maximum call stack size exceeded'})
   // Workaround: Manually diff the .expected.json and .actual.json

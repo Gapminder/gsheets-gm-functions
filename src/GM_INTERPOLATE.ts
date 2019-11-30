@@ -90,7 +90,7 @@ export function GM_INTERPOLATE(
     {}
   );
   const inputTableRowsByGeoAndTime: GmTableRowsByGeoAndTime = GmTable.byGeoAndTime(
-    inputTableRows
+    inputTableRowsWithoutHeaderRow
   );
 
   interface ValuesByTime {
