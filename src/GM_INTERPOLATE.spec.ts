@@ -49,7 +49,10 @@ const testInterpolation: Macro<any> = (
     page
   );
   if (input_table_range_with_headers_fixture) {
-    fs.writeFileSync(fixturePath + ".actual.json", JSON.stringify(output));
+    fs.writeFileSync(
+      fixturePath + ".actual.json",
+      JSON.stringify(output, null, 2)
+    );
   } else {
     // t.log({ output, expectedOutput, page_size, page });
   }
@@ -256,6 +259,9 @@ const testInterpolation: Macro<any> = (
       ["foo", "Foo", 1905, 0, 105]
     ]
   },
+  // Note: Due to the large size of the following test fixture, ava may choke
+  // on displaying a diff (RangeError {message: 'Maximum call stack size exceeded'})
+  // Workaround: Manually diff the .expected.json and .actual.json
   {
     input_table_range_with_headers_fixture: "gdppcap-for-countries-etc.tsv",
     method: "linear",
