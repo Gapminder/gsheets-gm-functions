@@ -69,6 +69,7 @@ export function getValidConceptDataFasttrackCatalogEntry(
     );
   }
   return {
+    conceptVersion: matchingConcept.concept_version,
     csvLink: matchingConcept.csv_link,
     docId: matchingConcept.doc_id,
     indicatorOrder,

@@ -2,6 +2,10 @@ import Range = GoogleAppsScript.Spreadsheet.Range;
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 import Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
 import NamedRange = GoogleAppsScript.Spreadsheet.NamedRange;
+import {
+  validateConceptVersionArgument,
+  versionNumber
+} from "../lib/validateConceptVersionArgument";
 
 /**
  * @hidden
@@ -244,23 +248,17 @@ function validateDatasetSpreadsheet(
     }
   };
 
-  const versionNumber = version => {
-    return Number(String(version).replace(/^v/, ""));
-  };
-
   // This should start with a v, followed by an integer to show version of this dataset should probably be v1, for now, as you are creating it from the template. But in some cases, the first usage of this template may still deserve a higher version than 1, like when  building on Gapminder's previous series of versions, you should increment the version number used before adopting this template. The same version identifier is used in the version table further down in this sheet.
   const assertValidVersion = (version, key, reference) => {
-    if (
-      version === `v${versionNumber(version)}` &&
-      versionNumber(version) > 0
-    ) {
+    try {
+      validateConceptVersionArgument(version);
       recordValidationResult(
         key,
         true,
         `The version ${reference} starts with a v, followed by an integer`
       );
       return true;
-    } else {
+    } catch (e) {
       recordValidationResult(
         key,
         false,
@@ -787,7 +785,7 @@ function validateDatasetSpreadsheet(
             1})`
         );
         assertValidVersion(
-          versionsTableRow[0],
+          versionsTableRow[columnIndex],
           key,
           `in column ${columnIndex + 1}`
         );

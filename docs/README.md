@@ -62,7 +62,7 @@ ___
 
 ▸ **GM_DATAPOINT_CATALOG_STATUS**(concept_id_and_catalog_reference: *`string`*, time_unit: *`string`*, geo_set: *`string`*, verbose: *`boolean`*): `string`[][]
 
-*Defined in [GM_DATAPOINT_CATALOG_STATUS.ts:27](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.10.0/src/GM_DATAPOINT_CATALOG_STATUS.ts#L27)*
+*Defined in [GM_DATAPOINT_CATALOG_STATUS.ts:32](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.10.0/src/GM_DATAPOINT_CATALOG_STATUS.ts#L32)*
 
 Checks if the referenced concept data is available remotely for import.
 
@@ -502,7 +502,7 @@ ___
 
 ▸ **menuRefreshDataDependencies**(): `void`
 
-*Defined in [menuActions/menuRefreshDataDependencies.ts:24](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.10.0/src/menuActions/menuRefreshDataDependencies.ts#L24)*
+*Defined in [menuActions/menuRefreshDataDependencies.ts:25](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.10.0/src/menuActions/menuRefreshDataDependencies.ts#L25)*
 
 Menu item action for "Gapminder Data -> Import/refresh data dependencies"
 
@@ -524,7 +524,7 @@ ___
 
 ▸ **menuValidateDatasetSpreadsheet**(): `void`
 
-*Defined in [menuActions/menuValidateDatasetSpreadsheet.ts:38](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.10.0/src/menuActions/menuValidateDatasetSpreadsheet.ts#L38)*
+*Defined in [menuActions/menuValidateDatasetSpreadsheet.ts:42](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.10.0/src/menuActions/menuValidateDatasetSpreadsheet.ts#L42)*
 
 Menu item action for "Gapminder Data -> Validate this dataset spreadsheet" (only shown if the spreadsheet contains an "ABOUT" sheet and a named range called "dataset\_id")
 

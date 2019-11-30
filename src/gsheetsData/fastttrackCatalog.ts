@@ -17,6 +17,7 @@ export interface FasttrackCatalogDataPointsDataRow {
   concept_id: string;
   dimensions: string;
   concept_name: string;
+  concept_version: string;
   table_format: string;
   csv_link: string;
   doc_id: string;
@@ -59,6 +60,7 @@ function gsheetsDataApiFeedsListFasttrackCatalogDataPointsResponseToWorksheetDat
       concept_id: currentValue.gsx$conceptid.$t,
       dimensions: currentValue.gsx$dimensions.$t,
       concept_name: currentValue.gsx$conceptname.$t,
+      concept_version: currentValue.gsx$conceptversion.$t,
       table_format: currentValue.gsx$tableformat.$t,
       csv_link: currentValue.gsx$csvlink.$t,
       doc_id: currentValue.gsx$docid.$t.replace(/\/.*/, "") // Since sometimes the gsheet values for doc_id has included /edit#gid=0000 after the actual doc id

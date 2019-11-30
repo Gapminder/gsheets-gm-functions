@@ -5,6 +5,7 @@ import {
 } from "../gsheetsData/fastttrackCatalog";
 import { geoSets } from "../gsheetsData/hardcodedConstants";
 import { removeEmptyRowsAtTheEnd } from "../lib/cleanInputRange";
+import { versionNumber } from "../lib/validateConceptVersionArgument";
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 import {
   getOpenNumbersDatasetConceptListing,
@@ -152,18 +153,39 @@ function refreshDataCatalogSheet(
   fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData,
   openNumbersWorldDevelopmentIndicatorsDatasetConceptListing: OpenNumbersDatasetConceptListingDataRow[]
 ) {
-  const fasttrackCatalogValues = fasttrackCatalogDataPointsWorksheetData.rows.map(
-    (row: FasttrackCatalogDataPointsDataRow) => {
-      return [
+  const fasttrackCatalogValues = fasttrackCatalogDataPointsWorksheetData.rows
+    .map((row: FasttrackCatalogDataPointsDataRow) => {
+      // Fast-track catalog concepts are versioned, and to be able to pick
+      // and import a previous version, we include all possible previous versions here
+      let latestVersion = 1;
+      if (versionNumber(row.concept_version) > 0) {
+        latestVersion = versionNumber(row.concept_version);
+      }
+      const versions = [];
+      for (let version = 1; version <= latestVersion; version++) {
+        versions.push(version);
+      }
+      // Include one entry per version
+      const versionEntries = versions.map(version => [
+        `${row.concept_id}#v${version}@fasttrack`,
+        row.concept_name,
+        row.time_unit,
+        row.geo_set,
+        row.dataset_id,
+        row.csv_link
+      ]);
+      // Also include an entry without the version suffix, which always references the latest published version
+      versionEntries.push([
         `${row.concept_id}@fasttrack`,
         row.concept_name,
         row.time_unit,
         row.geo_set,
         row.dataset_id,
         row.csv_link
-      ];
-    }
-  );
+      ]);
+      return versionEntries;
+    })
+    .reduce((a, b) => a.concat(b), []); // flattens the result
   const openNumbersDatasetValues = openNumbersWorldDevelopmentIndicatorsDatasetConceptListing.map(
     (row: OpenNumbersDatasetConceptListingDataRow) => {
       return [

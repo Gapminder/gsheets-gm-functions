@@ -1,5 +1,6 @@
 import { getValidConceptDataFasttrackCatalogEntry } from "../gsheetsData/conceptData";
 import { ConceptDataRow, ConceptDataWorksheetData } from "../lib/conceptData";
+import { parseConceptIdAndCatalogReference } from "../lib/parseConceptIdAndCatalogReference";
 import { validateAndAliasTheGeoSetArgument } from "../lib/validateAndAliasTheGeoSetArgument";
 import { validateConceptIdArgument } from "../lib/validateConceptIdArgument";
 import { getOpenNumbersConceptData } from "../openNumbersData/conceptData";
@@ -56,12 +57,15 @@ export function menuRefreshDataDependencies() {
       return;
     }
 
-    const parsedDatasetReference = concept_id_and_catalog_reference.split("@");
-    const concept_id = parsedDatasetReference[0];
+    const {
+      conceptId,
+      conceptVersion,
+      catalog
+    } = parseConceptIdAndCatalogReference(concept_id_and_catalog_reference);
 
     let validatedGeoSetArgument;
     try {
-      validateConceptIdArgument(concept_id);
+      validateConceptIdArgument(conceptId);
       validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(geo_set);
     } catch (err) {
       writeStatus(dataDependenciesSheet, index, {
@@ -85,7 +89,6 @@ export function menuRefreshDataDependencies() {
     const destinationSheetName = `data:${concept_id_and_catalog_reference}:${time_unit}:${validatedGeoSetArgument}`;
 
     // Read values to import
-    const catalog = parsedDatasetReference[1];
     let importValues;
     let importRangeRows;
     let importRangeColumns;
@@ -95,16 +98,78 @@ export function menuRefreshDataDependencies() {
       case "fasttrack":
         {
           const conceptDataFasttrackCatalogEntry = getValidConceptDataFasttrackCatalogEntry(
-            concept_id,
+            conceptId,
             time_unit,
             validatedGeoSetArgument,
             fasttrackCatalogDataPointsWorksheetData
           );
 
           // Import sheet from source document
-          const sourceDoc = SpreadsheetApp.openById(
+          let sourceDoc = SpreadsheetApp.openById(
             conceptDataFasttrackCatalogEntry.docId
           );
+          // Fetch specific version
+          if (conceptVersion) {
+            const versionCellNamedRange = sourceDoc.getRangeByName("version");
+            if (!versionCellNamedRange) {
+              writeStatus(dataDependenciesSheet, index, {
+                importRangeRows: null,
+                lastChecked: null,
+                notes: `Not imported since there was no "version" named range in the source doc ("${
+                  conceptDataFasttrackCatalogEntry.docId
+                }")`
+              });
+              return;
+            }
+            const currentVersion = versionCellNamedRange.getValue();
+            if (conceptVersion !== currentVersion) {
+              const versionsTableRange = sourceDoc.getRangeByName(
+                "version_table"
+              );
+              if (!versionsTableRange) {
+                writeStatus(dataDependenciesSheet, index, {
+                  importRangeRows: null,
+                  lastChecked: null,
+                  notes: `Not imported since there was no "version_table" named range in the source doc ("${sourceDoc.getUrl()}")`
+                });
+                return;
+              }
+              const versionsTableValues = versionsTableRange.getValues() as string[][];
+              const matchingVersionTableRows = versionsTableValues.filter(
+                (versionsTableRow, i) => {
+                  return versionsTableRow[0] === conceptVersion;
+                }
+              );
+              const matchingVersionTableRow = matchingVersionTableRows[0];
+              if (!matchingVersionTableRow) {
+                writeStatus(dataDependenciesSheet, index, {
+                  importRangeRows: null,
+                  lastChecked: null,
+                  notes: `Not imported since the requested version ("${conceptVersion}") was not listed in the "version_table" named range in the source doc ("${sourceDoc.getUrl()}")`
+                });
+                return;
+              }
+              const link = matchingVersionTableRow[1];
+              if (!link || link.trim() === "" || link.trim() === "-") {
+                writeStatus(dataDependenciesSheet, index, {
+                  importRangeRows: null,
+                  lastChecked: null,
+                  notes: `Not imported since the requested version ("${conceptVersion}") entry had an empty "Link" value in the "version_table" named range in the source doc ("${sourceDoc.getUrl()}")`
+                });
+                return;
+              }
+              try {
+                sourceDoc = SpreadsheetApp.openByUrl(link);
+              } catch (e) {
+                writeStatus(dataDependenciesSheet, index, {
+                  importRangeRows: null,
+                  lastChecked: null,
+                  notes: `Not imported since there was a problem with opening the requested version ("${conceptVersion}"). The "Link" value was "${link}" for this version in the "version_table" named range in the source doc ("${sourceDoc.getUrl()}") and the error message was ${e.toString()}`
+                });
+                return;
+              }
+            }
+          }
           const sourceSheet = sourceDoc.getSheetByName(
             conceptDataFasttrackCatalogEntry.worksheetReference.name
           );
@@ -136,7 +201,7 @@ export function menuRefreshDataDependencies() {
       case "open-numbers/ddf--open_numbers--world_development_indicators":
         {
           const openNumbersConceptData: ConceptDataWorksheetData = getOpenNumbersConceptData(
-            concept_id,
+            conceptId,
             time_unit,
             geo_set,
             openNumbersWorldDevelopmentIndicatorsDatasetConceptListing

@@ -103,6 +103,10 @@ export namespace ListFasttrackCatalogDataPoints {
     $t: string;
   }
 
+  export interface GsxConceptversion {
+    $t: string;
+  }
+
   export interface GsxTableformat {
     $t: string;
   }
@@ -165,6 +169,7 @@ export namespace ListFasttrackCatalogDataPoints {
     gsx$conceptid: GsxConceptid;
     gsx$dimensions: GsxDimensions;
     gsx$conceptname: GsxConceptname;
+    gsx$conceptversion: GsxConceptversion;
     gsx$tableformat: GsxTableformat;
     gsx$csvlink: GsxCsvlink;
     gsx$databasenamefortime: GsxDatabasenamefortime;

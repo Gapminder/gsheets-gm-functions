@@ -38,6 +38,27 @@ const testGmDatapointCatalogStatus: Macro<any> = (
     expectedOutput: [["GOOD"]]
   },
   {
+    concept_id_and_catalog_reference: "pop#v0@fasttrack",
+    time_unit: "year",
+    geo_set: "countries_etc",
+    verbose: true,
+    expectedOutput: [["GOOD"]]
+  },
+  {
+    concept_id_and_catalog_reference: "pop#v4@fasttrack",
+    time_unit: "year",
+    geo_set: "countries_etc",
+    verbose: true,
+    expectedOutput: [["GOOD"]]
+  },
+  {
+    concept_id_and_catalog_reference: "pop#v99@fasttrack",
+    time_unit: "year",
+    geo_set: "countries_etc",
+    verbose: true,
+    expectedOutput: [["GOOD"]]
+  },
+  {
     concept_id_and_catalog_reference: "sp_pop_totl@open-numbers-wdi",
     time_unit: "year",
     geo_set: "countries_etc",

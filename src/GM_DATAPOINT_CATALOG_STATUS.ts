@@ -2,8 +2,13 @@ import { getValidConceptDataFasttrackCatalogEntry } from "./gsheetsData/conceptD
 import { getFasttrackCatalogDataPointsList } from "./gsheetsData/fastttrackCatalog";
 import { fetchWorksheetReferences } from "./gsheetsData/fetchWorksheetReferences";
 import { conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit } from "./gsheetsData/hardcodedConstants";
+import { parseConceptIdAndCatalogReference } from "./lib/parseConceptIdAndCatalogReference";
 import { validateAndAliasTheGeoSetArgument } from "./lib/validateAndAliasTheGeoSetArgument";
 import { validateConceptIdArgument } from "./lib/validateConceptIdArgument";
+import {
+  validateConceptVersionArgument,
+  versionNumber
+} from "./lib/validateConceptVersionArgument";
 import { getOpenNumbersDatasetConceptDataEntry } from "./openNumbersData/conceptData";
 import { getOpenNumbersDatasetConceptListing } from "./openNumbersData/openNumbersDataset";
 
@@ -39,19 +44,25 @@ export function GM_DATAPOINT_CATALOG_STATUS(
     if (concept_id_and_catalog_reference === "") {
       throw new Error("The concept id and catalog reference argument is empty");
     }
-    const parsedDatasetReference = concept_id_and_catalog_reference.split("@");
-    const concept_id = parsedDatasetReference[0];
-    validateConceptIdArgument(concept_id);
+    const {
+      conceptId,
+      conceptVersion,
+      catalog
+    } = parseConceptIdAndCatalogReference(concept_id_and_catalog_reference);
+    validateConceptIdArgument(conceptId);
+    if (conceptVersion) {
+      validateConceptVersionArgument(conceptVersion);
+    }
     // Validate and accept alternate geo set references (countries-etc, regions, world) for the geo_set argument
     const validatedGeoSetArgument = validateAndAliasTheGeoSetArgument(geo_set);
-    const catalog = parsedDatasetReference[1];
     switch (catalog) {
       case undefined:
       case "":
       case "fasttrack":
         {
           validateFasttrackDatapointsCatalogStatus(
-            concept_id,
+            conceptId,
+            conceptVersion,
             time_unit,
             validatedGeoSetArgument
           );
@@ -62,7 +73,7 @@ export function GM_DATAPOINT_CATALOG_STATUS(
         {
           validateOpenNumbersDatasetStatus(
             "ddf--open_numbers--world_development_indicators",
-            concept_id,
+            conceptId,
             time_unit,
             validatedGeoSetArgument
           );
@@ -82,13 +93,14 @@ export function GM_DATAPOINT_CATALOG_STATUS(
  * @hidden
  */
 function validateFasttrackDatapointsCatalogStatus(
-  concept_id: string,
+  conceptId: string,
+  conceptVersion: string,
   time_unit: string,
   geo_set: string
 ) {
   const fasttrackCatalogDataPointsWorksheetData = getFasttrackCatalogDataPointsList();
   const conceptDataFasttrackCatalogEntry = getValidConceptDataFasttrackCatalogEntry(
-    concept_id,
+    conceptId,
     time_unit,
     geo_set,
     fasttrackCatalogDataPointsWorksheetData
@@ -116,6 +128,15 @@ function validateFasttrackDatapointsCatalogStatus(
       }"). Currently published worksheets are currently "${worksheetReferences
         .map(worksheetReference => worksheetReference.name)
         .join(", ")}"`
+    );
+  }
+  if (!conceptDataFasttrackCatalogEntry.conceptVersion) {
+    throw new Error(
+      "No concept_version value in the fasttrack datapoints catalog entry"
+    );
+  } else {
+    validateConceptVersionArgument(
+      conceptDataFasttrackCatalogEntry.conceptVersion
     );
   }
 }
