@@ -1,3 +1,4 @@
+import { orderBy } from "lodash";
 import groupBy from "lodash/fp/groupBy";
 import mapValues from "lodash/fp/mapValues";
 import weightedMean from "weighted-mean";
@@ -146,11 +147,11 @@ export function aggregateGapminderTableByAggregationPropertyValueAndTime(
     }
   }
 
-  // default sort by aggregation property name instead of aggregation property value
-  const sortedOutputAggregationTableRows = outputAggregationTableRows.sort(
-    (a: GmAggregationTableRow, b: GmAggregationTableRow) => {
-      return a.aggregationPropertyName > b.aggregationPropertyName ? 1 : -1;
-    }
+  // default sort by aggregation property name and year
+  const sortedOutputAggregationTableRows = orderBy(
+    outputAggregationTableRows,
+    ["aggregationPropertyName", "time"],
+    ["asc", "asc"]
   );
 
   return [aggregationTableHeaderRow]
