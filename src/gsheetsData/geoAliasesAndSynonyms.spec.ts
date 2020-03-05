@@ -1,14 +1,14 @@
 import test, { ExecutionContext, Macro } from "ava";
-import { keyNormalizerForSlightlySmarterLookups } from "./geoAliasesAndSynonyms";
+import { keyNormalizerForSlightlyFuzzyLookups } from "./keyNormalizerForSlightlyFuzzyLookups";
 
 /**
  * @hidden
  */
-const testKeyNormalizerForSlightlySmarterLookups: Macro<any> = (
+const testkeyNormalizerForSlightlyFuzzyLookups: Macro<any> = (
   t: ExecutionContext,
   { lookupKey, expectedOutput }
 ) => {
-  const output = keyNormalizerForSlightlySmarterLookups(lookupKey);
+  const output = keyNormalizerForSlightlyFuzzyLookups(lookupKey);
   // t.log({output, expectedOutput});
   t.deepEqual(output, expectedOutput);
 };
@@ -54,8 +54,8 @@ const testKeyNormalizerForSlightlySmarterLookups: Macro<any> = (
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {
   test(
-    "testKeyNormalizerForSlightlySmarterLookups - " + index,
-    testKeyNormalizerForSlightlySmarterLookups,
+    "testkeyNormalizerForSlightlyFuzzyLookups - " + index,
+    testkeyNormalizerForSlightlyFuzzyLookups,
     testData
   );
 });

@@ -1,9 +1,9 @@
-import { remove as removeDiacritics } from "diacritics";
 import { fetchWorksheetData } from "./fetchWorksheetData";
 import {
   geoAliasesAndSynonymsDocSpreadsheetId,
   geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet
 } from "./hardcodedConstants";
+import { keyNormalizerForSlightlyFuzzyLookups } from "./keyNormalizerForSlightlyFuzzyLookups";
 import { ListGeoAliasesAndSynonyms } from "./types/listGeoAliasesAndSynonyms";
 
 /**
@@ -86,19 +86,6 @@ function gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
 }
 
 /**
- * By trimming the lookup keys, we allow slightly fuzzy matching, such as "Foo " == "foo" and "Fóo*" == "Foo"
- * @hidden
- */
-export function keyNormalizerForSlightlySmarterLookups(
-  lookupKey: string
-): string {
-  const trimmedLowerCasedWithoutDiacritics = removeDiacritics(
-    lookupKey.trim().toLowerCase()
-  );
-  return trimmedLowerCasedWithoutDiacritics.replace(/[^a-z0-9 ()]/g, "");
-}
-
-/**
  * @hidden
  */
 export function geoAliasesAndSynonymsWorksheetDataToNormalizedGeoAndAliasesLookupTable(
@@ -106,7 +93,7 @@ export function geoAliasesAndSynonymsWorksheetDataToNormalizedGeoAndAliasesLooku
   normalizer: (lookupKey: string) => string
 ): GeoAliasesAndSynonymsLookupTable {
   if (!normalizer) {
-    normalizer = keyNormalizerForSlightlySmarterLookups;
+    normalizer = keyNormalizerForSlightlyFuzzyLookups;
   }
   return data.rows.reduce((lookupTableAccumulator, currentValue) => {
     lookupTableAccumulator[normalizer(currentValue.geo)] = currentValue;
@@ -129,7 +116,7 @@ export function matchColumnValuesUsingGeoAliasesAndSynonyms(
   return columnValues.map(
     (inputRow): GeoAliasesAndSynonymsDataRow | MissingGeoAliasDataRow => {
       const alias = inputRow[0];
-      const lookupKey = keyNormalizerForSlightlySmarterLookups(alias);
+      const lookupKey = keyNormalizerForSlightlyFuzzyLookups(alias);
       return lookupTable[lookupKey] ? lookupTable[lookupKey] : { alias };
     }
   );
