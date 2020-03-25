@@ -8,6 +8,7 @@ Gapminder-specific custom functions and related menu item actions for Google Spr
 
 ### Functions
 
+* [GM_CLEAN_TEXT](#gm_clean_text)
 * [GM_DATA](#gm_data)
 * [GM_DATAPOINT_CATALOG_STATUS](#gm_datapoint_catalog_status)
 * [GM_DATA_AGGR](#gm_data_aggr)
@@ -33,6 +34,26 @@ Gapminder-specific custom functions and related menu item actions for Google Spr
 
 ## Functions
 
+<a id="gm_clean_text"></a>
+
+###  GM_CLEAN_TEXT
+
+▸ **GM_CLEAN_TEXT**(range_with_headers: *`string`[][]*): `string`[][]
+
+*Defined in [GM_CLEAN_TEXT.ts:11](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/GM_CLEAN_TEXT.ts#L11)*
+
+Converts to lowercase, then removes diacritics and any special characters outside of "\[^a-z0-9 ()\]". Use for fuzzy matching such as "Foo " == "foo" and "Fóo\*" == "Foo".
+
+**Parameters:**
+
+| Name | Type | Description |
+| ------ | ------ | ------ |
+| range_with_headers | `string`[][] |  \- |
+
+**Returns:** `string`[][]
+An array containing the cell/column contents described above in the summary.
+
+___
 <a id="gm_data"></a>
 
 ###  GM_DATA

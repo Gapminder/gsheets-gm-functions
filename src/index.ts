@@ -3,6 +3,7 @@
  * Note: Global functions must be exposed to the (global as any) object, or it will not be picked up by gas-webpack-plugin.
  */
 
+import { GM_CLEAN_TEXT } from "./GM_CLEAN_TEXT";
 import { GM_DATA } from "./GM_DATA";
 import { GM_DATA_AGGR } from "./GM_DATA_AGGR";
 import { GM_DATA_SLOW } from "./GM_DATA_SLOW";
@@ -241,6 +242,17 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
   verbose: boolean
 ) {
   return GM_ID(column_range_with_headers, geo_set, verbose);
+};
+
+/**
+ * Converts to lowercase, then removes diacritics and any special characters outside of "[^a-z0-9 ()]".
+ * Use for fuzzy matching such as "Foo " == "foo" and "Fóo*" == "Foo".
+ *
+ * @param {A1:B} range_with_headers
+ * @customfunction
+ */
+(global as any).GM_CLEAN_TEXT = function(range_with_headers: string[][]) {
+  return GM_CLEAN_TEXT(range_with_headers);
 };
 
 /**
