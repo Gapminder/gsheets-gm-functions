@@ -31,17 +31,6 @@ const testInterpolation: Macro<any> = (
       .split("\n")
       .map(row => row.split("\t"));
   }
-  if (expectedOutput_fixture) {
-    const expectedOutputFixturePath = path.join(
-      __dirname,
-      "..",
-      "fixtures",
-      expectedOutput_fixture
-    );
-    expectedOutput = JSON.parse(
-      fs.readFileSync(expectedOutputFixturePath, "utf8")
-    );
-  }
   const output = GM_INTERPOLATE(
     input_table_range_with_headers,
     method,
@@ -55,6 +44,17 @@ const testInterpolation: Macro<any> = (
     );
   } else {
     // t.log({ output, expectedOutput, page_size, page });
+  }
+  if (expectedOutput_fixture) {
+    const expectedOutputFixturePath = path.join(
+      __dirname,
+      "..",
+      "fixtures",
+      expectedOutput_fixture
+    );
+    expectedOutput = JSON.parse(
+      fs.readFileSync(expectedOutputFixturePath, "utf8")
+    );
   }
   t.deepEqual(output, expectedOutput);
 };
