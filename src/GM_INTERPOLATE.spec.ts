@@ -295,6 +295,13 @@ const testInterpolation: Macro<any> = (
     input_table_range_with_headers_fixture: "gdppcap-for-countries-etc.tsv",
     method: "linear",
     expectedOutput_fixture: "gdppcap-for-countries-etc.tsv.expected.json"
+  },
+  {
+    input_table_range_with_headers_fixture:
+      "doubt-t315-mobil_money_account - indicator_input_data.tsv",
+    method: "zerofill",
+    expectedOutput_fixture:
+      "doubt-t315-mobil_money_account - indicator_input_data.tsv.expected.json"
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {
