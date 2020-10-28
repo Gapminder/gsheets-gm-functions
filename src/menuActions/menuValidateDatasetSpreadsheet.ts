@@ -1,6 +1,18 @@
+/**
+ * @hidden
+ */
 import Range = GoogleAppsScript.Spreadsheet.Range;
+/**
+ * @hidden
+ */
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
+/**
+ * @hidden
+ */
 import Spreadsheet = GoogleAppsScript.Spreadsheet.Spreadsheet;
+/**
+ * @hidden
+ */
 import NamedRange = GoogleAppsScript.Spreadsheet.NamedRange;
 import {
   validateConceptVersionArgument,

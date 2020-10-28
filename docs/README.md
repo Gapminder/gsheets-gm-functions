@@ -4,13 +4,6 @@ Gapminder-specific custom functions and related menu item actions for Google Spr
 
 ## Index
 
-### Variables
-
-* [NamedRange](README.md#namedrange)
-* [Range](README.md#range)
-* [Sheet](README.md#sheet)
-* [Spreadsheet](README.md#spreadsheet)
-
 ### Functions
 
 * [GM\_CLEAN\_TEXT](README.md#gm_clean_text)
@@ -32,45 +25,9 @@ Gapminder-specific custom functions and related menu item actions for Google Spr
 * [GM\_PROP\_AGGR](README.md#gm_prop_aggr)
 * [GM\_UNPIVOT](README.md#gm_unpivot)
 * [GM\_WEIGHTED\_AVERAGE](README.md#gm_weighted_average)
-* [getRemainder](README.md#getremainder)
-* [largestRemainderRound](README.md#largestremainderround)
 * [menuRefreshDataCatalog](README.md#menurefreshdatacatalog)
 * [menuRefreshDataDependencies](README.md#menurefreshdatadependencies)
 * [menuValidateDatasetSpreadsheet](README.md#menuvalidatedatasetspreadsheet)
-
-## Variables
-
-### NamedRange
-
-•  **NamedRange**: any
-
-*Defined in [src/menuActions/menuValidateDatasetSpreadsheet.ts:4](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/menuActions/menuValidateDatasetSpreadsheet.ts#L4)*
-
-___
-
-### Range
-
-•  **Range**: any
-
-*Defined in [src/menuActions/menuValidateDatasetSpreadsheet.ts:1](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/menuActions/menuValidateDatasetSpreadsheet.ts#L1)*
-
-___
-
-### Sheet
-
-•  **Sheet**: any
-
-*Defined in [src/menuActions/dataDependenciesCommon.ts:9](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/menuActions/dataDependenciesCommon.ts#L9)*
-
-*Defined in [src/menuActions/menuValidateDatasetSpreadsheet.ts:2](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/menuActions/menuValidateDatasetSpreadsheet.ts#L2)*
-
-___
-
-### Spreadsheet
-
-•  **Spreadsheet**: any
-
-*Defined in [src/menuActions/menuValidateDatasetSpreadsheet.ts:3](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/menuActions/menuValidateDatasetSpreadsheet.ts#L3)*
 
 ## Functions
 
@@ -565,40 +522,6 @@ A two-dimensional array containing the cell/column contents described above in t
 
 ___
 
-### getRemainder
-
-▸ `Const`**getRemainder**(`a`: any): string
-
-*Defined in [src/lib/largestRemainderRound.ts:2](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/lib/largestRemainderRound.ts#L2)*
-
-#### Parameters:
-
-Name | Type |
------- | ------ |
-`a` | any |
-
-**Returns:** string
-
-___
-
-### largestRemainderRound
-
-▸ **largestRemainderRound**(`numArr`: any, `totalSeats`: any, `decimalNum`: any): any
-
-*Defined in [src/lib/largestRemainderRound.ts:5](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/lib/largestRemainderRound.ts#L5)*
-
-#### Parameters:
-
-Name | Type |
------- | ------ |
-`numArr` | any |
-`totalSeats` | any |
-`decimalNum` | any |
-
-**Returns:** any
-
-___
-
 ### menuRefreshDataCatalog
 
 ▸ **menuRefreshDataCatalog**(): void
@@ -643,7 +566,7 @@ ___
 
 ▸ **menuValidateDatasetSpreadsheet**(): void
 
-*Defined in [src/menuActions/menuValidateDatasetSpreadsheet.ts:42](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/menuActions/menuValidateDatasetSpreadsheet.ts#L42)*
+*Defined in [src/menuActions/menuValidateDatasetSpreadsheet.ts:54](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/menuActions/menuValidateDatasetSpreadsheet.ts#L54)*
 
 Menu item action for "Gapminder Data -> Validate this dataset spreadsheet"
 (only shown if the spreadsheet contains an "ABOUT" sheet and a named range called "dataset_id")

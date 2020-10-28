@@ -6,6 +6,9 @@ import {
 import { geoSets } from "../gsheetsData/hardcodedConstants";
 import { removeEmptyRowsAtTheEnd } from "../lib/cleanInputRange";
 import { versionNumber } from "../lib/validateConceptVersionArgument";
+/**
+ * @hidden
+ */
 import Sheet = GoogleAppsScript.Spreadsheet.Sheet;
 import {
   getOpenNumbersDatasetConceptListing,

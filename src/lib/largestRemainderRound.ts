@@ -1,7 +1,15 @@
 // Adapted from https://github.com/ManNguyen/LargestRemainderRound
+
+/**
+ * @hidden
+ */
 const getRemainder = a => {
   return (a - Math.floor(a)).toFixed(4);
 };
+
+/**
+ * @hidden
+ */
 export function largestRemainderRound(numArr, totalSeats, decimalNum) {
   totalSeats = totalSeats || 100;
   decimalNum = decimalNum || 0;
