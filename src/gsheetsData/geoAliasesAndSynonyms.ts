@@ -113,11 +113,11 @@ export function matchColumnValuesUsingGeoAliasesAndSynonyms(
     geo_set = "countries_etc";
   }
   const lookupTable = getGeoAliasesAndSynonymsLookupTable(geo_set);
-  return columnValues.map(
-    (inputRow): GeoAliasesAndSynonymsDataRow | MissingGeoAliasDataRow => {
-      const alias = inputRow[0];
-      const lookupKey = keyNormalizerForSlightlyFuzzyLookups(alias);
-      return lookupTable[lookupKey] ? lookupTable[lookupKey] : { alias };
-    }
-  );
+  return columnValues.map((inputRow):
+    | GeoAliasesAndSynonymsDataRow
+    | MissingGeoAliasDataRow => {
+    const alias = inputRow[0];
+    const lookupKey = keyNormalizerForSlightlyFuzzyLookups(alias);
+    return lookupTable[lookupKey] ? lookupTable[lookupKey] : { alias };
+  });
 }

@@ -165,9 +165,10 @@ export function GM_INTERPOLATE(
     const numericGeoTimes = geoTimes.map(timeString => Number(timeString));
     const geoMinTime = Math.min(...numericGeoTimes);
     const geoMaxTime = Math.max(...numericGeoTimes);
-    const geoTimesToIncludeInOutput = range(geoMinTime, geoMaxTime + 1).map(
-      time => String(time)
-    );
+    const geoTimesToIncludeInOutput = range(
+      geoMinTime,
+      geoMaxTime + 1
+    ).map(time => String(time));
 
     for (const time of geoTimesToIncludeInOutput) {
       const data = [];

@@ -115,9 +115,7 @@ export function menuRefreshDataDependencies() {
               writeStatus(dataDependenciesSheet, index, {
                 importRangeRows: null,
                 lastChecked: null,
-                notes: `Not imported since there was no "version" named range in the source doc ("${
-                  conceptDataFasttrackCatalogEntry.docId
-                }")`
+                notes: `Not imported since there was no "version" named range in the source doc ("${conceptDataFasttrackCatalogEntry.docId}")`
               });
               return;
             }
@@ -177,9 +175,7 @@ export function menuRefreshDataDependencies() {
             writeStatus(dataDependenciesSheet, index, {
               importRangeRows: null,
               lastChecked: null,
-              notes: `Not imported since the source sheet "${
-                conceptDataFasttrackCatalogEntry.worksheetReference.name
-              }" was not available`
+              notes: `Not imported since the source sheet "${conceptDataFasttrackCatalogEntry.worksheetReference.name}" was not available`
             });
             return;
           }

@@ -63,9 +63,7 @@ export function getValidConceptDataFasttrackCatalogEntry(
   const indicatorOrder = parseInt(matchingConcept.indicator_order, 10);
   if (indicatorOrder < 1) {
     throw new Error(
-      `The indicator order ("${
-        matchingConcept.indicator_order
-      }") listed in the fasttrack catalog for this concept was empty or less than 1`
+      `The indicator order ("${matchingConcept.indicator_order}") listed in the fasttrack catalog for this concept was empty or less than 1`
     );
   }
   return {

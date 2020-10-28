@@ -2,9 +2,16 @@ import test from "ava";
 import { preProcessInputRangeWithHeaders } from "./cleanInputRange";
 
 test("preProcessInputRangeWithHeaders with a table with an empty trailing row", t => {
-  const inputRangeWithHeaders = [["geo", "name"], ["foo", "Foo"], ["", ""]];
+  const inputRangeWithHeaders = [
+    ["geo", "name"],
+    ["foo", "Foo"],
+    ["", ""]
+  ];
   const result = preProcessInputRangeWithHeaders(inputRangeWithHeaders);
-  t.deepEqual(result, [["geo", "name"], ["foo", "Foo"]]);
+  t.deepEqual(result, [
+    ["geo", "name"],
+    ["foo", "Foo"]
+  ]);
 });
 
 test("preProcessInputRangeWithHeaders with a table with empty trailing rows", t => {
@@ -15,13 +22,22 @@ test("preProcessInputRangeWithHeaders with a table with empty trailing rows", t 
     ["", ""]
   ];
   const result = preProcessInputRangeWithHeaders(inputRangeWithHeaders);
-  t.deepEqual(result, [["geo", "name"], ["foo", "Foo"]]);
+  t.deepEqual(result, [
+    ["geo", "name"],
+    ["foo", "Foo"]
+  ]);
 });
 
 test("preProcessInputRangeWithHeaders with a table without empty trailing rows", t => {
-  const inputRangeWithHeaders = [["geo", "name"], ["foo", "Foo"]];
+  const inputRangeWithHeaders = [
+    ["geo", "name"],
+    ["foo", "Foo"]
+  ];
   const result = preProcessInputRangeWithHeaders(inputRangeWithHeaders);
-  t.deepEqual(result, [["geo", "name"], ["foo", "Foo"]]);
+  t.deepEqual(result, [
+    ["geo", "name"],
+    ["foo", "Foo"]
+  ]);
 });
 
 test("preProcessInputRangeWithHeaders with a column with an empty trailing rows", t => {

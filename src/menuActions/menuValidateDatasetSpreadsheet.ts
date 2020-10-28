@@ -147,17 +147,13 @@ function validateDatasetSpreadsheet(
         recordValidationResult(
           key,
           false,
-          `The '${
-            outputSheetMetadata.name
-          }' output sheet should have at least 4 header columns`
+          `The '${outputSheetMetadata.name}' output sheet should have at least 4 header columns`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `The '${
-            outputSheetMetadata.name
-          }' output sheet has at least 4 header columns`
+          `The '${outputSheetMetadata.name}' output sheet has at least 4 header columns`
         );
       }
 
@@ -166,17 +162,13 @@ function validateDatasetSpreadsheet(
         recordValidationResult(
           key,
           false,
-          `The '${
-            outputSheetMetadata.name
-          }' output sheet should not have filter mode turned on (since it breaks the CSV endpoint)`
+          `The '${outputSheetMetadata.name}' output sheet should not have filter mode turned on (since it breaks the CSV endpoint)`
         );
       } else {
         recordValidationResult(
           key,
           true,
-          `The '${
-            outputSheetMetadata.name
-          }' output sheet does not have filter mode turned on (since it breaks the CSV endpoint)`
+          `The '${outputSheetMetadata.name}' output sheet does not have filter mode turned on (since it breaks the CSV endpoint)`
         );
       }
     });
