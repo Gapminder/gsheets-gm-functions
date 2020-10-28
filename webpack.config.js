@@ -46,12 +46,16 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin([destination]),
-    new CopyWebpackPlugin([
+    new CopyWebpackPlugin(
       {
-        from: './appsscript.json',
-        to: path.resolve(__dirname, destination)
+        patterns: [
+          {
+            from: './appsscript.json',
+            to: path.resolve(__dirname, destination)
+          }
+        ]
       }
-    ]),
+      ),
     new GasPlugin(),
     new es3ifyPlugin(),
   ],
