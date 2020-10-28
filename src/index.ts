@@ -24,6 +24,7 @@ import { GM_WEIGHTED_AVERAGE } from "./GM_WEIGHTED_AVERAGE";
 import { menuRefreshDataCatalog } from "./menuActions/menuRefreshDataCatalog";
 import { menuRefreshDataDependencies } from "./menuActions/menuRefreshDataDependencies";
 import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatasetSpreadsheet";
+import { GM_LARGEST_REMAINDER_ROUND } from "./GM_LARGEST_REMAINDER_ROUND";
 
 /* tslint:disable:only-arrow-functions */
 
@@ -311,6 +312,27 @@ import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatase
     method,
     page_size,
     page
+  );
+};
+
+/**
+ * Rounds floats/fractions in that ensures that the total remains a specific target.
+ * Use for rounding percentages and ensuring that the total is always 100%.
+ *
+ * @param {A1:D} input_table_with_rows_of_floats_that_should_be_summed
+ * @param {"100"} target_total_sum The target total sum
+ * @param {"2"} decimals Number of decimals to round to
+ * @customfunction
+ */
+(global as any).GM_LARGEST_REMAINDER_ROUND = function(
+  input_table_with_rows_of_floats_that_should_be_summed: string[][],
+  target_total_sum: number,
+  decimals: number
+) {
+  return GM_LARGEST_REMAINDER_ROUND(
+    input_table_with_rows_of_floats_that_should_be_summed,
+    target_total_sum,
+    decimals
   );
 };
 
