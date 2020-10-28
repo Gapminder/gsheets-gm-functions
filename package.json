@@ -48,7 +48,7 @@
   "scripts": {
     "build": "webpack",
     "deploy": "npm run format && npm run build && npm run push && npm run docs && npm run lint",
-    "docs": "typedoc --theme markdown --excludeExternals --externalPattern \"**/node_modules/**\" --mode file --ignoreCompilerErrors --out docs --gitRevision v$npm_package_version --readme INTRO.md src",
+    "docs": "typedoc --theme markdown --excludeExternals --externalPattern \"**/node_modules/**\" --mode file --ignoreCompilerErrors --out docs --gitRevision v$npm_package_version --readme none src && ./tweak-generated-docs.sh",
     "format": "prettier \"src/**/*.ts\" --write",
     "lint": "tslint -t verbose --fix --project .",
     "push": "cp .clasp.tpl.json .clasp.json && clasp setting scriptId \"1F7xx7wGe-ylQVAbWC_F-WnnEdxlatnmttMBqs81K618bVGTtsmzyoKCz\" && clasp push && clasp setting scriptId \"13U130ySjgtSjgcPLM4483Ae_cUXQGKuJowvjD3s-9qh-q8YhddJNnjyR\" && clasp push",
