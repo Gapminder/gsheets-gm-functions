@@ -13,8 +13,9 @@ const getRemainder = a => {
 export const largestRemainderRound = (numArr, totalSeats, decimalNum) => {
   totalSeats = totalSeats || 100;
   decimalNum = decimalNum || 0;
-  if (numArr.find(x => typeof x !== "number" || x < 0)) {
-    throw new Error("This is not an array of positive numbers");
+  const nonPositiveNumbers = numArr.filter(x => typeof x !== "number" || x < 0);
+  if (nonPositiveNumbers.length > 0) {
+    throw new Error("This is not an array of only positive numbers");
   }
   if (decimalNum > 0) {
     const multi = Math.pow(10, decimalNum);
