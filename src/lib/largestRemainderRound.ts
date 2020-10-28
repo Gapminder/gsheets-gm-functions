@@ -22,7 +22,7 @@ export function largestRemainderRound(numArr, totalSeats, decimalNum) {
       return {
         seats: Math.floor(seats),
         remainder: getRemainder(seats),
-        index: index
+        index
       };
     })
     .sort(function(a, b) {

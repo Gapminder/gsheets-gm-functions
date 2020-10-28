@@ -14,6 +14,7 @@ import { GM_GROWTH_SLOW } from "./GM_GROWTH_SLOW";
 import { GM_ID } from "./GM_ID";
 import { GM_IMPORT_SLOW } from "./GM_IMPORT_SLOW";
 import { GM_INTERPOLATE } from "./GM_INTERPOLATE";
+import { GM_LARGEST_REMAINDER_ROUND } from "./GM_LARGEST_REMAINDER_ROUND";
 import { GM_NAME } from "./GM_NAME";
 import { GM_PER_CAP } from "./GM_PER_CAP";
 import { GM_PER_CAP_SLOW } from "./GM_PER_CAP_SLOW";
@@ -24,7 +25,6 @@ import { GM_WEIGHTED_AVERAGE } from "./GM_WEIGHTED_AVERAGE";
 import { menuRefreshDataCatalog } from "./menuActions/menuRefreshDataCatalog";
 import { menuRefreshDataDependencies } from "./menuActions/menuRefreshDataDependencies";
 import { menuValidateDatasetSpreadsheet } from "./menuActions/menuValidateDatasetSpreadsheet";
-import { GM_LARGEST_REMAINDER_ROUND } from "./GM_LARGEST_REMAINDER_ROUND";
 
 /* tslint:disable:only-arrow-functions */
 
