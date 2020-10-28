@@ -26,7 +26,11 @@ export function GM_LARGEST_REMAINDER_ROUND(
     decimals = 2;
   }
   const outputTable: number[][] = inputTable.map(inputTableRows => {
-    return largestRemainderRound(inputTableRows, target_total_sum, decimals);
+    try {
+      return largestRemainderRound(inputTableRows, target_total_sum, decimals);
+    } catch (e) {
+      return [e.message];
+    }
   });
   return outputTable;
 }
