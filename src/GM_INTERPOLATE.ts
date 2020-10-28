@@ -194,6 +194,10 @@ export function GM_INTERPOLATE(
             value = interpolatedValuesByColumnIndexAndTime[columnIndex][time];
           }
         }
+        // NaN to null to make the output easier to diff against an expected JSON fixture
+        if (isNaN(value)) {
+          value = null;
+        }
         data.push(value);
       }
       const outputTableRow: GmTableRow = {

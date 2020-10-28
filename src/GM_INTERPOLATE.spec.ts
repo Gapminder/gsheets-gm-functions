@@ -223,10 +223,10 @@ const testInterpolation: Macro<any> = (
         "Electoral process and pluralism"
       ],
       ["foo", "Foo", 1900, 0, 100],
-      ["foo", "Foo", 1901, NaN, 100.98057977],
-      ["foo", "Foo", 1902, NaN, 101.9707749],
-      ["foo", "Foo", 1903, NaN, 102.97067969],
-      ["foo", "Foo", 1904, NaN, 103.98038934],
+      ["foo", "Foo", 1901, null, 100.98057977],
+      ["foo", "Foo", 1902, null, 101.9707749],
+      ["foo", "Foo", 1903, null, 102.97067969],
+      ["foo", "Foo", 1904, null, 103.98038934],
       ["foo", "Foo", 1905, 0, 105]
     ]
   },
