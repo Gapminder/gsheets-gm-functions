@@ -10,7 +10,7 @@ const getRemainder = a => {
 /**
  * @hidden
  */
-export function largestRemainderRound(numArr, totalSeats, decimalNum) {
+export const largestRemainderRound = (numArr, totalSeats, decimalNum) => {
   totalSeats = totalSeats || 100;
   decimalNum = decimalNum || 0;
   if (numArr.find(x => typeof x !== "number" || x < 0)) {
@@ -25,21 +25,21 @@ export function largestRemainderRound(numArr, totalSeats, decimalNum) {
   const sum = numArr.reduce((s, i) => s + i, 0);
   // 1. distribute default seats and prioritize the party with high remainder
   const seatDistribution = numArr
-    .map(function(num, index) {
+    .map((num, index) => {
       const seats = (num / sum) * totalSeats;
       return {
-        seats: Math.floor(seats),
+        index,
         remainder: getRemainder(seats),
-        index
+        seats: Math.floor(seats)
       };
     })
-    .sort(function(a, b) {
+    .sort((a, b) => {
       return b.remainder - a.remainder;
     });
 
   // 2. get the total remain seats
   const takenSeats = seatDistribution.reduce(
-    (sum, current) => sum + current.seats,
+    ($sum, current) => $sum + current.seats,
     0
   );
   const totalRemains = totalSeats - takenSeats;
@@ -50,4 +50,4 @@ export function largestRemainderRound(numArr, totalSeats, decimalNum) {
   }
 
   return seatDistribution.sort((a, b) => a.index - b.index).map(a => a.seats);
-}
+};
