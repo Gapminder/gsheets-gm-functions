@@ -31,7 +31,10 @@ interface OpenNumbersDatasetDataPointsLookupTable {
 /**
  * @hidden
  */
-export function getOpenNumbersDatasetConceptListing(repository) {
+export function getOpenNumbersDatasetConceptListing(
+  repository
+): OpenNumbersDatasetConceptListingDataRow[] {
+  // TODO: Update this to query datapackage.json instead
   const openNumbersDatasetConceptListingCsvHTTPResponse = errorHandlingFetch(
     `https://raw.githubusercontent.com/open-numbers/${repository}/master/ddf--concepts--continuous.csv`
   );
@@ -108,7 +111,9 @@ function openNumbersDatasetConceptListingParsedCsvToOpenNumbersDatasetConceptLis
         time_unit: "year",
         concept_id,
         concept_name,
-        csv_link: `https://raw.githubusercontent.com/open-numbers/${repository}/master/ddf--datapoints--${concept_id}--by--geo--time.csv`
+        // Note: Paths to the actual csvs may change on a whim and be different across datasets
+        // TODO: Use the dataset repo's datapackage.json instead of concept listing csv to access the correct path
+        csv_link: `https://raw.githubusercontent.com/open-numbers/${repository}/master/datapoints/ddf--datapoints--${concept_id}--by--geo--time.csv`
         /* tslint:enable:object-literal-sort-keys */
       };
     }

@@ -46,10 +46,15 @@ export class MinimalUrlFetchApp {
     if (params.muteHttpExceptions === undefined) {
       params.muteHttpExceptions = false;
     }
+    const now = Date.now();
     const fetchOptions: Options = {
       followRedirects: params.followRedirects
     };
     const res = request("GET", url, fetchOptions);
+    console.debug(
+      `     * (Tests-only progress info) - Request of ${url} took ${Date.now() -
+        now}ms`
+    );
     return new MinimalHttpResponse(res, params);
   }
 }

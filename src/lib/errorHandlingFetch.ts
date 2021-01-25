@@ -31,12 +31,14 @@ export const errorHandlingFetch = (
  * @hidden
  */
 export class UrlFetchAppFetchException extends Error {
+  public name: string;
   public url: string;
   public response: HTTPResponse;
   constructor(url?: string, response?: HTTPResponse) {
     const responseCode = response.getResponseCode();
     const message = `Request failed for "${url}". Returned code: ${responseCode}.`;
     super(message);
+    this.name = "UrlFetchAppFetchException";
     this.url = url;
     this.response = response;
   }

@@ -1,7 +1,6 @@
 import {
   DataGeographiesGeoNameLookupTable,
-  getDataGeographiesGeoNamesLookupTable,
-  getDataGeographiesListOfCountriesEtcLookupTable
+  getDataGeographiesGeoNamesLookupTable
 } from "../gsheetsData/dataGeographies";
 import { ConceptDataWorksheetData } from "../lib/conceptData";
 import { errorHandlingFetch } from "../lib/errorHandlingFetch";

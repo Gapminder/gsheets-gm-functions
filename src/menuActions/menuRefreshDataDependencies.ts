@@ -227,6 +227,8 @@ export function menuRefreshDataDependencies() {
                 }. Full error message was ${e.toString()}`
               });
               return;
+            } else {
+              throw e;
             }
           }
         }
