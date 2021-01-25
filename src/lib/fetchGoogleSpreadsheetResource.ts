@@ -1,3 +1,5 @@
+import { errorHandlingFetch } from "./errorHandlingFetch";
+
 /**
  * Works around a peculiar Google Spreadsheet response convention, namely returning
  * a 302 redirect to a HTML-based login page when requesting a JSON resource
@@ -5,7 +7,7 @@
  * @hidden
  */
 export function fetchGoogleSpreadsheetResource(url) {
-  const response = UrlFetchApp.fetch(url, {
+  const response = errorHandlingFetch(url, {
     followRedirects: false
   });
   if (response.getResponseCode() === 302) {

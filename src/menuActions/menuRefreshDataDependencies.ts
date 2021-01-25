@@ -196,26 +196,39 @@ export function menuRefreshDataDependencies() {
       case "open-numbers-wdi":
       case "open-numbers/ddf--open_numbers--world_development_indicators":
         {
-          const openNumbersConceptData: ConceptDataWorksheetData = getOpenNumbersConceptData(
-            conceptId,
-            time_unit,
-            geo_set,
-            openNumbersWorldDevelopmentIndicatorsDatasetConceptListing
-          );
-          importValues = [openNumbersConceptData.headers].concat(
-            openNumbersConceptData.rows.map(
-              (conceptDataRow: ConceptDataRow) => {
-                return [
-                  conceptDataRow.geo,
-                  conceptDataRow.name,
-                  conceptDataRow.time,
-                  conceptDataRow.value
-                ];
-              }
-            )
-          );
-          importRangeRows = importValues.length;
-          importRangeColumns = 4;
+          try {
+            const openNumbersConceptData: ConceptDataWorksheetData = getOpenNumbersConceptData(
+              conceptId,
+              time_unit,
+              geo_set,
+              openNumbersWorldDevelopmentIndicatorsDatasetConceptListing
+            );
+            importValues = [openNumbersConceptData.headers].concat(
+              openNumbersConceptData.rows.map(
+                (conceptDataRow: ConceptDataRow) => {
+                  return [
+                    conceptDataRow.geo,
+                    conceptDataRow.name,
+                    conceptDataRow.time,
+                    conceptDataRow.value
+                  ];
+                }
+              )
+            );
+            importRangeRows = importValues.length;
+            importRangeColumns = 4;
+          } catch (e) {
+            if (e.name === "UrlFetchAppFetchException") {
+              writeStatus(dataDependenciesSheet, index, {
+                importRangeRows: null,
+                lastChecked: null,
+                notes: `Not imported due to a failed request to open-numbers-wdi url ${
+                  e.url
+                }. Full error message was ${e.toString()}`
+              });
+              return;
+            }
+          }
         }
         break;
       default: {

@@ -4,6 +4,7 @@ import {
   getDataGeographiesListOfCountriesEtcLookupTable
 } from "../gsheetsData/dataGeographies";
 import { ConceptDataWorksheetData } from "../lib/conceptData";
+import { errorHandlingFetch } from "../lib/errorHandlingFetch";
 import { OpenNumbersDatasetConceptListingDataRow } from "./openNumbersDataset";
 
 /**
@@ -21,7 +22,7 @@ export function getOpenNumbersConceptData(
     geo_set,
     openNumbersDatasetConceptListing
   );
-  const csvDataHTTPResponse = UrlFetchApp.fetch(matchingConcept.csvLink);
+  const csvDataHTTPResponse = errorHandlingFetch(matchingConcept.csvLink);
   const csvData = Utilities.parseCsv(csvDataHTTPResponse.getContentText());
   return listOpenNumbersDatasetConceptDataCsvDataToWorksheetData(
     csvData,

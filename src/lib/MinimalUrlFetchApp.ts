@@ -1,7 +1,9 @@
 /* tslint:disable:max-classes-per-file */
 /* tslint:disable:no-implicit-dependencies */
 import request from "sync-request";
+import { Options } from "sync-request/lib/Options";
 import { Response } from "then-request";
+import URLFetchRequestOptions = GoogleAppsScript.URL_Fetch.URLFetchRequestOptions;
 
 // Implement a minimal UrlFetchApp to be able to test outside of the google apps script environment
 
@@ -10,12 +12,14 @@ import { Response } from "then-request";
  */
 class MinimalHttpResponse {
   private res: Response;
-  constructor(res) {
+  private options: URLFetchRequestOptions;
+  constructor(res, options: URLFetchRequestOptions = {}) {
     this.res = res;
+    this.options = options;
   }
   public getContentText() {
     const contentText = this.res.body.toString("utf-8");
-    if (this.getResponseCode() !== 200) {
+    if (this.getResponseCode() !== 200 && !this.options.muteHttpExceptions) {
       throw new Error(
         `Request failed for ${
           this.res.url
@@ -35,11 +39,17 @@ class MinimalHttpResponse {
  * @hidden
  */
 export class MinimalUrlFetchApp {
-  public static fetch(url, params: { followRedirects?: boolean } = {}) {
-    const options = {
+  public static fetch(
+    url,
+    params: URLFetchRequestOptions = {}
+  ): MinimalHttpResponse {
+    if (params.muteHttpExceptions === undefined) {
+      params.muteHttpExceptions = false;
+    }
+    const fetchOptions: Options = {
       followRedirects: params.followRedirects
     };
-    const res = request("GET", url, options);
-    return new MinimalHttpResponse(res);
+    const res = request("GET", url, fetchOptions);
+    return new MinimalHttpResponse(res, params);
   }
 }

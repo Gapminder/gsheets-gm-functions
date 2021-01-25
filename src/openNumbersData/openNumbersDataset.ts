@@ -1,3 +1,5 @@
+import { errorHandlingFetch } from "../lib/errorHandlingFetch";
+
 /**
  * @hidden
  */
@@ -30,7 +32,7 @@ interface OpenNumbersDatasetDataPointsLookupTable {
  * @hidden
  */
 export function getOpenNumbersDatasetConceptListing(repository) {
-  const openNumbersDatasetConceptListingCsvHTTPResponse = UrlFetchApp.fetch(
+  const openNumbersDatasetConceptListingCsvHTTPResponse = errorHandlingFetch(
     `https://raw.githubusercontent.com/open-numbers/${repository}/master/ddf--concepts--continuous.csv`
   );
   const openNumbersDatasetConceptListingParsedCsv = Utilities.parseCsv(

@@ -1,4 +1,5 @@
 import { ConceptDataWorksheetData } from "../lib/conceptData";
+import { errorHandlingFetch } from "../lib/errorHandlingFetch";
 import {
   FasttrackCatalogDataPointsDataRow,
   FasttrackCatalogDataPointsWorksheetData
@@ -23,7 +24,7 @@ export function getFasttrackCatalogConceptDataWorksheetData(
     geo_set,
     fasttrackCatalogDataPointsWorksheetData
   );
-  const worksheetCsvDataHTTPResponse = UrlFetchApp.fetch(
+  const worksheetCsvDataHTTPResponse = errorHandlingFetch(
     matchingConcept.csvLink
   );
   const worksheetCsvData = Utilities.parseCsv(
