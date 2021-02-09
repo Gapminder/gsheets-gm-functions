@@ -3,14 +3,18 @@
 /**
  * @hidden
  */
-const getRemainder = a => {
-  return (a - Math.floor(a)).toFixed(4);
+const getRemainder = (a): number => {
+  return parseFloat((a - Math.floor(a)).toFixed(4));
 };
 
 /**
  * @hidden
  */
-export const largestRemainderRound = (numArr, totalSeats, decimalNum) => {
+export const largestRemainderRound = (
+  numArr: any[],
+  totalSeats,
+  decimalNum
+) => {
   totalSeats = totalSeats || 100;
   decimalNum = decimalNum || 0;
   const nonPositiveNumbers = numArr.filter(x => typeof x !== "number" || x < 0);
@@ -50,5 +54,10 @@ export const largestRemainderRound = (numArr, totalSeats, decimalNum) => {
     seatDistribution[i].seats++;
   }
 
-  return seatDistribution.sort((a, b) => a.index - b.index).map(a => a.seats);
+  const results = seatDistribution
+    .sort((a, b) => a.index - b.index)
+    .map(a => a.seats);
+
+  // Replace any NaN results with zeroes
+  return results.map(result => (isNaN(result) ? 0 : result));
 };

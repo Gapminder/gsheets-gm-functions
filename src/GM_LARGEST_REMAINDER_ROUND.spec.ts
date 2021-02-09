@@ -67,6 +67,20 @@ const testLargestRemainderRound: Macro<any> = (
       ["This is not an array of only positive numbers"],
       [0.33, 0.12, 0.35, 0.2]
     ]
+  },
+  {
+    input_table_with_rows_of_floats_that_should_be_summed: [
+      [0.5, 0.5],
+      ["n/a", 1.0],
+      ["n/a", "n/a"]
+    ],
+    target_total_sum: 1,
+    decimals: 2,
+    expectedOutput: [
+      [0.5, 0.5],
+      [0, 1],
+      [0, 0]
+    ]
   }
   /* tslint:enable:object-literal-sort-keys */
 ].forEach((testData, index) => {

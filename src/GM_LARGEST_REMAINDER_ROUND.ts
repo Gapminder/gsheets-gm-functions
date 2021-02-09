@@ -25,9 +25,15 @@ export function GM_LARGEST_REMAINDER_ROUND(
   if (!decimals) {
     decimals = 2;
   }
-  const outputTable: number[][] = inputTable.map(inputTableRows => {
+  const outputTable: number[][] = inputTable.map(inputTableRow => {
+    // Treat "n/a" string values as zeroes - considering them and indication of missing results that should result in 0%
+    // Note that this is different than spreadsheet #N/A values, which are still considered invalid input
+    const numArr = inputTableRow.map(inputTableRowColl =>
+      inputTableRowColl === "n/a" ? 0 : inputTableRowColl
+    );
+
     try {
-      return largestRemainderRound(inputTableRows, target_total_sum, decimals);
+      return largestRemainderRound(numArr, target_total_sum, decimals);
     } catch (e) {
       return [e.message];
     }
