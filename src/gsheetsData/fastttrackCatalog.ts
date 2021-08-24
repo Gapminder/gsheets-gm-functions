@@ -1,9 +1,9 @@
-import { fetchWorksheetData } from "./fetchWorksheetData";
+import { fetchWorksheetData, WorksheetData } from "./fetchWorksheetData";
 import {
   fasttrackCatalogDocDataPointsWorksheetReference,
   fasttrackCatalogDocSpreadsheetId
 } from "./hardcodedConstants";
-import { ListFasttrackCatalogDataPoints } from "./types/listFasttrackCatalogDataPoints";
+import { sanityCheckHeaders } from "./sanityCheckHeaders";
 
 /**
  * @hidden
@@ -35,11 +35,11 @@ export interface FasttrackCatalogDataPointsWorksheetData {
  * @hidden
  */
 export function getFasttrackCatalogDataPointsList() {
-  const worksheetDataResponse: ListFasttrackCatalogDataPoints.Response = fetchWorksheetData(
+  const worksheetDataResponse = fetchWorksheetData(
     fasttrackCatalogDocSpreadsheetId,
     fasttrackCatalogDocDataPointsWorksheetReference
   );
-  return gsheetsDataApiFeedsListFasttrackCatalogDataPointsResponseToWorksheetData(
+  return gsheetsWorksheetDataToFasttrackCatalogDataPointsWorksheetData(
     worksheetDataResponse
   );
 }
@@ -47,23 +47,54 @@ export function getFasttrackCatalogDataPointsList() {
 /**
  * @hidden
  */
-function gsheetsDataApiFeedsListFasttrackCatalogDataPointsResponseToWorksheetData(
-  r: ListFasttrackCatalogDataPoints.Response
+function gsheetsWorksheetDataToFasttrackCatalogDataPointsWorksheetData(
+  worksheetData: WorksheetData
 ): FasttrackCatalogDataPointsWorksheetData {
-  const rows = r.feed.entry.map(currentValue => {
+  // Separate the header row from the data rows
+  const headers = worksheetData.values.shift();
+  // Sanity check headers
+  const expectedHeaders = [
+    "dataset_id", // 0
+    "indicator order",
+    "geography",
+    "time unit",
+    "concept_id",
+    "dimensions", // 5
+    "concept_name", // 6
+    "table_format",
+    "csv_link",
+    "",
+    "DataBase name for time", // 10
+    "key",
+    "doc_id",
+    "doc-link",
+    "concept_id",
+    "name_short", // 15
+    "concept_version",
+    "Database name of geo set",
+    "sheet name"
+  ];
+
+  sanityCheckHeaders(
+    headers,
+    expectedHeaders,
+    "FasttrackCatalogDataPointsWorksheet"
+  );
+  // Interpret the data rows based on position
+  const rows = worksheetData.values.map(worksheetDataRow => {
     return {
       /* tslint:disable:object-literal-sort-keys */
-      dataset_id: currentValue.gsx$datasetid.$t,
-      indicator_order: currentValue.gsx$indicatororder.$t,
-      geo_set: currentValue.gsx$geography.$t,
-      time_unit: currentValue.gsx$timeunit.$t,
-      concept_id: currentValue.gsx$conceptid.$t,
-      dimensions: currentValue.gsx$dimensions.$t,
-      concept_name: currentValue.gsx$conceptname.$t,
-      concept_version: currentValue.gsx$conceptversion.$t,
-      table_format: currentValue.gsx$tableformat.$t,
-      csv_link: currentValue.gsx$csvlink.$t,
-      doc_id: currentValue.gsx$docid.$t.replace(/\/.*/, "") // Since sometimes the gsheet values for doc_id has included /edit#gid=0000 after the actual doc id
+      dataset_id: worksheetDataRow[0],
+      indicator_order: worksheetDataRow[1],
+      geo_set: worksheetDataRow[2],
+      time_unit: worksheetDataRow[3],
+      concept_id: worksheetDataRow[4],
+      dimensions: worksheetDataRow[5],
+      concept_name: worksheetDataRow[6],
+      concept_version: worksheetDataRow[16],
+      table_format: worksheetDataRow[7],
+      csv_link: worksheetDataRow[8],
+      doc_id: worksheetDataRow[12]
       /* tslint:enable:object-literal-sort-keys */
     };
   });

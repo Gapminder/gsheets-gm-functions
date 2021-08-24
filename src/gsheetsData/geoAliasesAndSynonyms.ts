@@ -1,10 +1,10 @@
-import { fetchWorksheetData } from "./fetchWorksheetData";
+import { fetchWorksheetData, WorksheetData } from "./fetchWorksheetData";
 import {
   geoAliasesAndSynonymsDocSpreadsheetId,
   geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet
 } from "./hardcodedConstants";
 import { keyNormalizerForSlightlyFuzzyLookups } from "./keyNormalizerForSlightlyFuzzyLookups";
-import { ListGeoAliasesAndSynonyms } from "./types/listGeoAliasesAndSynonyms";
+import { sanityCheckHeaders } from "./sanityCheckHeaders";
 
 /**
  * @hidden
@@ -56,11 +56,11 @@ export function getGeoAliasesAndSynonymsWorksheetData(geo_set) {
   if (!geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet[geo_set]) {
     throw new Error(`Unknown Gapminder geo_set: "${geo_set}"`);
   }
-  const worksheetDataResponse: ListGeoAliasesAndSynonyms.Response = fetchWorksheetData(
+  const worksheetDataResponse = fetchWorksheetData(
     geoAliasesAndSynonymsDocSpreadsheetId,
     geoAliasesAndSynonymsDocWorksheetReferencesByGeoSet[geo_set]
   );
-  return gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
+  return worksheetDataToGeoAliasesAndSynonymsWorksheetData(
     worksheetDataResponse
   );
 }
@@ -68,15 +68,25 @@ export function getGeoAliasesAndSynonymsWorksheetData(geo_set) {
 /**
  * @hidden
  */
-function gsheetsDataApiFeedsListGeoAliasesAndSynonymsResponseToWorksheetData(
-  r: ListGeoAliasesAndSynonyms.Response
+function worksheetDataToGeoAliasesAndSynonymsWorksheetData(
+  worksheetData: WorksheetData
 ): GeoAliasesAndSynonymsWorksheetData {
-  const rows = r.feed.entry.map(currentValue => {
+  // Separate the header row from the data rows
+  const headers = worksheetData.values.shift();
+  // Sanity check headers
+  const expectedHeaders = ["alias", "geo", "name"];
+  sanityCheckHeaders(
+    headers,
+    expectedHeaders,
+    "GeoAliasesAndSynonymsWorksheet"
+  );
+  // Interpret the data rows based on position
+  const rows = worksheetData.values.map(worksheetDataRow => {
     return {
       /* tslint:disable:object-literal-sort-keys */
-      alias: currentValue.gsx$alias.$t,
-      geo: currentValue.gsx$geo.$t,
-      name: currentValue.gsx$name.$t
+      alias: worksheetDataRow[0],
+      geo: worksheetDataRow[1],
+      name: worksheetDataRow[2]
       /* tslint:enable:object-literal-sort-keys */
     };
   });

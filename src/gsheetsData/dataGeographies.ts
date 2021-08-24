@@ -1,11 +1,11 @@
 import { validateAndAliasTheGeoSetArgument } from "../lib/validateAndAliasTheGeoSetArgument";
-import { fetchWorksheetData } from "./fetchWorksheetData";
+import { fetchWorksheetData, WorksheetData } from "./fetchWorksheetData";
 import {
   dataGeographiesDocListOfCountriesEtcWorksheetReference,
   dataGeographiesDocSpreadsheetId,
   hardcodedGeoNamesLookupTables
 } from "./hardcodedConstants";
-import { ListDataGeographiesListOfCountriesEtc } from "./types/listDataGeographiesListOfCountriesEtc";
+import { sanityCheckHeaders } from "./sanityCheckHeaders";
 
 /**
  * @hidden
@@ -61,11 +61,11 @@ export interface DataGeographiesGeoNameLookupTable {
  * @hidden
  */
 export function getDataGeographiesListOfCountriesEtcLookupTable() {
-  const worksheetDataResponse: ListDataGeographiesListOfCountriesEtc.Response = fetchWorksheetData(
+  const worksheetDataResponse = fetchWorksheetData(
     dataGeographiesDocSpreadsheetId,
     dataGeographiesDocListOfCountriesEtcWorksheetReference
   );
-  const data = gsheetsDataApiFeedsListDataGeographiesListOfCountriesEtcResponseToWorksheetData(
+  const data = gsheetsWorksheetDataToDataGeographiesListOfCountriesEtcWorksheetData(
     worksheetDataResponse
   );
   return dataGeographiesListOfCountriesEtcWorksheetDataToGeoLookupTable(data);
@@ -93,52 +93,47 @@ export function getDataGeographiesGeoNamesLookupTable(
 /**
  * @hidden
  */
-function gsheetsDataApiFeedsListDataGeographiesListOfCountriesEtcResponseToWorksheetData(
-  r: ListDataGeographiesListOfCountriesEtc.Response
+function gsheetsWorksheetDataToDataGeographiesListOfCountriesEtcWorksheetData(
+  worksheetData: WorksheetData
 ): DataGeographiesListOfCountriesEtcWorksheetData {
-  const checkAttr = (
-    entry: ListDataGeographiesListOfCountriesEtc.Entry,
-    attribute
-  ) => {
-    if (!entry["gsx$" + attribute]) {
-      throw new Error(
-        `Found no attribute "${attribute}" in the Data Geographies list-of-countries-etc sheet's data feed. Has the column been removed/renamed?`
-      );
-    }
-  };
-  const rows = r.feed.entry.map(currentValue => {
-    // Runtime sanity check since type definitions may be outdated compared to the actual feed data
-    [
-      "geo",
-      "name",
-      "fourregions",
-      "eightregions",
-      "sixregions",
-      "membersoecdg77",
-      "latitude",
-      "longitude",
-      "unmembersince",
-      "worldbankregion",
-      "worldbank4incomegroups2017",
-      "worldbank3incomegroups2017"
-    ].map(attribute => {
-      checkAttr(currentValue, attribute);
-    });
+  // Separate the header row from the data rows
+  const headers = worksheetData.values.shift();
+  // Sanity check headers
+  const expectedHeaders = [
+    "geo",
+    "name",
+    "four_regions",
+    "eight_regions",
+    "six_regions",
+    "members_oecd_g77",
+    "Latitude",
+    "Longitude",
+    "UN member since",
+    "World bank region",
+    "World bank, 4 income groups 2017",
+    "World bank, 3 income groups 2017"
+  ];
+  sanityCheckHeaders(
+    headers,
+    expectedHeaders,
+    "DataGeographiesListOfCountriesEtcWorksheet"
+  );
+  // Interpret the data rows based on position
+  const rows = worksheetData.values.map(worksheetDataRow => {
     return {
       /* tslint:disable:object-literal-sort-keys */
-      geo: currentValue.gsx$geo.$t,
-      name: currentValue.gsx$name.$t,
-      fourregions: currentValue.gsx$fourregions.$t,
-      eightregions: currentValue.gsx$eightregions.$t,
-      sixregions: currentValue.gsx$sixregions.$t,
-      membersoecdg77: currentValue.gsx$membersoecdg77.$t,
-      latitude: currentValue.gsx$latitude.$t,
-      longitude: currentValue.gsx$longitude.$t,
-      unmembersince: currentValue.gsx$unmembersince.$t,
-      worldbankregion: currentValue.gsx$worldbankregion.$t,
-      worldbank4incomegroups2017:
-        currentValue.gsx$worldbank4incomegroups2017.$t,
-      worldbank3incomegroups2017: currentValue.gsx$worldbank3incomegroups2017.$t
+      geo: worksheetDataRow[0],
+      name: worksheetDataRow[1],
+      fourregions: worksheetDataRow[2],
+      eightregions: worksheetDataRow[3],
+      sixregions: worksheetDataRow[4],
+      membersoecdg77: worksheetDataRow[5],
+      latitude: worksheetDataRow[6],
+      longitude: worksheetDataRow[7],
+      unmembersince: worksheetDataRow[8],
+      worldbankregion: worksheetDataRow[9],
+      worldbank4incomegroups2017: worksheetDataRow[10],
+      worldbank3incomegroups2017: worksheetDataRow[11]
       /* tslint:enable:object-literal-sort-keys */
     };
   });

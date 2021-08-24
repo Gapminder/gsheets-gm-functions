@@ -1,5 +1,17 @@
 import { fetchGoogleSpreadsheetResource } from "../lib/fetchGoogleSpreadsheetResource";
-import { WorksheetReference } from "./hardcodedConstants";
+import {
+  GSHEETS_GM_FUNCTIONS_API_KEY,
+  WorksheetReference
+} from "./hardcodedConstants";
+
+/**
+ * @hidden
+ */
+export interface WorksheetData {
+  range: string;
+  majorDimension: string;
+  values: string[][];
+}
 
 /**
  * TODO: Be able to reference the name of the worksheet
@@ -8,16 +20,10 @@ import { WorksheetReference } from "./hardcodedConstants";
 export function fetchWorksheetData(
   spreadsheetId,
   worksheetReference: WorksheetReference
-) {
-  const jsonWorksheetDataUrl = `https://spreadsheets.google.com/feeds/list/${spreadsheetId}/${worksheetReference.position}/public/values?alt=json`;
+): WorksheetData {
+  const jsonWorksheetDataUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${worksheetReference.name}?alt=json&key=${GSHEETS_GM_FUNCTIONS_API_KEY}`;
   const worksheetDataResponse = fetchGoogleSpreadsheetResource(
     jsonWorksheetDataUrl
   );
-  const fetchedWorksheetName = worksheetDataResponse.feed.title.$t;
-  if (fetchedWorksheetName !== worksheetReference.name) {
-    throw new Error(
-      `Unexpected worksheet name "${fetchedWorksheetName}". The "${worksheetReference.name}" worksheet must be in position ${worksheetReference.position} in spreadsheet with id ${spreadsheetId}`
-    );
-  }
   return worksheetDataResponse;
 }
