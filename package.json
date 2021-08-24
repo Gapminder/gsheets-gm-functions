@@ -1,6 +1,6 @@
 {
   "name": "gsheets-gm-functions",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Gapminder-specific custom functions for Google Spreadsheets",
   "main": "src/index.js",
   "dependencies": {
