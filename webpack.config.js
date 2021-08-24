@@ -1,4 +1,5 @@
 const path = require('path');
+const Dotenv = require('dotenv-webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const GasPlugin = require('gas-webpack-plugin');
@@ -45,6 +46,9 @@ module.exports = {
     ],
   },
   plugins: [
+    new Dotenv({
+      safe: true,
+    }),
     new CleanWebpackPlugin([destination]),
     new CopyWebpackPlugin(
       {

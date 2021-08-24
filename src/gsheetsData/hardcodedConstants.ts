@@ -5,6 +5,13 @@
 /* tslint:disable:object-literal-sort-keys */
 
 /**
+ * Replaced by webpack using the corresponding value set in .env during build-time
+ * @hidden
+ */
+export const GSHEETS_GM_FUNCTIONS_API_KEY =
+  process.env.GSHEETS_GM_FUNCTIONS_API_KEY;
+
+/**
  * These are the geo sets recognized/supported currently
  * @hidden
  */

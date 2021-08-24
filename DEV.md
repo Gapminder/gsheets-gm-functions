@@ -8,6 +8,7 @@
 ## Development workflow
 
 * Check out the latest code
+* Copy `.env.example` to `.env` and insert the current API key from https://console.cloud.google.com/apis/credentials/key/e4d64583-f488-47fb-81a8-eb1a7308cb2f?project=gsheets-gm-functions in it
 * Run tests (a decent internet connection is necessary since many requests are made querying live data)
 * Fix broken tests (sometimes live data changes which breaks tests)
 * Fix/add features of interest
