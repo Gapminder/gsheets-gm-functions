@@ -1,5 +1,5 @@
-import { ConceptDataWorksheetData } from "./types/conceptData";
 import { errorHandlingFetch } from "../lib/errorHandlingFetch";
+import { ConceptDataWorksheetData } from "./../lib/conceptData";
 import {
   FasttrackCatalogDataPointsDataRow,
   FasttrackCatalogDataPointsWorksheetData

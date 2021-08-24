@@ -10,17 +10,13 @@ Gapminder-specific custom functions and related menu item actions for Google Spr
 * [GM\_DATA](README.md#gm_data)
 * [GM\_DATAPOINT\_CATALOG\_STATUS](README.md#gm_datapoint_catalog_status)
 * [GM\_DATA\_AGGR](README.md#gm_data_aggr)
-* [GM\_DATA\_SLOW](README.md#gm_data_slow)
 * [GM\_GEO\_LOOKUP\_TABLE](README.md#gm_geo_lookup_table)
 * [GM\_GROWTH](README.md#gm_growth)
-* [GM\_GROWTH\_SLOW](README.md#gm_growth_slow)
 * [GM\_ID](README.md#gm_id)
-* [GM\_IMPORT\_SLOW](README.md#gm_import_slow)
 * [GM\_INTERPOLATE](README.md#gm_interpolate)
 * [GM\_LARGEST\_REMAINDER\_ROUND](README.md#gm_largest_remainder_round)
 * [GM\_NAME](README.md#gm_name)
 * [GM\_PER\_CAP](README.md#gm_per_cap)
-* [GM\_PER\_CAP\_SLOW](README.md#gm_per_cap_slow)
 * [GM\_PROP](README.md#gm_prop)
 * [GM\_PROP\_AGGR](README.md#gm_prop_aggr)
 * [GM\_UNPIVOT](README.md#gm_unpivot)
@@ -135,37 +131,6 @@ A two-dimensional array containing the cell/column contents described above in t
 
 ___
 
-### GM\_DATA\_SLOW
-
-▸ **GM_DATA_SLOW**(`column_or_table_range_with_headers`: string[][], `concept_id`: string, `time_unit`: string, `geo_set`: string): any[][]
-
-*Defined in [src/GM_DATA_SLOW.ts:23](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/GM_DATA_SLOW.ts#L23)*
-
-Inserts a property or concept column, including a header row, with a common Gapminder property or concept matched against the input column/table range.
-
-Imports the corresponding data on-the-fly. Note that using GM_DATA is the only performant way to join concept data in a spreadsheet.
-
-Takes 10-20 seconds:
-=GM_DATA_SLOW(B7:D, "pop", "year", "countries_etc")
-
-Takes 2-4 seconds:
-=GM_DATA(B7:D, 'data:pop@fasttrack:year:countries_etc'!A1:D)
-
-#### Parameters:
-
-Name | Type | Description |
------- | ------ | ------ |
-`column_or_table_range_with_headers` | string[][] | Either a column range (for a property lookup column) or a table range including [geo,name,time] (for a concept value lookup) |
-`concept_id` | string | The concept id ("pop") of which value to look up |
-`time_unit` | string | (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against |
-`geo_set` | string | (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
-
-**Returns:** any[][]
-
-A two-dimensional array containing the cell/column contents described above in the summary.
-
-___
-
 ### GM\_GEO\_LOOKUP\_TABLE
 
 ▸ **GM_GEO_LOOKUP_TABLE**(`geo_set`: string): string[][]
@@ -212,31 +177,6 @@ A two-dimensional array containing the cell/column contents described above in t
 
 ___
 
-### GM\_GROWTH\_SLOW
-
-▸ **GM_GROWTH_SLOW**(`input_table_range_with_headers`: string[][], `concept_id`: string, `time_unit`: string, `geo_set`: string): string[][]
-
-*Defined in [src/GM_GROWTH_SLOW.ts:17](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/GM_GROWTH_SLOW.ts#L17)*
-
-Inserts the growth per time unit of a common Gapminder concept column, including a header row, matched against the input table range.
-
-Note: Uses GM_DATA_SLOW internally. Performance-related documentation about GM_DATA_SLOW applies.
-
-#### Parameters:
-
-Name | Type | Description |
------- | ------ | ------ |
-`input_table_range_with_headers` | string[][] | A table range including [geo,name,time] to be used for a concept value lookup |
-`concept_id` | string | The concept id ("pop") of which value to look up |
-`time_unit` | string | (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against |
-`geo_set` | string | (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
-
-**Returns:** string[][]
-
-A two-dimensional array containing the cell/column contents described above in the summary.
-
-___
-
 ### GM\_ID
 
 ▸ **GM_ID**(`column_range_with_headers`: string[][], `geo_set`: string, `verbose`: boolean): string[][]
@@ -253,42 +193,6 @@ Name | Type | Description |
 `column_range_with_headers` | string[][] |  |
 `geo_set` | string | (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 `verbose` | boolean | (Optional with default "FALSE") Explains how a certain row is invalid instead of simply returning "[Invalid]" for the row |
-
-**Returns:** string[][]
-
-A two-dimensional array containing the cell/column contents described above in the summary.
-
-___
-
-### GM\_IMPORT\_SLOW
-
-▸ **GM_IMPORT_SLOW**(`concept_id`: string, `time_unit`: string, `geo_set`: string): string[][]
-
-*Defined in [src/GM_IMPORT_SLOW.ts:28](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/GM_IMPORT_SLOW.ts#L28)*
-
-Imports a standard Gapminder concept table.
-
-Note that using data dependencies in combination with the QUERY() function instead of GM_IMPORT_SLOW() is the only performant way to include concept data in a spreadsheet.
-
-Takes 2-4 seconds:
-=GM_IMPORT_SLOW("pop", "year", "global")
-
-Almost instant:
-=QUERY('data:pop@fasttrack:year:global'!A1:D)
-
-Always yields "Error: Result too large" since the "countries_etc" version of the dataset is rather large:
-=GM_IMPORT_SLOW("pop", "year", "countries_etc")
-
-Finishes in 3-10 seconds:
-=QUERY('data:pop@fasttrack:year:countries_etc'!A1:D)
-
-#### Parameters:
-
-Name | Type | Description |
------- | ------ | ------ |
-`concept_id` | string | Concept id (eg. "pop") of which concept to import |
-`time_unit` | string | Time unit variant (eg. "year") of the concept to import |
-`geo_set` | string | (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 
 **Returns:** string[][]
 
@@ -387,30 +291,6 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `input_table_range_with_headers_and_concept_values` | string[][] | A table range including [geo,name,time,concept-values...] |
 `population_concept_data_table_range_with_headers` | string[][] | Local spreadsheet range of the population concept data to look up against. Required for performance reasons. |
-
-**Returns:** string[][]
-
-A two-dimensional array containing the cell/column contents described above in the summary.
-
-___
-
-### GM\_PER\_CAP\_SLOW
-
-▸ **GM_PER_CAP_SLOW**(`input_table_range_with_headers_and_concept_values`: string[][], `time_unit`: string, `geo_set`: string): string[][]
-
-*Defined in [src/GM_PER_CAP_SLOW.ts:16](https://github.com/Gapminder/gsheets-gm-functions/blob/v0.11.0/src/GM_PER_CAP_SLOW.ts#L16)*
-
-Divides the concept-value column(s) of the input table range by the population of the geo_set.
-
-Note: Uses GM_DATA_SLOW internally. Performance-related documentation about GM_DATA_SLOW applies.
-
-#### Parameters:
-
-Name | Type | Description |
------- | ------ | ------ |
-`input_table_range_with_headers_and_concept_values` | string[][] | A table range including [geo,name,time,concept-values...] |
-`time_unit` | string | (Optional with default "year") Time unit variant (eg. "year") of the concept to look up against |
-`geo_set` | string | (Optional with default "countries_etc") Should be one of the geo set names listed in the "geo aliases and synonyms" spreadsheet |
 
 **Returns:** string[][]
 
