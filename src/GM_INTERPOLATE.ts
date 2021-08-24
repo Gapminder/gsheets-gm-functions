@@ -178,7 +178,7 @@ export function GM_INTERPOLATE(
         columnIndex++
       ) {
         let value;
-        // If the value existed in the input data, use it
+        // If the value existed in the input data, use it - even it is nan/blank
         if (
           valuesByColumnIndexAndTime[columnIndex] !== undefined &&
           valuesByColumnIndexAndTime[columnIndex][time] !== undefined
