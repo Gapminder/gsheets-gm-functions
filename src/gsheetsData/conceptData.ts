@@ -1,5 +1,3 @@
-import { errorHandlingFetch } from "../lib/errorHandlingFetch";
-import { ConceptDataWorksheetData } from "./../lib/conceptData";
 import {
   FasttrackCatalogDataPointsDataRow,
   FasttrackCatalogDataPointsWorksheetData
@@ -8,33 +6,6 @@ import {
   conceptDataDocWorksheetReferencesByGeoSetAndTimeUnit,
   geoSetToFasttrackCatalogGeoSetMap
 } from "./hardcodedConstants";
-
-/**
- * @hidden
- */
-export function getFasttrackCatalogConceptDataWorksheetData(
-  concept_id,
-  time_unit,
-  geo_set,
-  fasttrackCatalogDataPointsWorksheetData: FasttrackCatalogDataPointsWorksheetData
-): ConceptDataWorksheetData {
-  const matchingConcept = getValidConceptDataFasttrackCatalogEntry(
-    concept_id,
-    time_unit,
-    geo_set,
-    fasttrackCatalogDataPointsWorksheetData
-  );
-  const worksheetCsvDataHTTPResponse = errorHandlingFetch(
-    matchingConcept.csvLink
-  );
-  const worksheetCsvData = Utilities.parseCsv(
-    worksheetCsvDataHTTPResponse.getContentText()
-  );
-  return listFasttrackCatalogConceptDataCsvDataToWorksheetData(
-    worksheetCsvData,
-    matchingConcept.indicatorOrder
-  );
-}
 
 /**
  * @hidden
@@ -110,28 +81,4 @@ function getMatchingFasttrackCatalogConcept(
     );
   }
   return matchingConcepts[0];
-}
-
-/**
- * @hidden
- */
-function listFasttrackCatalogConceptDataCsvDataToWorksheetData(
-  csvData,
-  indicatorOrder
-): ConceptDataWorksheetData {
-  // Separate the header row from the data rows
-  const headers = csvData[0];
-  // Interpret the data rows based on position
-  const rows = csvData.map(csvDataRow => {
-    return {
-      geo: csvDataRow[0],
-      name: csvDataRow[1],
-      time: csvDataRow[2],
-      value: csvDataRow[2 + indicatorOrder]
-    };
-  });
-  return {
-    headers,
-    rows
-  };
 }
